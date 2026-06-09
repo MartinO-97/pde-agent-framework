@@ -1,0 +1,68 @@
+\section{\textsc{Cea's} Lemma proof}
+%
+% --- NEW COMMANDS ---
+\newtheorem{theorem}{Theorem}
+%
+
+% --- SETUP ---
+%
+\begin{itemize}
+    \item \(\Omega \subset \RR^d\) be a domain with \textsc{Lipschitz} boundary
+    \item \(C^\infty_0(\Omega)\) be the space of functions with compact support in \(\Omega\) that are infinitely often continuously differentiable an
+    \item H^1(\Omega) denote the \textsc{Sobolev} space, consisting of functions in L^2(\Omega), whose first weak derivative also lies in L^2(\Omega)
+    \item \(\left(\cdot, \cdot \right): L^2(\Omega) \times L^2(\Omega)\) be the \(L^2\)-inner product on \(L^2(\Omega)\)
+    \item \(\left\|u\right\|_{1,\Omega} = \sqrt{\left(\nabla u, \nabla u\right) + \left(u, u\right)}\), \(u \in H^1(\Omega)\), be the norm \(H^1(\Omega)\)
+    \item \(H^1_0(\Omega)\) be the closure of \(C^\infty_0(\Omega)\) with respect to \(\left\| \cdot \right\|_{1,\Omega}\)
+    \item \(V^0_h\) be finite dimensional subspace of \(H^1_0(\Omega)\)
+    \item \(H^{-1}(\Omega)\) be the dual space of \(H^1_0(\Omega)\)
+    \item \(\mathcal{L}: H^1_0(\Omega) \to H^{-1}(\Omega)\)
+    \item \(a: H^1_0(\Omega) \times H^1_0(\Omega) \to \mathbb{R}\)
+    \item \(F \in H^{-1}(\Omega)\)
+\end{itemize}
+%
+
+% --- ASSUMPTIONS ---
+%
+\begin{itemize}
+    \item The bilinear form \(a\left\|\cdot, \cdot\right\|\) is bounded and coercive, i.e., there are constants \(C, c > 0\) such that for all \(u, v \in H^1_0(\Omega)\)
+    %
+    \begin{gather*}
+        \left|a\left(u, v\right)\right| \leq C \left\| u \right\|_{1,\Omega} \left\| v \right\|_{1,\Omega} \quad \text{and} \quad 
+            a\left(u, v\right) \geq c \left\| u \right\|_{1,\Omega}^2.
+    \end{gather*}
+\end{itemize}
+%
+
+% --- PROBLEMS ---
+We consider the elliptic boundary value problem of finding \(y \in H^1_0(\Omega)\) such that
+%
+\begin{gather}\label{eq:ebv}
+    a\left(y,v\right) = F(v) \quad \forall v \in H^1_0(\Omega)
+\end{gather}
+%
+and its discretized version of finding \(y_h \in V^0_h\) such that
+%
+\begin{gather*}\label{eq:disc-ebv}
+    a\left(y,v\right) = F(v) \quad \forall v \in H^1_0(\Omega).
+\end{gather*}
+%
+
+# --- THEOREMS ---
+We are interested in the proof of Cea's Lemma:
+%
+\begin{theorem}
+    The problems \eqref{eq:ebv} and \eqref{eq:disc-ebv} possess unique solutions \(y \in H^1_0(\Omega)\) and \(y_h \in V^0_h\), respectively. 
+    The error \(y-y_h\) satisfies
+    %
+    \begin{gather*}
+        \left\|y-y_h\right\|_{1,\Omega} \leq \frac{C}{c} \inf_{v_h \in V^0_h} \left\|y-v_h\right\|_{1,\Omega}.
+    \end{gather*}
+\end{theorem}
+%
+
+# --- TOOLS ---
+Tools, wich may used without a proof:
+%
+\begin{itemize}
+    \item Lax-Milgram Lemma.
+\end{itemize}

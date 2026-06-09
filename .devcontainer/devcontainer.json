@@ -11,7 +11,8 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"ms-python.python"
+				"ms-python.python",
+				"james-yu.latex-workshop"
 			],
 			"settings": {
 				"python.defaultInterpreterPath": "/usr/local/bin/python3"
