@@ -1,0 +1,5 @@
+scipy>=1.17.1
+matplotlib>=3.10.9
+pandas>=3.0.1
+python-dotenv>=1.2.2
+openai-agents>=0.17.4
