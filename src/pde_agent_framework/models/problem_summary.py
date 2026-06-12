@@ -7,6 +7,7 @@ class ProblemSummary(BaseModel):
     mathematical_objects: list[str]
     allowed_lemmas_and_theorems: list[str]
     assumptions: list[str]
+    raw_input: str
 
 
 
