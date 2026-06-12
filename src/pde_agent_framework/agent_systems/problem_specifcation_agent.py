@@ -1,6 +1,6 @@
 from agents import Agent
-from tools import load_problem_file
-from models import ProblemSummary
+from ..tools import load_problem_file
+from ..models import ProblemSummary
 
 problem_specification_agent \
     = Agent(name="ProblemSpecificationAgent",
