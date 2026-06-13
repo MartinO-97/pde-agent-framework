@@ -1,0 +1,44 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+
+\begin{document}
+
+\section*{Céa’s Lemma: Finite Element Energy-Norm Error Bound}
+
+Let $\Omega$ be a Lipschitz domain, and let
+\[ a: H^1_0(\Omega) \times H^1_0(\Omega) \to \mathbb{R} \]
+be bounded and coercive, i.e., there exist constants $C>0$ and $c>0$ with
+\[ a(u,v) \le C\|u\|_{1,\Omega}\|v\|_{1,\Omega} \]
+for all $u,v \in H^1_0(\Omega)$ and
+\[ a(u,u) \ge c\|u\|_{1,\Omega}^2 \]
+for all $u \in H^1_0(\Omega)$. Let $F \in H^{-1}(\Omega)$. By the Lax--Milgram theorem there exists a unique $y \in H^1_0(\Omega)$ such that
+\[ a(y,v) = F(v) \quad \text{for all } v \in H^1_0(\Omega). \]
+Suppose $V^0_h \subset H^1_0(\Omega)$ is a conforming finite element subspace, and let $y_h \in V^0_h$ be the unique solution of the discrete problem
+\[ a(y_h,w_h) = F(w_h) \quad \text{for all } w_h \in V^0_h. \]
+Define the error $e := y - y_h \in H^1_0(\Omega)$.
+
+For any $w_h \in V^0_h$, the Galerkin orthogonality reads
+\[ a(e,w_h) = 0, \]
+since
+\[ a(y - y_h, w_h) = F(w_h) - F(w_h) = 0. \]
+Take any $v_h \in V^0_h$ and decompose $e$ as
+\[ e = (y - v_h) + (v_h - y_h). \]
+Using the orthogonality with $w_h = v_h - y_h$ gives
+\[ a(e,e) = a(e,y - v_h). \]
+
+Now apply the boundedness of $a$ and the coercivity of $a$. From
+\[ |a(e,e)| \le C\|e\|_{1,\Omega}\|y - v_h\|_{1,\Omega} \]
+and
+\[ a(u,u) \ge c\|u\|_{1,\Omega}^2 \]
+we obtain
+\[ c\|e\|_{1,\Omega}^2 \le |a(e,e)| \le C\|e\|_{1,\Omega}\|y - v_h\|_{1,\Omega}. \]
+If $e \neq 0$, dividing by $\|e\|_{1,\Omega}$ yields
+\[ \|e\|_{1,\Omega} \le (C/c)\|y - v_h\|_{1,\Omega}. \]
+Since this holds for every $v_h \in V^0_h$, taking the infimum over $v_h \in V^0_h$ gives the Céa bound
+\[ \|y - y_h\|_{1,\Omega} = \|e\|_{1,\Omega} \le (C/c)\inf_{v_h \in V^0_h} \|y - v_h\|_{1,\Omega}. \]
+(If $e = 0$ the inequality is trivially true.)
+
+Finally, note the assumptions used: the boundedness and coercivity of $a$, $F \in H^{-1}(\Omega)$, $\Omega$ is a Lipschitz domain to ensure $H^1_0(\Omega)$ is the energy space and the Lax--Milgram theorem applies, and the discrete problem is well-posed by standard FE theory. Hence the finite element error in the energy norm satisfies the stated a priori bound.
+
+\end{document}
