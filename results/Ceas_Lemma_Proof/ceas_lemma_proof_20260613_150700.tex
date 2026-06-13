@@ -1,0 +1,21 @@
+\begin{proof}
+1. By Lax--Milgram, since $a(\cdot,\cdot)$ is continuous on $H^1_0(\Omega)$ and coercive with a constant $\alpha>0$ (i.e., $a(v,v) \ge \alpha \|v\|_{1,\Omega}^2$ for all $v\in H^1_0(\Omega)$) and $F\in H^{-1}(\Omega)$, there exists a unique $y\in H^1_0(\Omega)$ such that $a(y,v)=F(v)$ for all $v\in H^1_0(\Omega)$.
+
+2. Let $V^0_h\subset H^1_0(\Omega)$ be the discrete subspace. By Lax--Milgram (applied to the bilinear form $a(\cdot,\cdot)$ on the finite-dimensional space $V^0_h$), there exists a unique $y_h\in V^0_h$ such that $a(y_h,v_h)=F(v_h)$ for all $v_h\in V^0_h$.
+
+3. Define the elliptic projection $P_h$: for fixed $y\in H^1_0(\Omega)$, find $\phi_h\in V^0_h$ such that $a(\phi_h,w_h)=a(y,w_h)$ for all $w_h\in V^0_h$.
+
+4. Since the continuous problem satisfies $a(y,w_h)=F(w_h)$ for all $w_h\in H^1_0(\Omega)$ (in particular for $w_h\in V^0_h$), the discrete data coincide with the projection data, and by uniqueness in Step 2 we have $y_h=\phi_h$. Hence $y_h = P_h y$.
+
+5. Galerkin orthogonality: for all $w_h\in V^0_h$, $a(y-y_h,w_h)=a(y,w_h)-a(y_h,w_h)=F(w_h)-F(w_h)=0$. Therefore, for any $v_h\in V^0_h$,
+   \[
+   a(y-y_h,y-v_h)=a(y-y_h,y-y_h)+a(y-y_h,v_h-y_h)=a(y-y_h,y-y_h),
+   \]
+   where the last equality uses the orthogonality. By coercivity and boundedness of $a$, $\alpha\|y-y_h\|_{1,\Omega}^2 \le a(y-y_h,y-y_h) \le C\|y-y_h\|_{1,\Omega}\,\|y-v_h\|_{1,\Omega}$.
+   Dividing by $\|y-y_h\|_{1,\Omega}$ (or taking the nonzero case) yields $\|y-y_h\|_{1,\Omega} \le (C/\alpha) \|y-v_h\|_{1,\Omega}$ for all $v_h\in V^0_h$.
+   Taking the infimum over $v_h\in V^0_h$ gives the energy-norm error bound: $\|y-y_h\|_{1,\Omega} \le (C/\alpha) \inf_{v_h\in V^0_h} \|y-v_h\|_{1,\Omega}$.
+
+6. This is Céa’s lemma: the discrete solution $y_h$ is quasi-optimal with respect to the best approximation in $V^0_h$ in the energy norm.
+
+7. Recall the Lipschitz-domain assumptions ensuring the functional-analytic framework ($H^1_0$, $H^{-1}$, etc.) is valid (e.g., trace/extension properties hold on Lipschitz domains).
+\end{proof}

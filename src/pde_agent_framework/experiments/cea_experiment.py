@@ -2,9 +2,9 @@ import asyncio
 import os
 
 from dotenv import load_dotenv
-from ..agent_systems import manager_agent, problem_specification_agent
-from openai import OpenAI
+from ..agent_systems import problem_specification_agent, writer_agent, planner_agent, prover_agent
 from agents import Agent, Runner, RunConfig
+from ..models import WriterInput
 
 
 
@@ -17,11 +17,22 @@ async def main(user_input : str) -> None:
     if model_name is None:
         raise ValueError("'MODEL' is not defined.")
 
-    result = await Runner.run(starting_agent=problem_specification_agent,
+    result_extractor = await Runner.run(starting_agent=problem_specification_agent,
                               input=f"Analyze the problem file: {user_input}.", 
                               run_config=RunConfig(model=model_name))
     
-    print(result.final_output)
+    result_planner = await Runner.run(starting_agent=planner_agent,
+                              input=f"Plan a proof: {result_extractor.final_output}.", 
+                              run_config=RunConfig(model=model_name))
+    
+    result_prover = await Runner.run(starting_agent=prover_agent,
+                                     input=f"Generate a complete proof: {result_planner.final_output}",
+                                     run_config=RunConfig(model=model_name))
+
+    writer_input = WriterInput(proof=result_prover.final_output, output_directory="./results/Ceas_Lemma_Proof/ceas_lemma_proof")
+
+    await Runner.run(starting_agent=writer_agent,
+                     input=f"Rewrite the following proof in Latex: {writer_input}")
 
 
 if __name__ == "__main__":

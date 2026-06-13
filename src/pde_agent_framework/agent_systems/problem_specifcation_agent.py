@@ -1,7 +1,7 @@
 from agents import Agent
 from ..tools import load_problem_file
 from ..models import ProblemSummary
-from .planner_agent import planer_agent
+#from .planner_agent import planer_agent
 
 problem_specification_agent \
     = Agent(name="ProblemSpecificationAgent",
@@ -27,9 +27,10 @@ problem_specification_agent \
                         - Do not add assumptions or lemmas that are not explicitly given or clearly implied.
                         - raw_input must contain the full text loaded from the file.
 
-                        Forward only the structured information using the ProblemSummary format to the PlanerAgent. 
+                        Return only the structured information using the ProblemSummary format. 
                         """,
             output_type=ProblemSummary,
             handoff_description="Extracts mathematical problem specifications.",
             tools=[load_problem_file],
-            handoffs=[planer_agent])
+            #handoffs=[planer_agent]
+            )

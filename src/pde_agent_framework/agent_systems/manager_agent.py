@@ -1,6 +1,6 @@
 from agents import Agent
 from .problem_specifcation_agent import problem_specification_agent
-from .planner_agent import planer_agent
+from .planner_agent import planner_agent
 
 manager_agent = Agent(name="ManagerAgent",
                         instructions="""You are a workflow manager for mathematical proof tasks.
@@ -23,4 +23,4 @@ manager_agent = Agent(name="ManagerAgent",
 
                                         Always use the available specialist agents when appropriate.
                                         """,
-                        handoffs=[problem_specification_agent, planer_agent])
+                        handoffs=[problem_specification_agent, planner_agent])

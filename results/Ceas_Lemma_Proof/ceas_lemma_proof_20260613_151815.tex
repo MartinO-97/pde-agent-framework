@@ -1,0 +1,27 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\begin{document}
+
+\section*{CEA Lemma (Energy-norm error estimate for FEM)}
+
+\begin{proof}
+1. By Lax-Milgram, since $a$ is bounded and coercive and $F \in H^{-1}(\Omega)$, the continuous problem $a(y, v) = F(v)$ $\forall\, v \in H^1_0(\Omega)$ has a unique solution $y \in H^1_0(\Omega)$.
+
+2. By Lax-Milgram restricted to the finite-dimensional subspace $V^0_h$, the discrete problem $a(y_h, v_h) = F(v_h)$ $\forall\, v_h \in V^0_h$ has a unique solution $y_h \in V^0_h$.
+
+3. Define the error $e = y - y_h$.
+
+4. Galerkin orthogonality: $a(e, v_h) = 0$ for all $v_h \in V^0_h$.
+
+5. For any $v_h \in V^0_h$, decompose $a(e, e) = a(e, y - v_h) + a(e, v_h)$ and use Galerkin orthogonality to get $a(e, e) = a(e, y - v_h)$.
+
+6. Use the boundedness of $a$ to obtain $a(e, e) \le C \|e\|_{1,\Omega} \|y - v_h\|_{1,\Omega}$.
+
+7. Use coercivity $a(e, e) \ge c \|e\|_{1,\Omega}^2$ to get $c \|e\|_{1,\Omega}^2 \le C \|e\|_{1,\Omega} \|y - v_h\|_{1,\Omega}$.
+
+8. If $\|e\|_{1,\Omega} > 0$, divide by $\|e\|_{1,\Omega}$ to obtain $\|e\|_{1,\Omega} \le (C/c) \|y - v_h\|_{1,\Omega}$ for any $v_h \in V^0_h$.
+
+9. Take the infimum over $v_h \in V^0_h$ to conclude the Cea estimate: $\|y - y_h\|_{1,\Omega} \le (C/c) \inf_{v_h \in V^0_h} \|y - v_h\|_{1,\Omega}$.
+\end{proof}
+
+\end{document}
