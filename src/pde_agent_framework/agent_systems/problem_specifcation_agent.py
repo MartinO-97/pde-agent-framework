@@ -1,6 +1,7 @@
 from agents import Agent
 from ..tools import load_problem_file
 from ..models import ProblemSummary
+from .planner_agent import planer_agent
 
 problem_specification_agent \
     = Agent(name="ProblemSpecificationAgent",
@@ -14,11 +15,10 @@ problem_specification_agent \
                         1. Use the tool 'load_problem_file' to load the problem statement.
                         2. Analyze the mathematical content.
                         3. Extract:
-                        - the mathematical task to solve or prove,
-                        - all important mathematical objects (spaces, operators, functions,
-                            equations, domains, etc.),
-                        - all allowed lemmas, theorems methods or auxiliary results,
-                        - all assumptions required for the problem.
+                        - the mathematical task to solve or prove; must be one short sentence describing ONLY the goal,
+                        - ONLY objects, such as spaces, operators, functions, equations, domains, etc. explicitly needed for reasoning and no interpretation
+                        - ONLY assumptions, no spaces, no theorems and no interpretation 
+                        - ONLY tools used in proof steps, no interpretation allowed
 
                         Important rules:
                         - Do not solve the problem.
@@ -27,8 +27,9 @@ problem_specification_agent \
                         - Do not add assumptions or lemmas that are not explicitly given or clearly implied.
                         - raw_input must contain the full text loaded from the file.
 
-                        Return only the structured information using the ProblemSummary format. 
+                        Forward only the structured information using the ProblemSummary format to the PlanerAgent. 
                         """,
             output_type=ProblemSummary,
             handoff_description="Extracts mathematical problem specifications.",
-            tools=[load_problem_file])
+            tools=[load_problem_file],
+            handoffs=[planer_agent])

@@ -2,7 +2,7 @@ import asyncio
 import os
 
 from dotenv import load_dotenv
-from ..agent_systems import manager_agent
+from ..agent_systems import manager_agent, problem_specification_agent
 from openai import OpenAI
 from agents import Agent, Runner, RunConfig
 
@@ -17,7 +17,7 @@ async def main(user_input : str) -> None:
     if model_name is None:
         raise ValueError("'MODEL' is not defined.")
 
-    result = await Runner.run(starting_agent=manager_agent,
+    result = await Runner.run(starting_agent=problem_specification_agent,
                               input=f"Analyze the problem file: {user_input}.", 
                               run_config=RunConfig(model=model_name))
     
