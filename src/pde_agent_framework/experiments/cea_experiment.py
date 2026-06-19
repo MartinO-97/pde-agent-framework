@@ -21,7 +21,7 @@ async def main(user_input : str) -> None:
                               input=f"Analyze the problem file: {user_input}.", 
                               run_config=RunConfig(model=model_name))
     
-    planner_reviewer_result = PlannerReviewerOutput(previous_plans=[], error_name=[], error_discription=[], plan_ok=False, 
+    planner_reviewer_result = PlannerReviewerOutput(previous_plans=[], error_name=[], error_description=[], plan_ok=False, 
                                                     iterations=0)
     
     while not planner_reviewer_result.plan_ok and planner_reviewer_result.iterations <=5:

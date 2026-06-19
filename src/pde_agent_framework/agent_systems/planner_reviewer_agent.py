@@ -14,7 +14,7 @@ planner_reviewer_agent = Agent(name="PlannerRevieweAgent",
                                - task: The given task
                                - previous_plans: List of previous plans
                                - error_name: List of previously detected plan errors
-                               - error_discription: List of discriptions for previously made planner errors
+                               - error_description: List of discriptions for previously made planner errors
                                - plan_ok: Assessment if the last plan was okay
                                - iterations: Number of calls of PlannerAgent and PlannerReviewerAgent
 
@@ -24,9 +24,9 @@ planner_reviewer_agent = Agent(name="PlannerRevieweAgent",
                                - You MUST critically review the plan
                                - If you find errors or things that need to be improved, ALWAYS generate a name and discription 
                                  for the error
-                               - If you find no errors, USE the following 'error' name and discription:
+                               - If you find no errors, USE the following 'error' name and description:
                                     error_name = "Nothing"
-                                    error_discription = "Everything fine"
+                                    error_description = "Everything fine"
                                - ONLY set plan_ok to "True" if you DID NOT find any errors
                                - To save your report ALWAYS employ the given tool
                                - You ALWAYS update the given PlannerReviewerOutput object by using the given tool
@@ -34,7 +34,7 @@ planner_reviewer_agent = Agent(name="PlannerRevieweAgent",
                                - You DO NOT change the given plan
                                - You DO NOT change the given task
 
-                                Ouptut
+                                Output
                                 ------
                                 Return only structured infomration using the PlannerReviewerOuptut format. 
                                 """,
