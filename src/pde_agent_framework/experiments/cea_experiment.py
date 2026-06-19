@@ -2,9 +2,9 @@ import asyncio
 import os
 
 from dotenv import load_dotenv
-from ..agent_systems import problem_specification_agent, writer_agent, planner_agent, prover_agent
-from agents import Agent, Runner, RunConfig
-from ..models import WriterInput
+from ..agent_systems import problem_specification_agent, writer_agent, planner_agent, prover_agent, planner_reviewer_agent
+from agents import Runner, RunConfig
+from ..models import WriterInput, PlannerReviewerOutput
 
 
 
@@ -21,9 +21,23 @@ async def main(user_input : str) -> None:
                               input=f"Analyze the problem file: {user_input}.", 
                               run_config=RunConfig(model=model_name))
     
-    result_planner = await Runner.run(starting_agent=planner_agent,
-                              input=f"Plan a proof: {result_extractor.final_output}.", 
-                              run_config=RunConfig(model=model_name))
+    planner_reviewer_result = PlannerReviewerOutput(previous_plans=[], error_name=[], error_discription=[], plan_ok=False, 
+                                                    iterations=0)
+    
+    while not planner_reviewer_result.plan_ok and planner_reviewer_result.iterations <=5:
+
+        result_planner = await Runner.run(starting_agent=planner_agent,
+                                input=f"Plan a proof: {result_extractor.final_output}.", 
+                                run_config=RunConfig(model=model_name))
+        
+        planner_reviewer_result = await Runner.run(starting_agent=planner_reviewer_agent,
+                                                   input=f"Review {result_planner} and update {planner_reviewer_result}",
+                                                   run_config=RunConfig(model=model_name))
+        
+        if type(planner_reviewer_result) is not PlannerReviewerOutput:
+            raise ValueError("planner_reviewe_result is not of type PlannerReviewerOutput!") 
+        
+        
     
     result_prover = await Runner.run(starting_agent=prover_agent,
                                      input=f"Generate a complete proof: {result_planner.final_output}",

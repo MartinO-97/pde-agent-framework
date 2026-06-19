@@ -4,7 +4,7 @@ from agents import function_tool
 @function_tool
 def write_planner_reviewer_feedback(error_log: PlannerReviewerOutput,
                                     error_name: str, 
-                                    error_message: str,
+                                    error_discription: str,
                                     reviewed_plan: str,
                                     plan_ok: bool) -> PlannerReviewerOutput:
     
@@ -18,7 +18,7 @@ def write_planner_reviewer_feedback(error_log: PlannerReviewerOutput,
     error_name: str
         Name for detected error
     
-    error_message: str
+    error_discription: str
         Description of detected error
 
     reviewed_plan
@@ -34,7 +34,7 @@ def write_planner_reviewer_feedback(error_log: PlannerReviewerOutput,
     """
 
     error_log.error_name += [error_name]
-    error_log.error_message += [error_message]
+    error_log.error_discription += [error_discription]
     error_log.plan_ok = plan_ok
     error_log.previous_plans += [reviewed_plan]
     error_log.iterations += 1
