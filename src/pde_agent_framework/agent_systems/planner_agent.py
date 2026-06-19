@@ -27,7 +27,8 @@ planner_agent = Agent(name="PlanerAgent",
                                       
                                       Important rules:
                                       ----------------
-                                      - previous_plans, error_name, error_message, plan_ok, iterations are not given in the first call
+                                      - previous_plans, error_name, and error_message are not given in the first call
+                                      - plan_ok is set to "False" in the first call
                                       - Do not write a full proof.
                                       - Do not produce LaTeX.
                                       - Do not justify steps in detail.
