@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from ..agent_systems import problem_specification_agent, writer_agent, planner_agent, prover_agent, planner_reviewer_agent
 from agents import Runner, RunConfig
 from ..models import WriterInput, PlannerReviewerOutput
+from ..tools.write_proof import write_proof
 
 
 
@@ -26,28 +27,31 @@ async def main(user_input : str) -> None:
     
     while not planner_reviewer_result.plan_ok and planner_reviewer_result.iterations <=5:
 
+        print(planner_reviewer_result.iterations)
+
         result_planner = await Runner.run(starting_agent=planner_agent,
                                 input=f"Plan a proof: {result_extractor.final_output}.", 
                                 run_config=RunConfig(model=model_name))
         
         planner_reviewer_result = await Runner.run(starting_agent=planner_reviewer_agent,
-                                                   input=f"Review {result_planner} and update {planner_reviewer_result}",
+                                                   input=f"Review {result_planner.final_output} and update {planner_reviewer_result}",
                                                    run_config=RunConfig(model=model_name))
         
-        if type(planner_reviewer_result) is not PlannerReviewerOutput:
+        planner_reviewer_result = planner_reviewer_result.final_output
+        if not isinstance(planner_reviewer_result, PlannerReviewerOutput):
             raise ValueError("planner_reviewe_result is not of type PlannerReviewerOutput!") 
         
         
-    
     result_prover = await Runner.run(starting_agent=prover_agent,
                                      input=f"Generate a complete proof: {result_planner.final_output}",
                                      run_config=RunConfig(model=model_name))
 
     writer_input = WriterInput(proof=result_prover.final_output, output_directory="./results/Ceas_Lemma_Proof/ceas_lemma_proof")
 
-    await Runner.run(starting_agent=writer_agent,
-                     input=f"Rewrite the following proof in Latex: {writer_input}")
+    latex_proof = await Runner.run(starting_agent=writer_agent,
+                                   input=f"Rewrite the following proof in Latex: {writer_input}")
 
+    write_proof(latex_proof.final_output, planner_reviewer_result, "./results/Ceas_Lemma_Proof/ceas_lemma_proof")
 
 if __name__ == "__main__":
 

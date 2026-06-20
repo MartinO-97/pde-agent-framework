@@ -1,9 +1,10 @@
 from datetime import datetime
 from agents import function_tool
-from agents import function_tool
+from ..models import PlannerReviewerOutput
 
-@function_tool
+#@function_tool
 def write_proof(latex_proof: str,
+                planner_reviewer_feedback: PlannerReviewerOutput,
                 output_directory: str) -> None:
 
     r""" Write a prove in Latex structure. 
@@ -19,8 +20,11 @@ def write_proof(latex_proof: str,
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-    filename = f"{output_directory}_{timestamp}.tex"
+    filename_latex = f"{output_directory}_{timestamp}.tex"
+    filename_planner_reviewer = f"{output_directory}_{timestamp}_planner_feedback.json"
 
-    with open(filename, "w", encoding="utf-8") as f:
+    with open(filename_latex, "w", encoding="utf-8") as f_latex, \
+        open(filename_planner_reviewer, "w") as f_planner_json:
 
-        f.write(latex_proof)
+        f_planner_json.write(planner_reviewer_feedback.model_dump_json(indent=4))
+        f_latex.write(latex_proof)

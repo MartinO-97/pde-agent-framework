@@ -1,9 +1,0 @@
-\documentclass{article}
-\usepackage{amsmath,amssymb,amsthm}
-\begin{document}
-
-\begin{proof}[C\'ea's lemma for Galerkin discretization]
-Let $a: H^1_0(\Omega) \times H^1_0(\Omega) \to \mathbb{R}$ be a bounded and coercive bilinear form, i.e. there exist constants $C > 0$ and $c > 0$ such that $|a(u,v)| \le C \|u\|_{1,\Omega} \|v\|_{1,\Omega}$ for all $u,v \in H^1_0(\Omega)$, and $a(v,v) \ge c \|v\|_{1,\Omega}^2$ for all $v \in H^1_0(\Omega)$. Let $F \in H^{-1}(\Omega)$. By the Lax--Milgram theorem there exists a unique $y \in H^1_0(\Omega)$ such that $a(y,v) = F(v)$ for all $v \in H^1_0(\Omega)$. Consider a finite-dimensional subspace $V^0_h \subset H^1_0(\Omega)$; by applying Lax--Milgram to the restricted problem there exists a unique $y_h \in V^0_h$ satisfying $a(y_h,v_h) = F(v_h)$ for all $v_h \in V^0_h$. Subtracting the two equations gives the Galerkin orthogonality $a(y - y_h, v_h) = 0$ for all $v_h \in V^0_h$. For any $v_h \in V^0_h$, decompose $y - v_h = (y - y_h) + (y_h - v_h)$. Testing with $y - y_h$ and using Galerkin orthogonality yields $a(y - y_h, y - v_h) = a(y - y_h, y - y_h)$. By coercivity, $c \|y - y_h\|_{1,\Omega}^2 \le a(y - y_h, y - y_h)$. By boundedness, $|a(y - y_h, y - v_h)| \le C \|y - y_h\|_{1,\Omega} \|y - v_h\|_{1,\Omega}$. Since the left-hand side equals $a(y - y_h, y - y_h)$, we obtain $c \|y - y_h\|_{1,\Omega}^2 \le C \|y - y_h\|_{1,\Omega} \|y - v_h\|_{1,\Omega}$. Dividing by $\|y - y_h\|_{1,\Omega}$ (the case $\|y - y_h\|_{1,\Omega} = 0$ is trivial) gives $\|y - y_h\|_{1,\Omega} \le (C/c) \|y - v_h\|_{1,\Omega}$. Since this holds for every $v_h \in V^0_h$, taking the infimum over $v_h \in V^0_h$ yields $\|y - y_h\|_{1,\Omega} \le (C/c) \inf_{v_h \in V^0_h} \|y - v_h\|_{1,\Omega}$. This is C\'ea's lemma. The unique solvability of the continuous and discrete problems follows from Lax--Milgram, and the stated estimate is proved.
-\end{proof}
-
-\end{document}
