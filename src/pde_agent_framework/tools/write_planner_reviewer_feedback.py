@@ -3,6 +3,7 @@ from agents import function_tool
 
 @function_tool
 def write_planner_reviewer_feedback(error_log: PlannerReviewerOutput,
+                                    given_plan: str,
                                     error_name: str, 
                                     error_description: str,
                                     reviewed_plan: str,
@@ -15,6 +16,9 @@ def write_planner_reviewer_feedback(error_log: PlannerReviewerOutput,
     error_log: PlannerReviewerOutput
         The current planner_reviewer output object
 
+    given_plan: str
+        The plan that was passed to be reviewed. 
+        
     error_name: str
         Name for detected error
     
@@ -33,6 +37,7 @@ def write_planner_reviewer_feedback(error_log: PlannerReviewerOutput,
         Updated planner_reviewer ouput object
     """
 
+    error_log.previous_plans += [given_plan]
     error_log.error_name += [error_name]
     error_log.error_description += [error_description]
     error_log.plan_ok = plan_ok

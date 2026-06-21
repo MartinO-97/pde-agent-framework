@@ -3,20 +3,10 @@ from ..tools.write_planner_reviewer_feedback import write_planner_reviewer_feedb
 from ..models import PlannerReviewerOutput
 
 planner_reviewer_agent = Agent(name="PlannerRevieweAgent",
-                               instructions= """ You review the generated plan of the planner_agent. 
+                               instructions=(""" You review the generated plan of the planner_agent. 
                                 
                                Your task is to critically review the plan of the planner agent to solve a given
                                task and make a report.
-
-                               Input structure
-                               ---------------
-                               - plan: Plan to prove a mathematical claim
-                               - task: The given task
-                               - previous_plans: List of previous plans
-                               - error_name: List of previously detected plan errors
-                               - error_description: List of discriptions for previously made planner errors
-                               - plan_ok: Assessment if the last plan was okay
-                               - iterations: Number of calls of PlannerAgent and PlannerReviewerAgent
 
                                Rules
                                -----
@@ -37,6 +27,6 @@ planner_reviewer_agent = Agent(name="PlannerRevieweAgent",
                                 Output
                                 ------
                                 Return only structured infomration using the PlannerReviewerOuptut format. 
-                                """,
+                                """),
                                 tools=[write_planner_reviewer_feedback],
                                 output_type=PlannerReviewerOutput)

@@ -39,7 +39,7 @@ async def main(user_input : str) -> None:
         
         planner_reviewer_result = planner_reviewer_result.final_output
         if not isinstance(planner_reviewer_result, PlannerReviewerOutput):
-            raise ValueError("planner_reviewe_result is not of type PlannerReviewerOutput!") 
+            raise ValueError("planner_reviewer_result is not of type PlannerReviewerOutput!") 
         
         
     result_prover = await Runner.run(starting_agent=prover_agent,
