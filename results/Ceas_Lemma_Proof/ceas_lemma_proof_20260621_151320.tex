@@ -1,0 +1,87 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+
+\begin{document}
+
+\section*{Céa's Lemma for $H^1_0$: Error bound by best approximation}
+
+Proof.
+
+Let $V = H^1_0(\Omega)$ with the norm $\|\cdot\|_1$, and let
+$a: V \times V \to \mathbb{R}$ be a bounded, coercive bilinear form and
+$f \in V'$. Consider the continuous problem: find $y \in V$ such that
+$a(y, v) = f(v)$ for all $v \in V$. By the Lax--Milgram theorem, there exists
+a unique $y \in V$ provided $a$ is bounded and coercive and $f \in V'$.
+
+Let $V_h \subset V$ be a finite-dimensional subspace and let $y_h \in V_h$
+be the unique solution of the discrete problem
+$a(y_h, w_h) = f(w_h)$ for all $w_h \in V_h$; this is the well-posed discrete
+problem by applying the Lax--Milgram theorem on the finite-dimensional space
+$V_h$.
+
+Define the error $e = y - y_h$. Galerkin orthogonality then holds:
+\[
+a(e, w_h) = a(y - y_h, w_h) = f(w_h) - a(y_h, w_h) = f(w_h) - f(w_h) = 0
+\]
+for all $w_h \in V_h$.
+
+Using $e$, we compute
+\[
+a(e, e) = a(e, e - v_h) + a(e, v_h).
+\]
+Since $a(e, v_h) = 0$ for all $v_h \in V_h$, we obtain
+\[
+a(e, e) = a(e, e - v_h)
+\]
+for any $v_h \in V_h$.
+
+By the boundedness of $a$, there exists a constant $C \ge 0$ with
+\[
+|a(u, v)| \le C \|u\|_1 \|v\|_1
+\]
+for all $u, v \in V$; hence
+\[
+|a(e, e - v_h)| \le C \|e\|_1 \|e - v_h\|_1.
+\]
+By coercivity there exists $c > 0$ with
+\[
+a(v, v) \ge c \|v\|_1^2
+\]
+for all $v \in V$; thus
+\[
+c \|e\|_1^2 \le |a(e, e)| \le C \|e\|_1 \|e - v_h\|_1
+\]
+for any $v_h \in V_h$. If $e \ne 0$, dividing by $\|e\|_1$ yields
+\[
+c \|e\|_1 \le C \|e - v_h\|_1.
+\]
+Taking the infimum over $v_h \in V_h$ gives
+\[
+c \|e\|_1 \le C \inf_{v_h \in V_h} \|e - v_h\|_1.
+\]
+
+Now observe that
+\[
+e - v_h = y - (y_h + v_h)
+\]
+and as $v_h$ runs over $V_h$, $w_h := y_h + v_h$ runs over $V_h$ as well;
+hence
+\[
+\inf_{v_h \in V_h} \|e - v_h\|_1
+=
+\inf_{w_h \in V_h} \|y - w_h\|_1.
+\]
+Therefore we obtain the Céa inequality:
+\[
+\|y - y_h\|_1 \le \frac{C}{c} \inf_{w_h \in V_h} \|y - w_h\|_1.
+\]
+
+The constants $C$ and $c$ come from the boundedness and coercivity of $a$,
+and the arguments rely on the standard well-posedness via Lax--Milgram for both
+the continuous problem and its finite-dimensional Galerkin discretization, with
+$f \in V'$ as the data. The result encapsulates that the discretization error
+is bounded by a multiple of the best approximation error in $V_h$.
+
+The proof is complete.
+
+\end{document}

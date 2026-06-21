@@ -1,0 +1,13 @@
+{
+    "previous_plans": [
+        "1. State well-posedness of the continuous problem via the Lax-Milgram theorem (bounded, coercive bilinear form implies a unique y in H1_0). 2. State well-posedness of the discrete problem via Lax-Milgram restricted to the finite-dimensional space Vh^0 (unique y_h). 3. Define the error e = y − y_h and establish Galerkin orthogonality: a(e, w_h) = 0 for all w_h in Vh^0. 4. Use the boundedness of a to bound |a(e, e − v_h)| by C times the product of H1 norms. 5. Use coercivity to relate a(e, e) to ||e||1^2 and the orthogonality to bound a(e, e) by |a(e, e − v_h)|. 6. Conclude c ||e||1 ≤ C inf_{v_h∈Vh^0} ||e − v_h||1 by dividing by ||e||1. 7. Relate the right-hand side to the best-approximation error of y: inf_{v_h∈Vh^0} ||e − v_h||1 = inf_{w_h∈Vh^0} ||y − w_h||1 via w_h = y_h + v_h. 8. Combine to obtain the Céa inequality: ||y − y_h||1 ≤ (C/c) inf_{w_h∈Vh^0} ||y − w_h||1. 9. Note the constants C, c come from boundedness and coercivity; summarize assumptions used (F in H−1, a bounded and coercive, etc__)."
+    ],
+    "error_name": [
+        "Nothing"
+    ],
+    "error_description": [
+        "Everything fine"
+    ],
+    "plan_ok": true,
+    "iterations": 1
+}

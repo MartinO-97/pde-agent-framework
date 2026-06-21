@@ -22,12 +22,12 @@ async def main(user_input : str) -> None:
                               input=f"Analyze the problem file: {user_input}.", 
                               run_config=RunConfig(model=model_name))
     
-    if not isinstance(result_extractor, ProblemSummary):
-        raise ValueError("Output of problem_specification_agent is not of type ProblemSummary.")
+    if not isinstance(result_extractor.final_output, ProblemSummary):
+        raise ValueError("Output type of problem_specification_agent is not of type ProblemSummary.")
 
     planner_reviewer_result = PlannerReviewerOutput(previous_plans=[], error_name=[], error_description=[], plan_ok=False, 
                                                     iterations=0)
-    planner_input = PlannerInput(problem_summary= result_extractor)
+    planner_input = PlannerInput(problem_summary= result_extractor.final_output)
 
     while not planner_reviewer_result.plan_ok and planner_reviewer_result.iterations <=5:
 
@@ -44,7 +44,7 @@ async def main(user_input : str) -> None:
         if not isinstance(planner_reviewer_result, PlannerReviewerOutput):
             raise ValueError("planner_reviewer_result is not of type PlannerReviewerOutput!") 
         
-        planner_input = PlannerInput(problem_summary=result_extractor, planner_reviewer_feedback=planner_reviewer_result)
+        planner_input = PlannerInput(problem_summary=result_extractor.final_output, planner_reviewer_feedback=planner_reviewer_result)
         
         
     result_prover = await Runner.run(starting_agent=prover_agent,
