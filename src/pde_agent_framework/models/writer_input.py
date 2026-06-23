@@ -1,6 +1,6 @@
-from .proof_result import ProofResult
+from .prover_result import ProverResult
 from pydantic import BaseModel
 
 class WriterInput(BaseModel):
-    proof: ProofResult
+    proof: ProverResult
     output_directory: str

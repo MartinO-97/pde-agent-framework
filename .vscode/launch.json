@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Dynamic Pythob module debugging",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "src.pde_agent_framework.experiments.${fileBasenameNoExtension}",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "python": "/usr/local/bin/python3",
+            //"env": {
+            //    "PYTHONPATH": "${workspaceFolder}/src"
+            //}
+        }
+    ]
+}

@@ -12,7 +12,8 @@
 		"vscode": {
 			"extensions": [
 				"ms-python.python",
-				"james-yu.latex-workshop"
+				"james-yu.latex-workshop",
+				"kilocode.Kilo-Code"
 			],
 			"settings": {
 				"python.defaultInterpreterPath": "/usr/local/bin/python3"
