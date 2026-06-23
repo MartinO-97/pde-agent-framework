@@ -22,6 +22,7 @@ async def main(user_input : str) -> None:
     #----------------------------------------------------------------------------------------------------
     # INFORMATION EXTRACTING
     #----------------------------------------------------------------------------------------------------
+    print("Start extracting process")
 
     result_extractor = await Runner.run(starting_agent=problem_specification_agent,
                               input=f"Analyze the problem file: {user_input}.", 
@@ -32,9 +33,11 @@ async def main(user_input : str) -> None:
     if not isinstance(result_extractor, ProblemSummary):
         raise ValueError("Output type of problem_specification_agent is not of type ProblemSummary.")
 
+    print("Finished extracting process")
     #----------------------------------------------------------------------------------------------------
     # PLANNING
     #----------------------------------------------------------------------------------------------------
+    print("Start planning process")
     planner_reviewer_result = PlannerReviewerOutput(previous_plans=[], error_name=[], error_description=[], plan_ok=False, 
                                                     iterations=0)
     
@@ -62,9 +65,11 @@ async def main(user_input : str) -> None:
     if not isinstance(result_planner, PlannerResult):
         raise ValueError("result_planner is not of type PlannerResult")
 
+    print("Finished planning process")
     #----------------------------------------------------------------------------------------------------
     # PROVING
     #----------------------------------------------------------------------------------------------------
+    print("Start proving process")
     prover_reviewer_result = ProverReviewerOutput(previous_proofs=[], error_name=[], error_description=[], 
                                                   proof_ok=False, iterations=0)
     
@@ -87,15 +92,20 @@ async def main(user_input : str) -> None:
         if not isinstance(prover_reviewer_result, ProverReviewerOutput):
             raise ValueError("planner_reviewer_result is not of type ProverReviewerOutput!") 
 
+    print("Finished proving process")
     #----------------------------------------------------------------------------------------------------
     # WRITING
     #----------------------------------------------------------------------------------------------------
-    writer_input = WriterInput(proof=result_prover.final_output, output_directory="./results/Ceas_Lemma_Proof/ceas_lemma_proof")
+    print("Start writing process")
+    writer_input = WriterInput(proof=result_prover, output_directory="./results/Ceas_Lemma_Proof/ceas_lemma_proof")
 
     latex_proof = await Runner.run(starting_agent=writer_agent,
                                    input=f"Rewrite the following proof in Latex: {writer_input}")
 
-    write_proof(latex_proof.final_output, planner_reviewer_result, "./results/Ceas_Lemma_Proof/ceas_lemma_proof")
+    write_proof(latex_proof.final_output, planner_reviewer_result, prover_reviewer_result,
+                "./results/Ceas_Lemma_Proof/ceas_lemma_proof")
+
+    print("Finished writing process")
 
 if __name__ == "__main__":
 
