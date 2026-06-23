@@ -4,8 +4,7 @@ import os
 from dotenv import load_dotenv
 from ..agent_systems import problem_specification_agent, writer_agent, planner_agent, prover_agent, planner_reviewer_agent, prover_reviewer_agent
 from agents import Runner, RunConfig
-from ..models import WriterInput, PlannerReviewerOutput, PlannerInput, ProblemSummary, ProverReviewerOutput, ProverReviewerInput, ProverInput, \
-                     PlannerResult
+from ..models import WriterInput, PlannerReviewerOutput, PlannerInput, ProblemSummary, ProverReviewerOutput, ProverInput, PlannerResult
 from ..tools.write_proof import write_proof
 
 

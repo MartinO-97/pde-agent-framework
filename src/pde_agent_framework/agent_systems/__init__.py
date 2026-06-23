@@ -4,4 +4,4 @@ from .planner_agent import planner_agent
 from .writer_agent import writer_agent
 from .prover_agent import prover_agent
 from .planner_reviewer_agent import planner_reviewer_agent
-from prover_reviewer_agent import prover_reviewer_agent
+from .prover_reviewer_agent import prover_reviewer_agent

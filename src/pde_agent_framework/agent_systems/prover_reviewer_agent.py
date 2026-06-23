@@ -1,5 +1,5 @@
 from agents import Agent
-from ..tools import write_planner_reviewer_feedback
+from ..tools import write_prover_reviewer_feedback
 from ..models import ProverReviewerOutput
 
 prover_reviewer_agent = Agent(name="ProverReviewer", 
@@ -28,5 +28,5 @@ prover_reviewer_agent = Agent(name="ProverReviewer",
                                 ------
                                 Return only structured infomration using the ProverReviewerOuptut format. 
                                 """),
-                                tools=[write_planner_reviewer_feedback],
+                                tools=[write_prover_reviewer_feedback],
                                 output_type=ProverReviewerOutput)
