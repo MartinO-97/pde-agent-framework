@@ -1,0 +1,274 @@
+\documentclass[11pt, a4paper]{article}
+
+\usepackage{a4wide}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{txfonts}
+\usepackage{mathtools}
+\usepackage{tikz}
+\usepackage{mdwlist}
+%\usepackage{showlabels}
+\usepackage{hyperref}  
+
+% --> Mathematics of Computation
+
+\newif\ifNODEF\NODEFfalse
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{remark}{Remark}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}
+\newtheorem{ass}{Assumption}
+\newtheorem{disc}{Discretization}
+
+\renewcommand{\eqref}[1]{\hyperref[#1]{(\ref{#1})}}  % TLi
+\renewcommand{\sectionautorefname}{Section}
+\renewcommand{\subsectionautorefname}{\S\!}
+\newcommand{\lemmaautorefname}{Lemma}
+\newcommand{\corollaryautorefname}{Corollary}
+\newcommand{\assautorefname}{Ass.}
+\newcommand{\remarkautorefname}{Remark}
+
+\newcommand{\pt}{\partial}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\RR}{\mathbb{R}}
+\renewcommand{\phi}{\varphi}
+\renewcommand{\rho}{\varrho}
+\renewcommand{\theta}{\vartheta}
+\newcommand{\scal}[2]{\left(#1,#2\right)}
+\newcommand{\dual}[2]{\left\langle#1,#2\right\rangle}
+\newcommand{\bigscal}[2]{\bigl(#1,#2\bigr)}
+\newcommand{\bigdual}[2]{\bigl\langle#1,#2\bigr\rangle}
+\newcommand{\m}[1]{\mathcal{#1}}
+\newcommand{\mF}{\mathcal{F}}
+\newcommand{\mK}{\mathcal{K}}
+\newcommand{\mA}{\mathcal{A}}
+\newcommand{\mL}{\mathcal{L}}
+\newcommand{\mM}{\mathcal{M}}
+\newcommand{\G}{\Gamma}
+
+\DeclareMathOperator{\Div}{div}
+\DeclareMathOperator{\grad}{\nabla}
+\DeclareMathOperator{\ess}{ess}
+\DeclareMathOperator{\erf}{erf}
+\newcommand{\en}[1]{\left|\hspace{-0.09em}\left|\hspace{-0.09em}\left|#1%
+	\right|\hspace{-0.09em}\right|\hspace{-0.09em}\right|}
+
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\E}{\mathrm{e}}
+\newcommand{\D}{\mathrm{d}}
+\newcommand{\IntD}{\D}
+\newcommand{\Ord}[1]{\mathcal{O}\left(#1\right)}
+\newcommand{\iG}{\m G}
+\newcommand{\balpha}{\boldsymbol{\alpha}}
+\newcommand{\bt}[1]{\boldsymbol{\tilde{#1}}}
+\newcommand{\bL}{\boldsymbol{L}}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+
+\sloppy
+
+\title{A posteriori error bounds for a backward \textsc{Euler}/FEM discretized
+	parabolic equation}
+	
+\begin{document}
+	\maketitle
+	
+	\section{Introduction}
+		Given a second-order, time-independent and linear elliptic operator $\mM$ in a spatial domain 
+		\mbox{$\Omega \subset \mathbb{R}^n$} with \textsc{Lipschitz} boundary, we consider a parabolic equation 
+	%
+	\begin{subequations}\label{ibvp}
+		\begin{gather}\label{eq:parab-pde}
+			\mK u \coloneqq \pt_t u + \mM u = F, \quad \text{on } \Omega \times (0,T]
+		\end{gather}
+		%
+		subject to an initial 
+		%
+		\begin{gather}
+			u(x,0) = u_0(x), \quad \text{for } x \in \bar{\Omega}
+		\end{gather}
+		%
+		and a homogeneous Dirichlet boundary condition
+		%
+		\begin{gather}
+			u(x,t) = 0, \quad \text{for } (x,t) \in \pt \Omega \times [0,T].
+		\end{gather} 
+	\end{subequations}
+	
+	\section{Weak Formulation and Discretisation} \label{sec:weak-disc}
+	
+	\subsection{Weak formulation}
+	Our analysis is based on the weak formulation of \eqref{ibvp}. The corresponding \textsc{Gelfand} triple consists of the three spaces
+	%
+	\begin{gather}\label{eq:gelfand}
+		V = H^1_0(\Omega),  \quad H = L^2(\Omega) \quad \text{and} \quad V^* = H^{-1}(\Omega). 
+	\end{gather}
+	%
+	Furthermore, we denote by \mbox{$\scal{\cdot}{\cdot}: H \times H \mapsto \mathbb{R}$} the standard inner product on $H$, by \mbox{$\dual{\cdot}{\cdot}: V^* \times V \mapsto \mathbb{R}$} the duality pairing on \mbox{$V^* \times V$} and by \mbox{$c(\cdot, \cdot): V \times V \mapsto \mathbb{R}$} a bilinear form associated with the elliptic operator $\mM$. We assume that \(c\scal{\cdot}{\cdot}\) is both bounded and coercive with respect to the \textsc{Sobolev} norm on \(V\). The standard norm in $L^p(\Omega)$, \mbox{$p\in \NN \cup \{\infty\}$}, is denoted by $\norm{\cdot}_{p,\Omega}$. For any normed space $X$, let $L^2(0,T;X)$ be the space given by
+	%
+	\begin{gather*}
+		L^2(0,T;X) \coloneqq \left\{v:[0,T] \mapsto X: \int_{0}^{T} \norm{u(t)}^2_X \D t < \infty\right\}.
+	\end{gather*}
+	%
+	Similarly, we define $W^1_2(0,T;V,H)$ by 
+	%
+	\begin{gather*}
+		W^1_2(0,T;V,H) = \left\{ v \in L^2(0,T;V) : \pt_t v \in L^2(0,T;V^*)\right\}.
+	\end{gather*}
+	%
+	Now, the variational formulation of \eqref{ibvp} reads as follows: Given $u_0 \in H$ and $F\in L^2(0,T;V^*)$ we seek a function $u\in W^1_2(0,T;V,H)$ such that
+	%
+	\begin{subequations}\label{eq:var-form}
+		%
+		\begin{gather}
+			\frac{\D }{\D t}\scal{u(t)}{v} + c\scal{u(t)}{v} = \dual{F(t)}{v} \quad \text{for all} v\in V, \quad t\in(0,T]
+		\end{gather}
+		%
+		and 
+		%
+		\begin{gather}
+			u(0) = u_0.
+		\end{gather}
+	\end{subequations}
+	%
+	Subsequently, we assume that there exists a function \mbox{$f\in L^2\left(0,T; H^1_0(\Omega)\right)$} such that \mbox{$\dual{F(t)}{v} = \scal{f(t)}{v}$} for all \mbox{$v \in H^1_0(\Omega)$} and \mbox{$t\in [0,T]$}. Therefore, we may identify \(F\) by \(f\) in the \textsc{Gelfand} triple sense.
+	
+	To compute the maximum norm, it has to be ensured, that the solution \(u\) can be evaluated pointwise on $\Omega$. Therefore, we assume that $u_0$ is \textsc{Hölder} continuous on $\Omega$. Furthermore, we assume that \(u_0\) satisfies the zeroth compatibility condition, i.e., \mbox{$u_0|_{\pt \Omega} = 0$}. Then, under standard assumptions on the function $f$ and and the coefficients of $\mM$, problem \eqref{ibvp} posses a unique solution, which is continuous on \mbox{$\bar{\Omega} \times [0,T]$}.
+	
+	\subsection{Discretisation} \label{subsec:disc}
+	The discretisation of \eqref{eq:var-form} in time is based on the backward \textsc{Euler} method. To this end, let $\omega_t$ be a mesh in time given by
+	%
+	\begin{gather*}
+		\omega_t: 0 \eqqcolon t_0 < t_1 < \cdots < t_M \coloneqq T,
+	\end{gather*}
+	%
+	with mesh intervals \mbox{$I_j \coloneqq (t_{j-1}, t_j)$} and step sizes \mbox{$\tau_j \coloneqq t_j - t_{j-1}$}, $j=1,\dots, M$. The midpoints of $I_j$ are denoted by $t_{j-1/2}$, $j=1,\dots,M$. Furthermore, for any continuous function \mbox{$v: \Omega \times [0,T] \to \mathbb{R}$} we set \mbox{$v^j \coloneqq v(\cdot, t_j)$}, $j=0,\dots,M$, and \mbox{\(v^{j-1/2} = v(\cdot, t_{j-1/2})\)}, \(j=1,\dots,M\). For our spatial discretization, we denote by $V^0_h$ a finite dimensional subspace of $H^1_0(\Omega)$ and by $\scal{\cdot}{\cdot}_h$ and $c_h\scal{\cdot}{\cdot}$ approximations of $\scal{\cdot}{\cdot}$ and $c\scal{\cdot}{\cdot}$, respectively. \\  
+	
+	Now, our fully discretized problem reads as follows. 
+	%
+	\begin{disc}\label{disc:euler-fem}
+		Given a suitable approximation \(u^0_h\) of \(u_0\) in \(V^0_h\), we seek approximations \mbox{$u^j_h \in V^0_h$}, such that
+		%
+		\begin{gather}\label{eq:bdf-fem-disc}
+			\scal{\delta_t u^j_h}{v_h}_h + c_h\scal{u^j_h}{v_h} = \scal{f^j}{v_h}_h \quad \forall v_h \in V^0_h, \quad j=1,\dots,M,
+		\end{gather}
+		%
+		where
+		\begin{gather*}
+			\delta_t u^j_h = \frac{u^j_h - u^{j-1}_h}{\tau_j}.
+		\end{gather*}
+	\end{disc}
+	
+	\section{Green's function}\label{sec:green}
+	For our a posteriori error estimator analysis we employ \textsc{Green's} function $\Gamma$ associated with the operator $\mK$ from \eqref{ibvp}. For fixed $x\in \Omega$, \textsc{Green's} function $\Gamma$ associated with the operator $\mK$ and $x$ solves the problem
+	%
+	\begin{gather}\label{eq:green-func}
+		\pt_t \Gamma + \mM^* \Gamma = 0 \quad \text{on } \Omega \times \mathbb{R}_+, \quad \Gamma \big|_{\pt \Omega} = 0 \quad \text{and} \quad \Gamma(0) = \delta_x.
+	\end{gather}
+	%
+	$\Gamma$ and the parabolic operator \(\m{K}\) can be utilized to represent every function \mbox{$w \in W^{1,2}([0,T];H^1_0(\Omega))$} as the following lemma shows.
+	%
+	\begin{lemma}\label{lem:w-green}
+		For every $w \in W^{1,2}([0,T];H^1_0(\Omega))$ and $t\in(0,T]$ we have
+		%
+		\begin{gather}\label{eq:w-green}
+			w(x,t) = \scal{\Gamma(t)}{w(0)} + \int_{0}^{t} \dual{\mK w(s)}{\Gamma(t-s)} \D s.
+		\end{gather} 
+	\end{lemma}
+	%
+	To carry out our analysis later on, we make the following assumption.
+	%
+	\begin{ass}\label{ass:green}
+		We assume that there are non-negative constants $\gamma, \kappa_p, \kappa_p^\prime$ such that for all $s\in[0,T]$ the estimations
+		%
+		\begin{gather*}
+			\norm{\pt_t \Gamma(t)}_{1, \Omega} \leq \kappa_0 \E^{- \gamma t} \eqqcolon \phi_{0,\Gamma}(t) \quad \text{and} \quad \norm{\pt_t \Gamma(t)}_{1, \Omega} \leq \left(\frac{\kappa_1}{t} + \kappa_1'\right) \E^{-\gamma t} \eqqcolon \phi_{1,\Gamma}(t) 
+		\end{gather*}
+		%
+		holds. 
+	\end{ass}
+	%
+	
+	\section{Elliptic Reconstruction}\label{sec:ell-rec}
+	\subsection{Maximum Norm A Posteriori Error Bound for Elliptic Problems}
+	First, for a given \mbox{$g \in L^2(\Omega)$} we consider the elliptic boundary value of finding \mbox{$y\in H^1_0(\Omega)$} such that
+	%
+	\begin{gather}\label{eq:ell-val-prob}
+		c\scal{y}{v} = \scal{g}{v} \quad \forall v \in H^1_0(\Omega) \quad \text{or for short} \quad \mM y = g.
+	\end{gather}
+	%
+	and its discretisation of finding a \mbox{$y_h \in V^0_h$} such that
+	%
+	\begin{gather}\label{eq:disc-ell-val-prob}
+		c_h\scal{y_h}{v_h} = \scal{g}{v_h}_h \quad \forall v_h \in V^0_h.
+	\end{gather}
+	%
+	In our a posteriori error analysis, we rely on the following assumption.
+	%
+	\begin{ass}\label{ass:ell-est}
+		There is an a posteriori error estimator $\eta_\mathrm{ell}$ depending only on $y_h$ and $g$, such that we yield for the error between $y$ and $y_h$ in the maximum norm
+		%
+		\begin{gather}\label{eq:ell-err-est}
+			\norm{y-y_h}_{\infty, \Omega} \leq \eta(y_h,g).
+		\end{gather}  
+	\end{ass}
+	%
+	A list of available a posteriori error bounds of type \eqref{eq:ell-err-est} is provided in \cite{ossadnik2024unified}.
+	
+	\subsection{Elliptic Reconstruction for Backward \textsc{Euler} discretized problems}
+	For a given approximation \mbox{\(u^j_h \in V^0_h\)} of \(u(t_j)\) we define \mbox{$\psi^j_h \in V^0_h$} by
+	%
+	\begin{gather}\label{eq-def_phi}
+		\scal{\psi^j_h}{v_h}_h \coloneqq c_h\scal{u^j_h}{v_h} - \scal{f^j}{v_h}_h, \quad \forall v_h \in V^0_h.
+	\end{gather}
+	%
+	Equivalently, \eqref{eq-def_phi} can be rewritten as an 'elliptic' problem:
+	%
+	\begin{gather*}
+		c_h\scal{u^j_h}{v_h} = \scal{\psi^j_h + f^j}{v_h}, \quad \forall v_h \in V^0_h, \quad j=0,\dots,M.
+	\end{gather*}
+	%
+	Finally, we define the function \mbox{$R^j \in H^1_0(\Omega)$} by 
+	%
+	\begin{gather}\label{eq-def_ell_rec}
+		c\scal{R^j}{v} \coloneqq  \scal{f^j+\psi^j_h}{v} \quad \forall v\in H^1_0(\Omega). %\quad \text{or for short} \quad R^j \coloneqq f^j+\psi^j_h, \quad j=0,\dots,M.
+	\end{gather}
+	%
+	For each \(j=0,\dots,M\), the function $R^j$ is called the elliptic reconstruction of $u^j_h$ (cf. \cite{nochetto2003reconstrution}) and the function $u^j_h$ can be interpreted as the finite element solution of $R^j$. Thus we can employ the a posteriori error bound from \autoref{ass:ell-est}, to provide an upper bound for the maximum norm error between $R^j$ and $u^j_h$:
+	%
+	\begin{gather}\label{eq-ell-rec-max}
+		\norm{R^j-u^j_h}_{\infty, \Omega} \leq \eta^j_\mathrm{ell} \coloneqq \eta\left(u^j_h, f^j+\psi^j_h\right), \quad j=0,\dots,M.
+	\end{gather}
+	%
+	Owing to the time independence of \(\mM\) and assuming we have the values \mbox{\(f^{-k+1},\dots,f^0\)}, we obtain for each \(j=1,\dots,M\) 
+	%
+	\begin{gather}\label{eq:ell-rec-max-linear-comb}
+		\norm{\delta_t\left(R^j-u^j_h\right)}_{\infty, \Omega} \leq \eta^j_{\mathrm{ell}, \delta_t} = \eta\left(\delta_t u^j_h, \delta_t\left(f^j+\psi^j_h\right)\right), \quad l=0,\dots,k-1.
+	\end{gather}
+	
+	\section{A Posteriori Error Analysis}
+	Our goal is to derive a maximum norm a posteriori error estimator at final time \(T\). To be precise, given a suitable extension function \(u_h\), which extends the approximations \(u^0_h, \dots, u^M_h\) from \autoref{disc:euler-fem} to the whole time interval \([0,T]\), we seek an 
+	upper bound for 
+	%
+	\begin{gather*}
+		\norm{u(T)-u_h(T)}_{\infty, \Omega}. 
+	\end{gather*}
+	%
+	To this end, we employ the for a function \(v\) defined on \(\omega_t\), \mbox{\(t_j \mapsto v^j\)}, interpolation function 
+	%
+	\begin{gather*}
+		\tilde{v}(t) \coloneqq v^j + (s-t_j) \delta_t v^j, \quad t\in \overline{I}_j, \quad j=1,\dots,M.
+	\end{gather*}
+	%
+	Furthermore, we introduce a piecewise liner interpolation function for \(f\):
+	%
+	\begin{gather*}
+		\bar{f}(t) \coloneqq f^j, \quad s\in I_j, \quad j=1,\dots,M.
+	\end{gather*}
+	%
+	The idea is now to invoke elliptic reconstruction and \textsc{Green's} function, associated with the operator \(\mK\). ...
+\end{document}
