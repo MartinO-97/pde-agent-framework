@@ -102,10 +102,10 @@ async def main(user_input : str) -> None:
                                    input=f"Rewrite the following proof in Latex: {writer_input}")
 
     write_proof(latex_proof.final_output, planner_reviewer_result, prover_reviewer_result,
-                "./results/Ceas_Lemma_Proof/ceas_lemma_proof")
+                "./results/Parabolic_Estimator/parabolic_estimator")
 
     print("Finished writing process")
 
 if __name__ == "__main__":
 
-    asyncio.run(main("./problems/Ceas_Lemma_Proof/ceas_lemma_proof.tex"))
+    asyncio.run(main("./problems/Parabolic_Estimator/parabolic_estimator.tex"))

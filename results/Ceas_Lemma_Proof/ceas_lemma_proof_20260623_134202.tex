@@ -1,0 +1,15 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsfonts}
+
+\begin{document}
+
+\title{Proof of Céa's Lemma for Finite Element Approximation}
+\maketitle
+
+Proof of Céa's Lemma for the Finite Element Method. Let $a: H^1_0(\Omega) \times H^1_0(\Omega) \to \mathbb{R}$ be a bounded, coercive bilinear form and let $F \in H^{-1}(\Omega)$. By the Lax--Milgram theorem, there exists a unique $y \in H^1_0(\Omega)$ such that $a(y,v) = F(v)$ for all $v \in H^1_0(\Omega)$. For the finite element space $V_h^0 \subset H^1_0(\Omega)$, consider the discrete problem to find $y_h \in V_h^0$ such that $a(y_h,v_h) = F(v_h)$ for all $v_h \in V_h^0$. Since $V_h^0$ is finite-dimensional and the restricted bilinear form $a(\cdot,\cdot)$ is still continuous and coercive on $V_h^0$, the Lax--Milgram theorem applied to the subspace yields existence and uniqueness of $y_h$. Define the error $e := y - y_h \in H^1_0(\Omega)$. For any $v_h \in V_h^0$, put $\phi_h := y_h - v_h \in V_h^0$; then $y - v_h = e + \phi_h$. By Galerkin orthogonality, $a(e, \phi_h) = 0$ for all $\phi_h \in V_h^0$, hence $a(e, y - v_h) = a(e, e)$. Using the boundedness of $a$, there exists a constant $C_b > 0$ such that $|a(u,w)| \le C_b \|u\|_{1,\Omega} \|w\|_{1,\Omega}$ for all $u,w \in H^1_0(\Omega)$; applying this to $u = e$ and $w = y - v_h$ gives $|a(e, y - v_h)| \le C_b \|e\|_{1,\Omega} \|y - v_h\|_{1,\Omega}$. By coercivity of $a$, there is a constant $c > 0$ with $a(w,w) \ge c \|w\|_{1,\Omega}^2$ for all $w \in H^1_0(\Omega)$; in particular $a(e,e) \ge c \|e\|_{1,\Omega}^2$. Combining these, $c \|e\|_{1,\Omega}^2 \le |a(e, y - v_h)| \le C_b \|e\|_{1,\Omega} \|y - v_h\|_{1,\Omega}$. If $e \ne 0$, dividing by $\|e\|_{1,\Omega}$ yields $\|e\|_{1,\Omega} \le (C_b/c) \|y - v_h\|_{1,\Omega}$. Since this holds for all $v_h \in V_h^0$, taking the infimum over $v_h \in V_h^0$ gives $\|y - y_h\|_{1,\Omega} \le (C_b/c) \inf_{v_h \in V_h^0} \|y - v_h\|_{1,\Omega}$. This is Céa’s inequality. The estimates above also establish existence and uniqueness of $y$ and $y_h$ by Lax--Milgram, and the finite element problem exists uniquely as a consequence of the coercivity and boundedness on the finite-dimensional space. In summary, Céa’s bound holds:
+\[
+\|y - y_h\|_{1,\Omega} \le \frac{C_b}{c}\inf_{v_h \in V_h^0} \|y - v_h\|_{1,\Omega},
+\]
+and $y$, $y_h$ exist uniquely as claimed.
+
+\end{document}

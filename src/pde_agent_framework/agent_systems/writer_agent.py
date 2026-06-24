@@ -7,12 +7,6 @@ writer_agent = Agent(name="WriterAgent",
                                       Your ONLY task is:
                                       Convert a given proof object into a compilable LaTeX document.
                                       
-                                      Input structure
-                                      ---------------
-                                      - proof: A complete mathematical proof (string)
-                                      - proof_name: Name/title of the proof
-                                      - output_directory: Path where the LaTeX file must be stored
-                                      
                                       Rules
                                       ---------------
                                       1. You MUST NOT:

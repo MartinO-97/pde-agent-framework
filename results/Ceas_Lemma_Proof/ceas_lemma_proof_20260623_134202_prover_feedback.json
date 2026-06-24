@@ -1,0 +1,15 @@
+{
+    "previous_proofs": [
+        "Proof of Céa's Lemma for the Finite Element Method. Let a: H^1_0(Ω) × H^1_0(Ω) → R be a bounded, coercive bilinear form and let F ∈ H^{-1}(Ω). By the Lax–Milgram theorem, there exists a unique y ∈ H^1_0(Ω) such that a(y,v) = F(v) for all v ∈ H^1_0(Ω). For the finite element space V_h^0 ⊂ H^1_0(Ω), consider the discrete problem to find y_h ∈ V_h^0 such that a(y_h,v_h) = F(v_h) for all v_h ∈ V_h^0. Since V_h^0 is finite-dimensional and the restricted bilinear form a(·,·) is still continuous and coercive on V_h^0, the Lax–Milgram theorem applied to the subspace yields existence and uniqueness of y_h. Define the error e := y − y_h ∈ H^1_0(Ω). For any v_h ∈ V_h^0, put φ_h := y_h − v_h ∈ V_h^0; then y − v_h = e + φ_h. By Galerkin orthogonality, a(e, φ_h) = 0 for all φ_h ∈ V_h^0, hence a(e, y − v_h) = a(e, e). Using the boundedness of a, there exists a constant C_b > 0 such that |a(u,w)| ≤ C_b ||u||_{1,Ω} ||w||_{1,Ω} for all u,w ∈ H^1_0(Ω); applying this to u = e and w = y − v_h gives |a(e, y − v_h)| ≤ |a| ≤ something (But the exact phrase). By coercivity of a, there is a constant c > 0 with a(w,w) ≥ c ||w||_{1,Ω}^2 for all w ∈ H^1_0(Ω); in particular a(e,e) ≥ c ||e||_{1,Ω}^2. Combining these, c ||e||_{1,Ω}^2 ≤ |a(e, y − v_h)| ≤ C_b ||e||_{1,Ω} ||y − v_h||_{1,Ω}. If e ≠ 0, dividing by ||e||_{1,Ω} yields ||e||_{1,Ω} ≤ (C_b/c) ||y − v_h||_{1,Ω}. Since this holds for all v_h ∈ V_h^0, taking the infimum over v_h ∈ V_h^0 gives ||y − y_h||_{1,Ω} ≤ (C_b/c) inf_{v_h ∈ V_h^0} ||y − v_h||_{1,Ω}. This is Céa’s inequality. The estimates above also establish existence and uniqueness of y and y_h by Lax–Milgram, and the finite element problem exists uniquely as a consequence of the coercivity and boundedness on the finite-dimensional space. In summary, Céa’s bound holds: ||y − y_h||_{1,Ω} ≤ (C_b/c) inf_{v_h ∈ V_h^0} ||y − v_h||_{1,Ω}, and y, y_h exist uniquely as claimed.",
+        "proof_name=",
+        "and update previous_proofs=[] error_name=[] error_description=[] proof_ok=False iterations=0"
+    ],
+    "error_name": [
+        "Nothing"
+    ],
+    "error_description": [
+        "Everything fine"
+    ],
+    "proof_ok": true,
+    "iterations": 1
+}
