@@ -44,7 +44,7 @@ async def main(user_input : str,
     
     planner_input = PlannerInput(problem_summary = result_extractor)
 
-    while not planner_reviewer_result.plan_ok and planner_iterations <=5:
+    while not planner_reviewer_result.plan_ok and planner_iterations <5:
 
         planner_iterations += 1
 
@@ -65,7 +65,7 @@ async def main(user_input : str,
         
         planner_input = PlannerInput(problem_summary=result_extractor, planner_reviewer_feedback=planner_reviewer_result)
 
-    if planner_reviewer_result.iterations > 5: 
+    if planner_iterations >= 5: 
         print("Planning process failed -> Abort")
         prover_reviewer_result = ProverReviewerOutput(previous_proofs=[], error_name=[], error_description=[], 
                                                   proof_ok=False)
@@ -89,7 +89,7 @@ async def main(user_input : str,
     
     prover_input = ProverInput(plan=result_planner)
 
-    while not prover_reviewer_result.proof_ok and prover_iterations <=5:
+    while not prover_reviewer_result.proof_ok and prover_iterations <5:
 
         prover_iterations += 1
 
@@ -108,7 +108,7 @@ async def main(user_input : str,
         if not isinstance(prover_reviewer_result, ProverReviewerOutput):
             raise ValueError("planner_reviewer_result is not of type ProverReviewerOutput!") 
 
-    if planner_reviewer_result.iterations > 5: 
+    if prover_iterations >= 5: 
         print("Proving process failed -> Abort")
         write_proof(write_failure_output("proving"), planner_reviewer_result,
                     prover_reviewer_result, output_directory)
