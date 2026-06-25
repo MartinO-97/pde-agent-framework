@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from ..agent_systems import problem_specification_agent, writer_agent, planner_agent, prover_agent, planner_reviewer_agent, prover_reviewer_agent
 from agents import Runner, RunConfig
 from ..models import WriterInput, PlannerReviewerOutput, PlannerInput, ProblemSummary, ProverReviewerOutput, ProverInput, PlannerResult
-from ..tools import write_proof, write_failure_output
+from ..tools import write_proof, write_failure_output, update_planner_reviewer_history
 
 
 
@@ -39,12 +39,12 @@ async def main(user_input : str,
     #----------------------------------------------------------------------------------------------------
     print("Start planning process")
     planner_iterations = 0
-    planner_reviewer_result = PlannerReviewerOutput(previous_plans=[], error_name=[], error_description=[], plan_ok=False, 
-                                                    iterations=0)
+    planner_reviewer_history = PlannerReviewerOutput(previous_plans=[], error_name=[], 
+                                                     error_description=[], plan_ok=False)
     
     planner_input = PlannerInput(problem_summary = result_extractor)
 
-    while not planner_reviewer_result.plan_ok and planner_iterations <5:
+    while not planner_reviewer_history.plan_ok and planner_iterations <5:
 
         planner_iterations += 1
 
@@ -55,15 +55,19 @@ async def main(user_input : str,
         result_planner = result_planner.final_output
 
         planner_reviewer_result = await Runner.run(starting_agent=planner_reviewer_agent,
-                                                   input=f"Review {result_planner} and update {planner_reviewer_result}",
+                                                   input=f"Review {result_planner}.",
                                                    run_config=RunConfig(model=model_name))
 
         planner_reviewer_result = planner_reviewer_result.final_output
-        
+
         if not isinstance(planner_reviewer_result, PlannerReviewerOutput):
             raise ValueError("planner_reviewer_result is not of type PlannerReviewerOutput!") 
         
-        planner_input = PlannerInput(problem_summary=result_extractor, planner_reviewer_feedback=planner_reviewer_result)
+        planner_reviewer_history = \
+            update_planner_reviewer_history(planner_reviewer_history, planner_reviewer_result)
+
+        planner_input = PlannerInput(problem_summary=result_extractor, 
+                                     planner_reviewer_feedback=planner_reviewer_history)
 
     if planner_iterations >= 5: 
         print("Planning process failed -> Abort")

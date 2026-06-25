@@ -1,0 +1,10 @@
+{
+    "previous_plans": [],
+    "error_name": [
+        "SupNormFromEllipticEstimator"
+    ],
+    "error_description": [
+        "The bound for ||R^j - u_h^j||_{∞,Ω} is stated as ≤ η^j_ell, but η^j_ell is defined as η(u^j_h, f^j + ψ^j_h). Standard elliptic a posteriori estimators typically bound H1/L2 errors, not the L∞ (sup) norm. Justification or a dedicated sup-norm estimator is needed."
+    ],
+    "plan_ok": false
+}
