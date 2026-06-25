@@ -4,3 +4,4 @@ from .write_planner_reviewer_feedback import write_planner_reviewer_feedback
 from .write_prover_reviewer_feedback import write_prover_reviewer_feedback
 from .write_failure_output import write_failure_output
 from .update_planner_reviewer_history import update_planner_reviewer_history
+from .update_prover_reviewer_history import update_prover_reviewer_history

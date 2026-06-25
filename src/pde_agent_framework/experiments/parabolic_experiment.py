@@ -2,10 +2,13 @@ import asyncio
 import os
 
 from dotenv import load_dotenv
-from ..agent_systems import problem_specification_agent, writer_agent, planner_agent, prover_agent, planner_reviewer_agent, prover_reviewer_agent
+from ..agent_systems import problem_specification_agent, writer_agent, planner_agent, prover_agent, \
+    planner_reviewer_agent, prover_reviewer_agent
 from agents import Runner, RunConfig
-from ..models import WriterInput, PlannerReviewerOutput, PlannerInput, ProblemSummary, ProverReviewerOutput, ProverInput, PlannerResult
-from ..tools import write_proof, write_failure_output, update_planner_reviewer_history
+from ..models import WriterInput, PlannerReviewerOutput, PlannerInput, ProblemSummary, ProverReviewerOutput, \
+    ProverInput, PlannerResult
+from ..tools import write_proof, write_failure_output, update_planner_reviewer_history, \
+    update_prover_reviewer_history
 
 
 
@@ -80,7 +83,7 @@ async def main(user_input : str,
     if not isinstance(result_planner, PlannerResult):
         raise ValueError("result_planner is not of type PlannerResult")
 
-    print(f"Finished planning process. Number of iterations: {planner_reviewer_result.iterations}")
+    print(f"Finished planning process. Number of iterations: {planner_iterations}")
     #----------------------------------------------------------------------------------------------------
     # PROVING
     #----------------------------------------------------------------------------------------------------
@@ -88,7 +91,7 @@ async def main(user_input : str,
 
     prover_iterations = 0
 
-    prover_reviewer_result = ProverReviewerOutput(previous_proofs=[], error_name=[], error_description=[], 
+    prover_reviewer_history = ProverReviewerOutput(previous_proofs=[], error_name=[], error_description=[], 
                                                   proof_ok=False)
     
     prover_input = ProverInput(plan=result_planner)
@@ -111,6 +114,9 @@ async def main(user_input : str,
         
         if not isinstance(prover_reviewer_result, ProverReviewerOutput):
             raise ValueError("planner_reviewer_result is not of type ProverReviewerOutput!") 
+        
+        prover_reviewer_history = \
+            update_prover_reviewer_history(prover_reviewer_history, prover_reviewer_result)
 
     if prover_iterations >= 5: 
         print("Proving process failed -> Abort")
@@ -118,7 +124,7 @@ async def main(user_input : str,
                     prover_reviewer_result, output_directory)
         return
 
-    print(f"Finished proving process. Number of iterations: {prover_reviewer_result.iterations}")
+    print(f"Finished proving process. Number of iterations: {prover_iterations}")
     #----------------------------------------------------------------------------------------------------
     # WRITING
     #----------------------------------------------------------------------------------------------------
