@@ -5,11 +5,12 @@ from dotenv import load_dotenv
 from ..agent_systems import problem_specification_agent, writer_agent, planner_agent, prover_agent, planner_reviewer_agent, prover_reviewer_agent
 from agents import Runner, RunConfig
 from ..models import WriterInput, PlannerReviewerOutput, PlannerInput, ProblemSummary, ProverReviewerOutput, ProverInput, PlannerResult
-from ..tools.write_proof import write_proof
+from ..tools import write_proof, write_failure_output
 
 
 
-async def main(user_input : str) -> None:
+async def main(user_input : str, 
+               output_directory: str) -> None:
 
     load_dotenv()
 
@@ -61,6 +62,13 @@ async def main(user_input : str) -> None:
         
         planner_input = PlannerInput(problem_summary=result_extractor, planner_reviewer_feedback=planner_reviewer_result)
 
+    if planner_reviewer_result.iterations > 5: 
+        prover_reviewer_result = ProverReviewerOutput(previous_proofs=[], error_name=[], error_description=[], 
+                                                  proof_ok=False, iterations=0)
+        write_proof(write_failure_output("planning"), planner_reviewer_result,
+                    prover_reviewer_result, output_directory)
+        return
+    
     if not isinstance(result_planner, PlannerResult):
         raise ValueError("result_planner is not of type PlannerResult")
 
@@ -91,6 +99,11 @@ async def main(user_input : str) -> None:
         if not isinstance(prover_reviewer_result, ProverReviewerOutput):
             raise ValueError("planner_reviewer_result is not of type ProverReviewerOutput!") 
 
+    if planner_reviewer_result.iterations > 5: 
+        write_proof(write_failure_output("proving"), planner_reviewer_result,
+                    prover_reviewer_result, output_directory)
+        return
+
     print("Finished proving process")
     #----------------------------------------------------------------------------------------------------
     # WRITING
@@ -102,10 +115,11 @@ async def main(user_input : str) -> None:
                                    input=f"Rewrite the following proof in Latex: {writer_input}")
 
     write_proof(latex_proof.final_output, planner_reviewer_result, prover_reviewer_result,
-                "./results/Ceas_Lemma_Proof/ceas_lemma_proof")
+                output_directory)
 
     print("Finished writing process")
 
 if __name__ == "__main__":
 
-    asyncio.run(main("./problems/Ceas_Lemma_Proof/ceas_lemma_proof.tex"))
+    asyncio.run(main("./problems/Ceas_Lemma_Proof/ceas_lemma_proof.tex",
+                     "./results/Ceas_Lemma_Proof/ceas_lemma_proof"))
