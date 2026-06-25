@@ -37,6 +37,6 @@ def write_prover_reviewer_feedback(error_log: ProverReviewerOutput,
     error_log.error_description += [error_description]
     error_log.proof_ok = proof_ok
     error_log.previous_proofs += [reviewed_proof]
-    error_log.iterations += 1
+    #error_log.iterations += 1
 
     return error_log

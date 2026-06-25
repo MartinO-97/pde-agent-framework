@@ -36,6 +36,6 @@ def write_planner_reviewer_feedback(error_log: PlannerReviewerOutput,
     error_log.error_description += [error_description]
     error_log.plan_ok = plan_ok
     error_log.previous_plans += [reviewed_plan]
-    error_log.iterations += 1
+    #error_log.iterations += 1
 
     return error_log

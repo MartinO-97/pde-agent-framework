@@ -26,3 +26,5 @@ def write_failure_output(planning_or_proving: str) -> str:
             for furhter information.
         \\end{{document}} 
     """
+
+    return error_message

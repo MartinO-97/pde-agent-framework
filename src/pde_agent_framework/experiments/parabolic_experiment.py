@@ -38,12 +38,15 @@ async def main(user_input : str,
     # PLANNING
     #----------------------------------------------------------------------------------------------------
     print("Start planning process")
+    planner_iterations = 0
     planner_reviewer_result = PlannerReviewerOutput(previous_plans=[], error_name=[], error_description=[], plan_ok=False, 
                                                     iterations=0)
     
     planner_input = PlannerInput(problem_summary = result_extractor)
 
-    while not planner_reviewer_result.plan_ok and planner_reviewer_result.iterations <=5:
+    while not planner_reviewer_result.plan_ok and planner_iterations <=5:
+
+        planner_iterations += 1
 
         result_planner = await Runner.run(starting_agent=planner_agent,
                                 input=f"Plan a proof: {planner_input}.", 
@@ -54,7 +57,7 @@ async def main(user_input : str,
         planner_reviewer_result = await Runner.run(starting_agent=planner_reviewer_agent,
                                                    input=f"Review {result_planner} and update {planner_reviewer_result}",
                                                    run_config=RunConfig(model=model_name))
-        
+
         planner_reviewer_result = planner_reviewer_result.final_output
         
         if not isinstance(planner_reviewer_result, PlannerReviewerOutput):
@@ -65,7 +68,7 @@ async def main(user_input : str,
     if planner_reviewer_result.iterations > 5: 
         print("Planning process failed -> Abort")
         prover_reviewer_result = ProverReviewerOutput(previous_proofs=[], error_name=[], error_description=[], 
-                                                  proof_ok=False, iterations=0)
+                                                  proof_ok=False)
         write_proof(write_failure_output("planning"), planner_reviewer_result,
                     prover_reviewer_result, output_directory)
         return
@@ -78,12 +81,17 @@ async def main(user_input : str,
     # PROVING
     #----------------------------------------------------------------------------------------------------
     print("Start proving process")
+
+    prover_iterations = 0
+
     prover_reviewer_result = ProverReviewerOutput(previous_proofs=[], error_name=[], error_description=[], 
-                                                  proof_ok=False, iterations=0)
+                                                  proof_ok=False)
     
     prover_input = ProverInput(plan=result_planner)
 
-    while not prover_reviewer_result.proof_ok and prover_reviewer_result.iterations <=5:
+    while not prover_reviewer_result.proof_ok and prover_iterations <=5:
+
+        prover_iterations += 1
 
         result_prover = await Runner.run(starting_agent=prover_agent,
                                         input=f"Generate a complete proof: {prover_input}",
