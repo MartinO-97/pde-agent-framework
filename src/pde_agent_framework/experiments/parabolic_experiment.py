@@ -6,7 +6,7 @@ from ..agent_systems import problem_specification_agent, writer_agent, planner_a
     planner_reviewer_agent, prover_reviewer_agent
 from agents import Runner, RunConfig
 from ..models import WriterInput, PlannerReviewerOutput, PlannerInput, ProblemSummary, ProverReviewerOutput, \
-    ProverInput, PlannerResult, PlannerReviewerInput
+    ProverInput, PlannerResult, PlannerReviewerInput, ProverReviewerInput
 from ..tools import write_proof, write_failure_output, update_planner_reviewer_history, \
     update_prover_reviewer_history
 
@@ -99,7 +99,7 @@ async def main(user_input : str,
     
     prover_input = ProverInput(plan=result_planner)
 
-    while not prover_reviewer_result.proof_ok and prover_iterations <5:
+    while not prover_reviewer_history.proof_ok and prover_iterations <5:
 
         prover_iterations += 1
 
@@ -109,8 +109,11 @@ async def main(user_input : str,
         
         result_prover = result_prover.final_output
 
+        prover_reviewer_input = ProverReviewerInput(proof=result_prover, 
+                                                    problem_summary=result_extractor)
+
         prover_reviewer_result = await Runner.run(starting_agent=prover_reviewer_agent,
-                                            input=f"Review {result_prover} and update {prover_reviewer_result}",
+                                            input=f"Review {prover_reviewer_input}",
                                             run_config=RunConfig(model=model_name))
         
         prover_reviewer_result = prover_reviewer_result.final_output

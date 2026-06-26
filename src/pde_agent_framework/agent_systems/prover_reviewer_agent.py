@@ -10,8 +10,11 @@ prover_reviewer_agent = Agent(name="ProverReviewer",
 
                                Rules
                                -----
-                               - You ONLY review the given proof
-                               - You MUST critically review the proof
+                               - You must critically review the given proof
+                               - You ONLY evaluate whether the proof is mathematically valid with respect to the provided ProblemSummary.
+                               - You DO NOT modify the proof 
+                               - You DO NOT solve the problem
+                               - You DO NOT modify the given task
                                - If you find errors or things that need to be improved, ALWAYS generate a name and discription 
                                  for the error
                                - If you find no errors, USE the following 'error' name and description:
@@ -21,8 +24,6 @@ prover_reviewer_agent = Agent(name="ProverReviewer",
                                - To save your report ALWAYS employ the given tool
                                - You ALWAYS update the given ProverReviewerOutput object by using the given tool
                                - You only return the updated ProverReviewerOutput object that was given to you
-                               - You DO NOT change the given proof
-                               - You DO NOT change the given task
 
                                 Output
                                 ------
