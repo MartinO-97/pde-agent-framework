@@ -10,16 +10,17 @@ planner_reviewer_agent = Agent(name="PlannerRevieweAgent",
 
                                Rules
                                -----
-                               - You ONLY review the given plan
                                - You MUST critically review the plan
+                               - You ONLY evaluate whether the plan is mathematically valid with respect to the provided ProblemSummary.
+                               - You DO NOT modify the plan 
+                               - You DO NOT solve the problem.
+                               - You DO NOT modify the given task
                                - If you find errors or things that need to be improved, ALWAYS generate a name and discription 
                                  for the error
                                - If you find no errors, USE the following 'error' name and description:
                                     error_name = "Nothing"
                                     error_description = "Everything fine"
                                - ONLY set plan_ok to "True" if you DID NOT find any errors
-                               - You DO NOT change the given plan
-                               - You DO NOT change the given task
 
                                 Output
                                 ------

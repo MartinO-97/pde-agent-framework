@@ -6,7 +6,7 @@ from ..agent_systems import problem_specification_agent, writer_agent, planner_a
     planner_reviewer_agent, prover_reviewer_agent
 from agents import Runner, RunConfig
 from ..models import WriterInput, PlannerReviewerOutput, PlannerInput, ProblemSummary, ProverReviewerOutput, \
-    ProverInput, PlannerResult
+    ProverInput, PlannerResult, PlannerReviewerInput
 from ..tools import write_proof, write_failure_output, update_planner_reviewer_history, \
     update_prover_reviewer_history
 
@@ -57,8 +57,11 @@ async def main(user_input : str,
         
         result_planner = result_planner.final_output
 
+        planner_reviewer_input = PlannerReviewerInput(plan= result_planner,
+                                                      problem_summary=result_extractor)
+
         planner_reviewer_result = await Runner.run(starting_agent=planner_reviewer_agent,
-                                                   input=f"Review {result_planner}.",
+                                                   input=f"Review the plan given in {planner_reviewer_input}.",
                                                    run_config=RunConfig(model=model_name))
 
         planner_reviewer_result = planner_reviewer_result.final_output

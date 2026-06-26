@@ -1,0 +1,24 @@
+{
+    "previous_plans": [
+        "1) Fix notation for error: let e(t) = u(t) - u_h(t) and specifically at discrete times e^j = u(t_j) - u^j_h; prepare to extend to a time-continuous error function. \n2) Introduce the elliptic reconstruction at each time level: define R^j by c⟨R^j, v⟩ = ⟨f^j + ψ^j_h, v⟩ for all v in H^1_0(Ω); decompose the spatial error at time t_j as e^j = θ^j + ρ^j with θ^j = u(t_j) - R^j and ρ^j = R^j - u^j_h. \n3) Use the given elliptic a posteriori estimator to bound the FE reconstruction error: ||ρ^j||_{∞,Ω} ≤ η^j_ell, and bound its time derivative ||δ_t ρ^j||_{∞,Ω} by η^j_{ell,δ_t} (as provided). \n4) Extend the discrete solution to a time-continuous function and form a parabolic residual that accounts for the backward Euler discretization plus the elliptic reconstruction. \n5) Apply the Green function representation (Lemma w-green) to the error component θ (or to the extended error w) to express the final-time error in terms of the initial error and the time integral of the residual against the Green function Γ. \n6) Use the assumed Green function decay bounds φ_{0,Γ}(t) and φ_{1,Γ}(t) to bound the contributions in the representation; separate contributions from the initial data and from the residual. \n7) Bound the initial term: the contribution from θ(0) yields a factor involving ||u(0) - u_h^0||_{∞} and φ_{0,Γ}(T). \n8) Bound the residual contributions: express the residual in terms of δ_t u^j_h, f^j, and ψ^j_h; bound these by η^j_ell and η^j_{ell,δ_t} with the decay weights from the Green function. \n9) Combine elliptic reconstruction and residual bounds: bound ||e(T)||_{∞,Ω} ≤ contributions from initial error, summations over j of η^j_ell with appropriate weights, and summations over j of η^j_{ell,δ_t} with appropriate weights. \n10) Present the final computable a posteriori bound: ||u(T) - u^M_h||_{∞,Ω} ≤ C [ ||u_0 - u^0_h||_{∞,Ω} φ_{0,Γ}(T) + ∑_{j=1}^M (η^j_ell · w_j + η^j_{ell,δ_t} · w'_j) ], where the weights w_j, w'_j are derived from φ_{0,Γ} and φ_{1,Γ} evaluated at relevant time-arguments. \n11) Outline the required data and steps to implement the bound: compute u^j_h and ψ^j_h from BE/FEM, form R^j, evaluate η^j_ell and η^j_{ell,δ_t}, compute ||u_0 - u^0_h||_{∞,Ω}, and assemble the weighted sum with the decay factors. \n12) State the assumptions used: the Lipschitz domain, well-posed BE/FEM discretization, the elliptic estimator existence, the Green function decay bounds, and the validity of Lemma w-green; all are invoked as in the problem’s framework."
+    ],
+    "error_name": [
+        "NormBound_Inferred_Linf_Not_Standard",
+        "Ambiguous_Elliptic_Reconstruction_Definition",
+        "Missing_Definition_of_Operators_and_Sources_in_R^j",
+        "Unspecified_Green_Function_Conditions_for_Bounds",
+        "Undefined_Time_Interpolation_for_BE_and_δ_t_ρ_j",
+        "Undefined_Weights_for_Bound_Contributions",
+        "Lack_of_Explicit_C_Constants_and_Dependence_on_M_and_h"
+    ],
+    "error_description": [
+        "The claim ||ρ^j||_{∞,Ω} ≤ η^j_ell uses an elliptic estimator to bound an L∞ norm of a reconstruction error; standard elliptic estimators typically bound H^1 or L^2 norms, not L∞. An L∞ bound requires additional inverse-estimate assumptions or a dedicated L∞ estimator.",
+        "The definition of the elliptic reconstruction R^j uses c⟨R^j, v⟩ = ⟨f^j + ψ^j_h, v⟩ with symbols c and ψ^j_h not defined in the plan; this makes the reconstruction ill-posed as stated. The operator A and the precise definition of ψ^j_h must be provided.",
+        "Key operators and sources in the definition of R^j are not explicit (what is the elliptic operator, how is ψ^j_h computed, what space is R^j sought in). Without explicit definitions, the reconstruction cannot be verified or implemented.",
+        "The plan relies on Green function decay bounds φ_{0,Γ}(t) and φ_{1,Γ}(t) without specifying domain, boundary conditions, or regularity assumptions under which these bounds hold; these conditions must be stated for validity.",
+        "Time-discretization extension and the parabolic residual require a specific time-interpolant (piecewise linear, etc.) and a precise definition of δ_t in the extended setting; these are not specified, which may affect the residual and subsequent bounds.",
+        "The weights w_j and w'_j are mentioned as derived from φ_{0,Γ} and φ_{1,Γ} but no explicit formulas are given; without explicit weights, the final computable bound cannot be implemented.",
+        "The constant C in the final bound and its dependence on M, h, and data are not discussed; without understanding how C scales, practical reliability of the bound is uncertain."
+    ],
+    "plan_ok": false
+}
