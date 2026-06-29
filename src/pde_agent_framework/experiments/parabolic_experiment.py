@@ -6,7 +6,7 @@ from ..agent_systems import problem_specification_agent, writer_agent, planner_a
     planner_reviewer_agent, prover_reviewer_agent
 from agents import Runner, RunConfig
 from ..models import WriterInput, PlannerReviewerOutput, PlannerInput, ProblemSummary, ProverReviewerOutput, \
-    ProverInput, PlannerResult, PlannerReviewerInput, ProverReviewerInput
+    ProverInput, PlannerResult, PlannerReviewerInput, ProverReviewerInput, ModelName
 from ..tools import write_proof, write_failure_output, update_planner_reviewer_history, \
     update_prover_reviewer_history
 
@@ -18,6 +18,7 @@ async def main(user_input : str,
     load_dotenv()
 
     model_name = os.getenv("MODEL_NAME")    
+    model_name_class = ModelName(model_name=model_name)
 
     if model_name is None:
         raise ValueError("'MODEL' is not defined.")
@@ -141,11 +142,11 @@ async def main(user_input : str,
                                    input=f"Rewrite the following proof in Latex: {writer_input}")
 
     write_proof(latex_proof.final_output, planner_reviewer_result, prover_reviewer_result,
-                output_directory)
+                model_name, output_directory)
 
     print("Finished writing process")
 
 if __name__ == "__main__":
 
     asyncio.run(main("./problems/Parabolic_Estimator/parabolic_estimator.tex",
-                     "./results/Parabolic_Estimator/parabolic_estimator"))
+                     "./results/Parabolic_Estimator/"))
