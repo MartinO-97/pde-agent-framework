@@ -19,8 +19,8 @@ def update_planner_reviewer_history(reviewer_history: PlannerReviewerOutput,
         The updated PlannerReviewer feedback history.
     """
 
-    reviewer_history.previous_plans += reviewer_feedback.previous_plans
-    reviewer_history.error_name += reviewer_feedback.error_name
+    #reviewer_history.previous_plans += reviewer_feedback.previous_plans
+    #reviewer_history.error_name += reviewer_feedback.error_name
     reviewer_history.error_description += reviewer_feedback.error_description
     reviewer_history.plan_ok = reviewer_feedback.plan_ok
 

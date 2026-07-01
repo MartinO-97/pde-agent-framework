@@ -19,8 +19,8 @@ def update_prover_reviewer_history(reviewer_history: ProverReviewerOutput,
         The updated PlannerReviewer feedback history.
     """
 
-    reviewer_history.previous_proofs += reviewer_feedback.previous_proofs
-    reviewer_history.error_name += reviewer_feedback.error_name
+    #reviewer_history.previous_proofs += reviewer_feedback.previous_proofs
+    #reviewer_history.error_name += reviewer_feedback.error_name
     reviewer_history.error_description += reviewer_feedback.error_description
     reviewer_history.proof_ok = reviewer_feedback.proof_ok
 

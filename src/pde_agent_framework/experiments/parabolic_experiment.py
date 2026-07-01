@@ -42,8 +42,7 @@ async def main(user_input : str,
     #----------------------------------------------------------------------------------------------------
     print("Start planning process")
     planner_iterations = 0
-    planner_reviewer_history = PlannerReviewerOutput(previous_plans=[], error_name=[], 
-                                                     error_description=[], plan_ok=False)
+    planner_reviewer_history = PlannerReviewerOutput(error_description=[], plan_ok=False)
     
     planner_input = PlannerInput(problem_summary = result_extractor)
 
@@ -95,8 +94,7 @@ async def main(user_input : str,
 
     prover_iterations = 0
 
-    prover_reviewer_history = ProverReviewerOutput(previous_proofs=[], error_name=[], error_description=[], 
-                                                  proof_ok=False)
+    prover_reviewer_history = ProverReviewerOutput(error_description=[], proof_ok=False)
     
     prover_input = ProverInput(plan=result_planner)
 

@@ -15,11 +15,7 @@ planner_reviewer_agent = Agent(name="PlannerRevieweAgent",
                                - You DO NOT modify the plan 
                                - You DO NOT solve the problem.
                                - You DO NOT modify the given task
-                               - If you find errors or things that need to be improved, ALWAYS generate a name and discription 
-                                 for the error
-                               - If you find no errors, USE the following 'error' name and description:
-                                    error_name = "Nothing"
-                                    error_description = "Everything fine"
+                               - If you find errors or things that need to be improved, ALWAYS generate a description for the error
                                - ONLY set plan_ok to "True" if you DID NOT find any errors
 
                                 Output
