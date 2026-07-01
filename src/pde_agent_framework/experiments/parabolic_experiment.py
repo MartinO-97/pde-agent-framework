@@ -6,7 +6,7 @@ from ..agent_systems import problem_specification_agent, writer_agent, planner_a
     planner_reviewer_agent, prover_reviewer_agent
 from agents import Runner, RunConfig
 from ..models import WriterInput, PlannerReviewerOutput, PlannerInput, ProblemSummary, ProverReviewerOutput, \
-    ProverInput, PlannerResult, PlannerReviewerInput, ProverReviewerInput, ModelName
+    ProverInput, PlannerResult, PlannerReviewerInput, ProverReviewerInput, ExperimentOverview
 from ..tools import write_proof, write_failure_output, update_planner_reviewer_history, \
     update_prover_reviewer_history
 
@@ -18,7 +18,6 @@ async def main(user_input : str,
     load_dotenv()
 
     model_name = os.getenv("MODEL_NAME")    
-    model_name_class = ModelName(model_name=model_name)
 
     if model_name is None:
         raise ValueError("'MODEL' is not defined.")
@@ -48,7 +47,7 @@ async def main(user_input : str,
     
     planner_input = PlannerInput(problem_summary = result_extractor)
 
-    while not planner_reviewer_history.plan_ok and planner_iterations <5:
+    while not planner_reviewer_history.plan_ok:
 
         planner_iterations += 1
 
@@ -76,13 +75,14 @@ async def main(user_input : str,
         planner_input = PlannerInput(problem_summary=result_extractor, 
                                      planner_reviewer_feedback=planner_reviewer_history)
 
-    if planner_iterations >= 5: 
-        print("Planning process failed -> Abort")
-        prover_reviewer_result = ProverReviewerOutput(previous_proofs=[], error_name=[], error_description=[], 
-                                                  proof_ok=False)
-        write_proof(write_failure_output("planning"), planner_reviewer_result,
-                    prover_reviewer_result, output_directory)
-        return
+        if planner_iterations == 5: 
+            break
+        #print("Planning process failed -> Abort")
+        #prover_reviewer_result = ProverReviewerOutput(previous_proofs=[], error_name=[], error_description=[], 
+        #                                          proof_ok=False)
+        #write_proof(write_failure_output("planning"), planner_reviewer_result,
+        #            model_name, prover_reviewer_result, output_directory)
+        #return
     
     if not isinstance(result_planner, PlannerResult):
         raise ValueError("result_planner is not of type PlannerResult")
@@ -125,11 +125,13 @@ async def main(user_input : str,
         prover_reviewer_history = \
             update_prover_reviewer_history(prover_reviewer_history, prover_reviewer_result)
 
-    if prover_iterations >= 5: 
-        print("Proving process failed -> Abort")
-        write_proof(write_failure_output("proving"), planner_reviewer_result,
-                    prover_reviewer_result, output_directory)
-        return
+        if prover_iterations >= 5: 
+            break
+
+        #print("Proving process failed -> Abort")
+        #write_proof(write_failure_output("proving"), planner_reviewer_result,
+        #            model_name, prover_reviewer_result, output_directory)
+        #return
 
     print(f"Finished proving process. Number of iterations: {prover_iterations}")
     #----------------------------------------------------------------------------------------------------
@@ -141,8 +143,12 @@ async def main(user_input : str,
     latex_proof = await Runner.run(starting_agent=writer_agent,
                                    input=f"Rewrite the following proof in Latex: {writer_input}")
 
+    experiment_overview = ExperimentOverview(planner_reviewer_iterations=planner_iterations, 
+                                             prover_reviewer_iterations=prover_iterations,
+                                             model_name=model_name)
+
     write_proof(latex_proof.final_output, planner_reviewer_result, prover_reviewer_result,
-                model_name, output_directory)
+                experiment_overview, output_directory)
 
     print("Finished writing process")
 

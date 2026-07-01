@@ -8,4 +8,4 @@ from .planner_input import PlannerInput
 from .prover_input import ProverInput
 from .prover_reviewer_input import ProverReviewerInput
 from .prover_reviewer_output import ProverReviewerOutput
-from .model_name import ModelName
+from .experiment_overview import ExperimentOverview
