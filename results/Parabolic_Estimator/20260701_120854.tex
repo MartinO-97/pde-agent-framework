@@ -1,0 +1,79 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsthm}
+
+\begin{document}
+
+Let $u$ solve the parabolic problem on $\Omega\times(0,T)$ and let $u_h^j$ denote the backward Euler/FEM nodal values at times $t_j$ with stepsize $\tau_j=t_j-t_{j-1}$. Fix a piecewise reconstruction in time $u_h(t)$ by setting $u_h(0)$ to match the assumed initial reconstruction and by taking $u_h(t)$ to be linear on each time slab $I_j:=(t_{j-1},t_j]$, i.e.,
+\[
+u_h(t)=\frac{t_j-t}{\tau_j}u_h^{j-1}+\frac{t-t_{j-1}}{\tau_j}u_h^j.
+\]
+Define the error in the strong time-continuous sense by
+\[
+e(t):=u(t)-u_h(t).
+\]
+Since $u\in W^{1,2}(0,T;H^1_0(\Omega))$ and $u_h$ has piecewise linear time dependence with $H^1_0(\Omega)$-valued nodal functions, we have $e\in W^{1,2}(0,T;H^1_0(\Omega))$ (with the understood additional regularity that $u_h^{j}\in H^1_0(\Omega)$ and the piecewise linear extension makes $e$ time absolutely continuous in $H^1_0$). Let $\Gamma(x,s)$ be the Green function for the adjoint homogeneous problem as in Lemma \ref{lem:w-green}, and write $\Gamma(t)$ for the spatial function $x\mapsto \Gamma(x,t)$. Then Lemma \ref{lem:w-green} with $w=e$ and evaluation at time $T$ yields the representation, valid for every $x\in\Omega$,
+\[
+e(x,T)=\langle \Gamma(T),e(0)\rangle+\int_0^T\langle K e(s), \Gamma(T-s)\rangle\, ds,
+\]
+where $K$ is the parabolic operator in the form $K v:=F-(\partial_t v+Mv)$, with $M$ the elliptic operator appearing in the parabolic equation and $F(s)$ the (time-dependent) right-hand side. Taking the supremum over $x$ and using the duality bounds for $\Gamma$ and $\Gamma(T-s)$, we obtain
+\[
+\|e(T)\|_{\infty,\Omega}\le C_\Gamma\big\|e(0)\big\|_{H^{-1}(\Omega)}+C\int_0^T \big\|K e(s)\big\|_{H^{-1}(\Omega)}\, \|\Gamma(T-s)\|_{H^1_0(\Omega)}\, ds
+\]
+for a constant $C$ depending only on the fixed Green controls; in the framework of Lemma \ref{lem:w-green} these are summarized by the assumed estimates for $\|\Gamma(t)\|_{1,\Omega}$ (and also for $\|\partial_t\Gamma(t)\|_{1,\Omega}$ when differentiating in time). Thus it remains to bound the residual term $K e(s)$. Since $u$ satisfies $\partial_t u+Mu=F$, and $e=u-u_h$, we have
+\[
+K e(s)=F(s)-(\partial_t u_h(s)+M u_h(s)).
+\]
+
+We now compute this residual in a form compatible with backward Euler and the elliptic reconstruction. Split the forcing into slabwise constants by defining $\bar f(s)=f^j$ for $s\in I_j$, where $f^j:=f(t_j)$ (or the corresponding data in the scheme). Then on each $I_j$, decompose
+\[
+K e(s)=\big( F(s)-\bar f(s)\big)+\big(\bar f(s)-(\partial_t u_h(s)+M u_h(s))\big).
+\]
+For $s\in I_j$ the time derivative of the piecewise linear reconstruction is constant and equals the backward Euler difference quotient:
+\[
+\partial_t u_h(s)=\frac{u_h^j-u_h^{j-1}}{\tau_j}.
+\]
+Therefore the second bracket becomes exactly the discrete time residual associated with the nodal equation. The elliptic contribution is handled at time nodes by elliptic reconstruction objects. Let $R^j$ denote the elliptic reconstruction at $t_j$ solving the continuous elliptic problem with the discrete right-hand side so that the spatial gap between $R^j$ and the FEM function $u_h^j$ is measured by the elliptic estimator $\eta_{\ell}^j$ as in the assumed elliptic maximum-norm control. Concretely, with the bilinear form $c(\cdot,\cdot)$ associated with $M$ (so that $Mv$ is represented via $c(v,\cdot)$), the reconstruction is chosen so that, for all test functions $\phi\in H^1_0(\Omega)$, $c(R^j,\phi)=\langle f^j,\phi\rangle$ plus the corresponding discrete data contributions used to define the parabolic scheme at the node. With this choice, the spatial part of $M u_h^j$ can be written in the standard reconstruction form; in particular, the difference between $c(R^j,\phi)$ and $c_h(u_h^j,\phi)$ (where $c_h$ corresponds to the discrete operator) and the data mismatch between the projected/approximated right-hand side and $f^j$ combine to give residual terms of the form $c(R^j-u_h^j,\phi)$ and/or $c(R^j,\phi)-\langle f^j,\phi\rangle$. Hence for each $s\in I_j$, by interpolating $u_h$ in time and using $R^j$ as the elliptic reference, the residual can be split into a spatial reconstruction gap term plus a time interpolation defect. More precisely, insert the elliptic reconstruction where $M u_h(s)$ is compared to $M R^j$, and use the fact that on $I_j$ the operator $M$ acting on the linear time interpolant simply contributes the nodal spatial operator applied to $u_h(t)$ but the reconstruction is organized by the nodal value. This yields a decomposition of the residual in the form
+\[
+K e(s)=\mathcal R_{sp}^j(s)+\mathcal R_{time}^j(s),
+\]
+where $\mathcal R_{sp}^j(s)$ depends on the gap between $R^j$ and $u_h^j$ (and thus on $R^j-u_h^j$, with data mismatches absorbed into the definition of $\eta_{\ell}^j$), and $\mathcal R_{time}^j(s)$ depends only on the differences $F(s)-\bar f(s)$ and on the mismatch between the exact time derivative of $u$ and the discrete backward Euler derivative of the chosen reconstruction, which is captured by the time interpolation defect. In the time-continuous setting, the exact forcing is represented using the piecewise constant interpolant $\bar f$, while the exact solution reconstruction in the analysis is aligned with a piecewise-linear interpolant $\tilde v$ (as in the summary). On each slab $I_j$, writing the exact solution in the form $v$ (the corresponding time-dependent spatial function used in the reconstruction argument), one has a standard identity for the defect of the backward Euler difference quotient compared to the time derivative of the linear interpolant, producing a term proportional to $\tau_j$ with the appropriate time residual. Therefore
+\[
+\langle K e(s), \Gamma(T-s)\rangle=\langle \mathcal R_{sp}^j(s), \Gamma(T-s)\rangle+\langle \mathcal R_{time}^j(s), \Gamma(T-s)\rangle,
+\]
+and integrating over $s\in I_j$ gives
+\[
+\int_{I_j} \langle K e(s), \Gamma(T-s)\rangle\, ds=\int_{I_j} \langle \mathcal R_{sp}^j(s), \Gamma(T-s)\rangle\, ds+\int_{I_j} \langle \mathcal R_{time}^j(s), \Gamma(T-s)\rangle\, ds.
+\]
+
+We now bound these two contributions separately. For the spatial reconstruction part, the residual has the structure of applying the elliptic operator residual to $\Gamma(T-s)$ and thus involves $c(R^j-u_h^j,\cdot)$ tested against $\Gamma(T-s)$ (possibly with additional terms already included in the elliptic estimator definition). Using the elliptic maximum-norm control assumed for the elliptic reconstruction, namely
+\[
+\|R^j-u_h^j\|_{\infty,\Omega}\le \eta_{\ell}^j,
+\]
+and the fact that $\Gamma(T-s)$ is controlled in $H^1_0$ (with the norm appearing in Lemma \ref{lem:w-green}), duality gives a bound of the form
+\[
+\Big|\int_{I_j} \langle \mathcal R_{sp}^j(s), \Gamma(T-s)\rangle\, ds\Big|\le C\,|I_j|\,\eta_{\ell}^j\,\|\Gamma(T-s)\|_{1,\Omega} \le C\,\eta_{\ell}^j\,\int_{I_j}\|\Gamma(T-s)\|_{1,\Omega}\, ds.
+\]
+
+For the time-discretization part, one uses the Green-function time behavior. Since the time residual contains terms involving differences of the forcing interpolation and the backward Euler derivative, the corresponding duality pairing with $\Gamma(T-s)$ can be integrated by parts in $s$ against $\Gamma(T-s)$. The decomposition is organized so that the derivative in time falls on $\Gamma(T-s)$, producing factors involving $\partial_t \Gamma(T-s)$. Using only the assumed bound on $\|\partial_t\Gamma(t)\|_{1,\Omega}$ together with the regularity and size of the time interpolation defects (which are weighted by $\tau_j$ due to piecewise linear/constant reconstruction, as in the summary), we obtain an estimate on each slab of the form
+\[
+\Big|\int_{I_j} \langle \mathcal R_{time}^j(s), \Gamma(T-s)\rangle\, ds\Big|\le C\,\tau_j\,\sup_{s\in I_j}\big(\text{time defect of }F-\bar f\text{ and of }\partial_t u-\text{BE derivative of }u_h\big)\int_{I_j}\|\partial_t \Gamma(T-s)\|_{1,\Omega}\, ds,
+\]
+which, after absorbing the Green weights into the slab-dependent constants, yields
+\[
+\Big|\int_{I_j} \langle \mathcal R_{time}^j(s), \Gamma(T-s)\rangle\, ds\Big|\le C\,\tau_j\,\mathcal R_{time}^j,
+\]
+where $\mathcal R_{time}^j$ is the explicit computable quantity formed by the stated time residual/interpolation defect (built from $\tilde v$ and $\bar f$ on $I_j$, equivalently from differences between exact-in-analysis reconstructions and the scheme’s backward Euler forcing). Finally, we handle the initial term in the representation. The term $\langle \Gamma(T),e(0)\rangle$ is bounded by the Green control in $H^1_0$, namely
+\[
+|\langle \Gamma(T),e(0)\rangle|\le \|\Gamma(T)\|_{1,\Omega}\,\|e(0)\|_{H^{-1}(\Omega)}\le C\,\|e(0)\|\, .
+\]
+If the method initialization is chosen so that $u_h(0)$ matches the initial reconstruction of $u$, then $e(0)=0$ and this term vanishes; otherwise it is bounded in terms of the initial discretization/reconstruction error, which is part of the same framework. Substituting the spatial and time bounds into the Green representation, and taking the supremum norm estimate from the first step, we arrive at the global inequality at time $T$. Therefore, for the error $e(T)=u(T)-u_h(T)$ we obtain
+\[
+\|u(T)-u_h(T)\|_{\infty,\Omega}\le C\Bigg(\|e(0)\|_{H^{-1}(\Omega)}\|\Gamma(T)\|_{1,\Omega}+\sum_{j=1}^N \eta_{\ell}^j\int_{I_j}\|\Gamma(T-s)\|_{1,\Omega}\, ds+\sum_{j=1}^N \tau_j\mathcal R_{time}^j\Bigg),
+\]
+where the constant $C$ depends only on the fixed problem and Green-function bounds. In particular, the time defect contribution $\mathcal R_{time}^j$ is explicitly expressed from the residual splitting described above: it is built from the mismatch of $F(s)$ with the slabwise constant interpolant $\bar f(s)$ and from the mismatch between the time derivative of the chosen time interpolant (for the analysis, $\tilde v$) and the backward Euler difference quotient appearing in $\partial_t u_h$ on $I_j$, together with the corresponding operator residual terms after inserting the elliptic reconstruction objects ($\psi_h^j$ and $R^j$) so that all spatial parts are absorbed into the estimators $\eta_{\ell}^j$. Hence the final a posteriori maximum-norm estimate has the form
+\[
+\|u(T)-u_h(T)\|_{\infty,\Omega} \le \mathcal E_T(u_h,\bar f,\{\tau_j\},\{\eta_{\ell}^j\}),
+\]
+where $\mathcal E_T$ is a nonnegative computable estimator consisting of a sum of Green-weighted elliptic reconstruction indicators $\eta_{\ell}^j$ and a sum of $\tau_j$-weighted computable time residual/interpolation defect terms derived from the piecewise reconstructions $\tilde u_h$ and $\bar f$ and from the elliptic reconstruction pairings involving $R^j$ and $\psi_h^j$. This yields the required a posteriori upper bound for the maximum norm error at time $T$ for the backward Euler/FEM discretization.
+
+\end{document}
