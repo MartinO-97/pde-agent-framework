@@ -1,5 +1,4 @@
 from agents import Agent
-from ..tools import write_proof
 
 writer_agent = Agent(name="WriterAgent", 
                      instructions=r""" You are a deterministic LaTeX rendering and file-writing agent.

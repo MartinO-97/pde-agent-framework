@@ -7,7 +7,7 @@ from ..agent_systems import problem_specification_agent, writer_agent, planner_a
 from agents import Runner, RunConfig
 from ..schemas import WriterInput, PlannerReviewerOutput, PlannerInput, ProblemSummary, ProverReviewerOutput, \
     ProverInput, PlannerResult, PlannerReviewerInput, ProverReviewerInput, ExperimentOverview
-from ..tools import write_proof, write_failure_output, update_planner_reviewer_history, \
+from ..tools import write_failure_output, update_planner_reviewer_history, \
     update_prover_reviewer_history
 
 
@@ -141,12 +141,12 @@ async def main(user_input : str,
     latex_proof = await Runner.run(starting_agent=writer_agent,
                                    input=f"Rewrite the following proof in Latex: {writer_input}")
 
-    experiment_overview = ExperimentOverview(planner_reviewer_iterations=planner_iterations, 
+    experiment_overview = ExperimentOverview(planner_reviewer_iterations=planner_iterations,
                                              prover_reviewer_iterations=prover_iterations,
                                              model_name=model_name)
 
-    write_proof(latex_proof.final_output, planner_reviewer_result, prover_reviewer_result,
-                experiment_overview, output_directory)
+    experiment_overview.store_proof(latex_proof.final_output)
+    experiment_overview.write_proof(output_directory)
 
     print("Finished writing process")
 
