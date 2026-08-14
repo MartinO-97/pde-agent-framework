@@ -9,3 +9,4 @@ from .prover_input import ProverInput
 from .prover_reviewer_input import ProverReviewerInput
 from .prover_reviewer_output import ProverReviewerOutput
 from .experiment_overview import ExperimentOverview
+from .experiment_config import ExperimentConfig

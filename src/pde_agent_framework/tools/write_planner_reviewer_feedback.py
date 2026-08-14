@@ -1,4 +1,4 @@
-from ..models import PlannerReviewerOutput
+from ..schemas import PlannerReviewerOutput
 from agents import function_tool
 
 @function_tool

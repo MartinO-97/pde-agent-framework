@@ -1,4 +1,4 @@
-from ..models import PlannerReviewerOutput
+from ..schemas import PlannerReviewerOutput
 
 def update_planner_reviewer_history(reviewer_history: PlannerReviewerOutput,
                                     reviewer_feedback: PlannerReviewerOutput) -> PlannerReviewerOutput:

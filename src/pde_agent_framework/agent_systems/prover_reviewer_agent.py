@@ -1,6 +1,6 @@
 from agents import Agent
 from ..tools import write_prover_reviewer_feedback
-from ..models import ProverReviewerOutput
+from ..schemas import ProverReviewerOutput
 
 prover_reviewer_agent = Agent(name="ProverReviewer", 
                               instructions=(""" You review the generated plan of the planner_agent. 

@@ -1,5 +1,5 @@
 from agents import Agent
-from ..models import PlannerResult
+from ..schemas import PlannerResult
 
 planner_agent = Agent(name="PlanerAgent",
                      instructions=(""" You are a planner of a mathematical proof. 

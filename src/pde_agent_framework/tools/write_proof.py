@@ -1,6 +1,6 @@
 from datetime import datetime
 from agents import function_tool
-from ..models import PlannerReviewerOutput, ProverReviewerOutput, \
+from ..schemas import PlannerReviewerOutput, ProverReviewerOutput, \
                      ExperimentOverview
 
 #@function_tool

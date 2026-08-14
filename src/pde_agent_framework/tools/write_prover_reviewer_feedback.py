@@ -1,4 +1,4 @@
-from ..models import ProverReviewerOutput
+from ..schemas import ProverReviewerOutput
 from agents import function_tool
 
 @function_tool

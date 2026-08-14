@@ -1,4 +1,4 @@
-from ..models import ProverReviewerOutput
+from ..schemas import ProverReviewerOutput
 
 def update_prover_reviewer_history(reviewer_history: ProverReviewerOutput,
                                    reviewer_feedback: ProverReviewerOutput) -> ProverReviewerOutput:

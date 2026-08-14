@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from ..agent_systems import problem_specification_agent, writer_agent, planner_agent, prover_agent, \
     planner_reviewer_agent, prover_reviewer_agent
 from agents import Runner, RunConfig
-from ..models import WriterInput, PlannerReviewerOutput, PlannerInput, ProblemSummary, ProverReviewerOutput, \
+from ..schemas import WriterInput, PlannerReviewerOutput, PlannerInput, ProblemSummary, ProverReviewerOutput, \
     ProverInput, PlannerResult, PlannerReviewerInput, ProverReviewerInput, ExperimentOverview
 from ..tools import write_proof, write_failure_output, update_planner_reviewer_history, \
     update_prover_reviewer_history

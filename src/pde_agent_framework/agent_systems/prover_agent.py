@@ -1,5 +1,5 @@
 from agents import Agent
-from ..models import ProverResult
+from ..schemas import ProverResult
 
 
 prover_agent = Agent(name="ProverAgent",
