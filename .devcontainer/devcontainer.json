@@ -2,7 +2,8 @@
   	"name": "PDE Agent Framework",
 	"build": {
 		"dockerfile": "../Dockerfile",
-		"context": ".."
+		"context": "..",
+		"options": ["-t=pde-agent-framework:latest"]
 	},
 	"remoteUser": "teli",
 	"workspaceMount": "source=${localWorkspaceFolder},target=/home/teli/workspace,type=bind,consistency=cached",
@@ -12,8 +13,7 @@
 		"vscode": {
 			"extensions": [
 				"ms-python.python",
-				"james-yu.latex-workshop",
-				"kilocode.Kilo-Code"
+				"anthropic.claude-code"
 			],
 			"settings": {
 				"python.defaultInterpreterPath": "/usr/local/bin/python3"
