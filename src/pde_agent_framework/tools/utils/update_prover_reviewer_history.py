@@ -1,7 +1,7 @@
-from ..schemas import PlannerReviewerOutput
+from ...schemas import ProverReviewerOutput
 
-def update_planner_reviewer_history(reviewer_history: PlannerReviewerOutput,
-                                    reviewer_feedback: PlannerReviewerOutput) -> PlannerReviewerOutput:
+def update_prover_reviewer_history(reviewer_history: ProverReviewerOutput,
+                                   reviewer_feedback: ProverReviewerOutput) -> ProverReviewerOutput:
     
     r""" Update the PlannerReviewer history by the newest feedback.
     
@@ -19,9 +19,9 @@ def update_planner_reviewer_history(reviewer_history: PlannerReviewerOutput,
         The updated PlannerReviewer feedback history.
     """
 
-    #reviewer_history.previous_plans += reviewer_feedback.previous_plans
+    #reviewer_history.previous_proofs += reviewer_feedback.previous_proofs
     #reviewer_history.error_name += reviewer_feedback.error_name
     reviewer_history.error_description += reviewer_feedback.error_description
-    reviewer_history.plan_ok = reviewer_feedback.plan_ok
+    reviewer_history.proof_ok = reviewer_feedback.proof_ok
 
     return reviewer_history

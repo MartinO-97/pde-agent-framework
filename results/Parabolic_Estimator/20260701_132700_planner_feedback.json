@@ -1,9 +1,0 @@
-{
-    "error_description": [
-        "Several steps rely on additional details not specified in the provided ProblemSummary, so the plan is not fully mathematically well-posed: e.g., the exact “minimal mollification/approximation argument” in Step 1 (regularity of e), the “interval-wise test/replacement” of Γ(T−s) in Step 4 (the specific interpolation/average to use and how it matches backward Euler residuals), and the precise algebraic split into computable backward-Euler defect norms (Step 3/4/7) are not determined by the summary.",
-        "Space/dual pairing consistency is asserted but not ensured: Step 2/3 claim identities in “V*-sense” and that pairings match where K e(s) lives, but the plan does not check that K e(s)=F-(∂_t u_h+M u_h) is in V* for the chosen extension regularity, nor that the Green kernel Γ(T−s) has the needed regularity to pair with that V* element for all s.",
-        "Step 6–8 assume an elliptic estimator can be used to bound the spatial reconstruction contribution in a norm compatible with the Green-to-supremum conversion (e.g., L∞ at final time via η_ell^j). The plan does not provide a mathematically valid bridge between the elliptic bound |R^j-u_h^j|_{∞,Ω}≤η_ell^j and the specific quantity appearing after the Green representation (typically an integral pairing involving Γ), so the required domination/continuity argument is missing.",
-        "The plan suggests rewriting ∫_0^T ⟨K e(s), Γ(T−s)⟩ ds as a sum over I_j using “time support of the extension” and that discrete data are intervalwise defined (Step 4). This is not justified from the summary: the extension is only specified abstractly as “chosen time-extension”/tilde interpolation, not that it has intervalwise support properties yielding such a clean decomposition."
-    ],
-    "plan_ok": false
-}
