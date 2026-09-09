@@ -20,7 +20,7 @@ def write_failure_output(planning_or_proving: str) -> str:
 
         \\begin{{document}} \n
             The workflow failed in the {planning_or_proving} stage. See .json files
-            for furhter information.
+            for further information.
         \\end{{document}} 
     """
 

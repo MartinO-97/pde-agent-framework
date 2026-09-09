@@ -6,7 +6,7 @@ from ..schemas import PlannerReviewerOutput
 
 @cache
 def create_planner_reviewer_agent() -> Agent:
-    return Agent(name="PlannerRevieweAgent",
+    return Agent(name="PlannerReviewerAgent",
                  instructions=(""" You review the generated plan of the PlannerAgent.
 
                               Your task is to critically review the plan of the planner agent to solve a given
@@ -24,6 +24,6 @@ def create_planner_reviewer_agent() -> Agent:
 
                                Output
                                ------
-                               Return only structured infomration using the PlannerReviewerOuptut format.
+                               Return only structured information using the PlannerReviewerOutput format.
                                """),
                 output_type=PlannerReviewerOutput)

@@ -6,7 +6,7 @@ from ..schemas import PlannerResult
 
 @cache
 def create_planner_agent() -> Agent:
-    return Agent(name="PlanerAgent",
+    return Agent(name="PlannerAgent",
                 instructions=(""" You are a planner of a mathematical proof.
 
                                  Your task is to design a structured proof strategy for a given mathematical problem.

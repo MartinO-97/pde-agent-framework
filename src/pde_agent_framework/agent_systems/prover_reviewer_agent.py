@@ -25,6 +25,6 @@ def create_prover_reviewer_agent() -> Agent:
 
                                Output
                                ------
-                               Return only structured infomration using the ProverReviewerOuptut format.
+                               Return only structured information using the ProverReviewerOutput format.
                                """),
                 output_type=ProverReviewerOutput)

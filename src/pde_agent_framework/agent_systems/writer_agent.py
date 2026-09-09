@@ -30,6 +30,6 @@ def create_writer_agent() -> Agent:
                                Output
                                ------
                                - Output must be valid LaTeX and compilable.
-                               - Return only the compileable LaTeX document
+                               - Return only the compilable LaTeX document
                              """
                 )

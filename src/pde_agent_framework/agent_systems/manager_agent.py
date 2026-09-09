@@ -15,8 +15,8 @@ def create_manager_agent() -> Agent:
                                 You MUST execute the workflow in strict order:
                                 1. Call ProblemSpecificationAgent.
                                 2. WAIT for its output.
-                                3. Call PlanerAgent with that output.
-                                4. Return ONLY the PlanerAgent output.
+                                3. Call PlannerAgent with that output.
+                                4. Return ONLY the PlannerAgent output.
 
                                 Rules:
                                 It is not allowed to skip any step.
