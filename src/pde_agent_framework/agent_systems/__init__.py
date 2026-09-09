@@ -1,5 +1,4 @@
 from .problem_specification_agent import create_problem_specification_agent
-from .manager_agent import create_manager_agent
 from .planner_agent import create_planner_agent
 from .writer_agent import create_writer_agent
 from .prover_agent import create_prover_agent
