@@ -1,7 +1,6 @@
 from functools import cache
 
 from agents import Agent
-from ..tools import write_prover_reviewer_feedback
 from ..schemas import ProverReviewerOutput
 
 
@@ -22,12 +21,10 @@ def create_prover_reviewer_agent() -> Agent:
                               - You DO NOT modify the given task
                               - If you find errors or things that need to be improved, ALWAYS generate a description for the errors
                               - ONLY set proof_ok to "True" if you DID NOT find any errors
-                              - You ALWAYS update the given ProverReviewerOutput object by using the given tool
                               - You only return the updated ProverReviewerOutput object that was given to you
 
                                Output
                                ------
                                Return only structured infomration using the ProverReviewerOuptut format.
                                """),
-                #tools=[write_prover_reviewer_feedback],
                 output_type=ProverReviewerOutput)

@@ -1,14 +1,13 @@
 from functools import cache
 
 from agents import Agent
-from ..tools.agent_tools._write_planner_reviewer_feedback import write_planner_reviewer_feedback
 from ..schemas import PlannerReviewerOutput
 
 
 @cache
 def create_planner_reviewer_agent() -> Agent:
     return Agent(name="PlannerRevieweAgent",
-                instructions=(""" You review the generated plan of the PlannerAgent.
+                 instructions=(""" You review the generated plan of the PlannerAgent.
 
                               Your task is to critically review the plan of the planner agent to solve a given
                               task and make a report.
@@ -27,5 +26,4 @@ def create_planner_reviewer_agent() -> Agent:
                                ------
                                Return only structured infomration using the PlannerReviewerOuptut format.
                                """),
-                #tools=[write_planner_reviewer_feedback],
                 output_type=PlannerReviewerOutput)
