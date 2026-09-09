@@ -3,16 +3,12 @@ from agents import function_tool
 @function_tool
 def load_problem_file(file_path: str) -> str:
 
-    r""" Load the file containing the mathematical problem statement.
-    
-    Parameters
-    ----------
-    file_path : str
-        Path to the problem description file.
+    """Load the file containing the mathematical problem statement.
 
-    Returns
-    -------
-    problem_text : str
+    Args:
+        file_path: Path to the problem description file.
+
+    Returns:
         The raw text content of the problem statement.
     """
 

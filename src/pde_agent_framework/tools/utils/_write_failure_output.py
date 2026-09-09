@@ -1,12 +1,9 @@
 def write_failure_output(planning_or_proving: str) -> str:
 
-    r""" Function to create output for a failed planning or
-    proving process.
-    
-    Parameters
-    ----------
-    planning_or_proving: str
-        Did the workflow failed in the planning or proving stage.
+    """Create output for a failed planning or proving process.
+
+    Args:
+        planning_or_proving: Whether the workflow failed in the planning or proving stage.
     """
 
     error_message = \

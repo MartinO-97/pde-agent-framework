@@ -1,7 +1,5 @@
 from pydantic import BaseModel, Field
 
-r""" Class that defines the output scheme of the extractor agent """
-
 class ProblemSummary(BaseModel):
     task: str = Field(description="The mathematical problem to solve -> Only a short sentence describing the problem.")
     mathematical_objects: list[str] = Field(description=

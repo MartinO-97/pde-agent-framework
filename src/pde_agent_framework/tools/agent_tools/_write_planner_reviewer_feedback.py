@@ -8,29 +8,17 @@ def write_planner_reviewer_feedback(error_log: PlannerReviewerOutput,
                                     reviewed_plan: str,
                                     plan_ok: bool) -> PlannerReviewerOutput:
     
-    r""" Tool to safe planner_reviewer feedback.
+    """Save PlannerReviewer feedback.
 
-    Parameters
-    ----------
-    error_log: PlannerReviewerOutput
-        The current planner_reviewer output object 
-        
-    error_name: str
-        Name for detected error
-    
-    error_description: str
-        Description of detected error
+    Args:
+        error_log: The current planner_reviewer output object.
+        error_name: Name for the detected error.
+        error_description: Description of the detected error.
+        reviewed_plan: Plan reviewed by the planner_reviewer.
+        plan_ok: Was the reviewed plan ok? -> Yes == "True", No == "False".
 
-    reviewed_plan: str
-        Plan reviewed by the planner_reviewer
-
-    plan_ok: bool
-        Was the reviewed plan ok? -> Yes == "True", No== "False"
-
-    Returns
-    -------
-    :PlannerReviewerOutput
-        Updated planner_reviewer ouput object
+    Returns:
+        Updated planner_reviewer output object.
     """
     error_log.error_name += [error_name]
     error_log.error_description += [error_description]

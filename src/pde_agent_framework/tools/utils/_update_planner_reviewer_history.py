@@ -3,19 +3,13 @@ from ...schemas import PlannerReviewerOutput
 def update_planner_reviewer_history(reviewer_history: PlannerReviewerOutput,
                                     reviewer_feedback: PlannerReviewerOutput) -> PlannerReviewerOutput:
     
-    r""" Update the PlannerReviewer history by the newest feedback.
-    
-    Parameters
-    ----------
-    reviewer_history: PlannerReviewerOutput
-        The feedback history.
+    """Update the PlannerReviewer history by the newest feedback.
 
-    reviewer_feedback: PlannerReviewerOutput
-        The current feedback of the PlannerReviewer.
+    Args:
+        reviewer_history: The feedback history.
+        reviewer_feedback: The current feedback of the PlannerReviewer.
 
-    Returns
-    -------
-    reviewer_history: PlannerReviewerOutput
+    Returns:
         The updated PlannerReviewer feedback history.
     """
 

@@ -3,20 +3,14 @@ from ...schemas import ProverReviewerOutput
 def update_prover_reviewer_history(reviewer_history: ProverReviewerOutput,
                                    reviewer_feedback: ProverReviewerOutput) -> ProverReviewerOutput:
     
-    r""" Update the PlannerReviewer history by the newest feedback.
-    
-    Parameters
-    ----------
-    reviewer_history: PlannerReviewerOutput
-        The feedback history.
+    """Update the ProverReviewer history by the newest feedback.
 
-    reviewer_feedback: PlannerReviewerOutput
-        The current feedback of the PlannerReviewer.
+    Args:
+        reviewer_history: The feedback history.
+        reviewer_feedback: The current feedback of the ProverReviewer.
 
-    Returns
-    -------
-    reviewer_history: PlannerReviewerOutput
-        The updated PlannerReviewer feedback history.
+    Returns:
+        The updated ProverReviewer feedback history.
     """
 
     #reviewer_history.previous_proofs += reviewer_feedback.previous_proofs
