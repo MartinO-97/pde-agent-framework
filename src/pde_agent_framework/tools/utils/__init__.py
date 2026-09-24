@@ -1,3 +1,4 @@
+# Leading underscores mark internal modules: import the symbols from this package, not the files directly.
 from ._write_failure_output import write_failure_output
 from ._update_planner_reviewer_history import update_planner_reviewer_history
 from ._update_prover_reviewer_history import update_prover_reviewer_history

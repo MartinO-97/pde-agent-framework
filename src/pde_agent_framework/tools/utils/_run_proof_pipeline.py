@@ -7,7 +7,10 @@ from ...schemas import ExperimentConfig, ExperimentOverview, PlannerResult, Prob
 from ._agent_reviewer_loop import agent_reviewer_loop
 
 
-async def run_proof_pipeline(experiment_config: ExperimentConfig, experiment_overview: ExperimentOverview) -> None:
+async def run_proof_pipeline(
+        experiment_config: ExperimentConfig, 
+        experiment_overview: ExperimentOverview) -> None:
+    
     """Run the full Extract -> maybe Plan -> Prove -> Write workflow for one experiment.
 
     Requires experiment_overview.load_config(experiment_config) to have already
