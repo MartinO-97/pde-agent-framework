@@ -17,6 +17,7 @@ async def agent_reviewer_loop(main_agent: Agent,
                               experiment_config: ExperimentConfig,
                               experiment_overview: ExperimentOverview,
                               loop_name: Literal["planner", "prover"]) -> tuple[BaseModel, BaseModel]:
+
     """Run a main agent and a reviewer agent in a loop.
 
     Calls main_agent, then reviewer_agent on its result, and repeats until the
@@ -45,16 +46,15 @@ async def agent_reviewer_loop(main_agent: Agent,
             reviewer_agent's output does not match the expected type.
     """
 
+    history: PlannerReviewerOutput | ProverReviewerOutput
     if loop_name == "planner":
         history = PlannerReviewerOutput(error_description=[], plan_ok=False)
-        reviewer_output_type = PlannerReviewerOutput
         main_prompt = "Plan a proof: "
         reviewer_prompt = "Review the plan given in "
     elif loop_name == "prover":
         history = ProverReviewerOutput(error_description=[], proof_ok=False)
-        reviewer_output_type = ProverReviewerOutput
         main_prompt = "Generate a complete proof: "
-        reviewer_prompt = "Review "
+        reviewer_prompt = "Review the proof given in "
     else:
         raise ValueError(f"loop_name must be 'planner' or 'prover', got '{loop_name}'.")
 
@@ -63,25 +63,28 @@ async def agent_reviewer_loop(main_agent: Agent,
             else experiment_overview.prover_reviewer_iterations
 
     def is_ok() -> bool:
-        return history.plan_ok if loop_name == "planner" else history.proof_ok
+        return history.plan_ok if isinstance(history, PlannerReviewerOutput) else history.proof_ok
 
     main_result = None
 
     while not is_ok() and iterations_done() < experiment_config.max_reviewer_iterations:
 
-        feedback = None if iterations_done() == 0 else history
+        first_iteration = iterations_done() == 0
 
-        if loop_name == "planner":
-            main_input = PlannerInput(problem_summary=problem_summary, planner_reviewer_feedback=feedback)
+        if isinstance(history, PlannerReviewerOutput):
+            main_input = PlannerInput(problem_summary=problem_summary,
+                                      planner_reviewer_feedback=None if first_iteration else history)
         else:
-            main_input = ProverInput(plan=plan, prover_reviewer_feedback=feedback)
+            assert plan is not None
+            main_input = ProverInput(plan=plan,
+                                     prover_reviewer_feedback=None if first_iteration else history)
 
         main_run = await Runner.run(starting_agent=main_agent,
                                     input=f"{main_prompt}{main_input}",
                                     run_config=RunConfig(model=experiment_config.model_name))
         main_result = main_run.final_output
 
-        if loop_name == "planner":
+        if isinstance(history, PlannerReviewerOutput):
             reviewer_input = PlannerReviewerInput(plan=main_result, problem_summary=problem_summary)
         else:
             reviewer_input = ProverReviewerInput(proof=main_result, problem_summary=problem_summary)
@@ -91,12 +94,16 @@ async def agent_reviewer_loop(main_agent: Agent,
                                         run_config=RunConfig(model=experiment_config.model_name))
         reviewer_feedback = reviewer_run.final_output
 
-        if not isinstance(reviewer_feedback, reviewer_output_type):
-            raise ValueError(f"{reviewer_agent.name} output is not of type {reviewer_output_type.__name__}!")
-
-        history = update_planner_reviewer_history(history, reviewer_feedback) if loop_name == "planner" \
-            else update_prover_reviewer_history(history, reviewer_feedback)
+        if isinstance(history, PlannerReviewerOutput):
+            if not isinstance(reviewer_feedback, PlannerReviewerOutput):
+                raise ValueError(f"{reviewer_agent.name} output is not of type PlannerReviewerOutput!")
+            history = update_planner_reviewer_history(history, reviewer_feedback)
+        else:
+            if not isinstance(reviewer_feedback, ProverReviewerOutput):
+                raise ValueError(f"{reviewer_agent.name} output is not of type ProverReviewerOutput!")
+            history = update_prover_reviewer_history(history, reviewer_feedback)
 
         experiment_overview.update_reviewer_iterations(loop_name)
 
+    assert main_result is not None
     return main_result, history

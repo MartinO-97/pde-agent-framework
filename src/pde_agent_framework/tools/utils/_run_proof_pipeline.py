@@ -3,7 +3,7 @@ from agents import Runner, RunConfig
 from ...agent_systems import (create_planner_agent, create_planner_reviewer_agent,
                               create_problem_specification_agent, create_prover_agent,
                               create_prover_reviewer_agent, create_writer_agent)
-from ...schemas import ExperimentConfig, ExperimentOverview, PlannerResult, ProblemSummary, WriterInput
+from ...schemas import ExperimentConfig, ExperimentOverview, PlannerResult, ProblemSummary, ProverResult, WriterInput
 from ._agent_reviewer_loop import agent_reviewer_loop
 
 
@@ -60,6 +60,9 @@ async def run_proof_pipeline(experiment_config: ExperimentConfig, experiment_ove
                                                   experiment_config=experiment_config,
                                                   experiment_overview=experiment_overview,
                                                   loop_name="prover")
+
+    if not isinstance(result_prover, ProverResult):
+        raise ValueError("result_prover is not of type ProverResult")
     print(f"Finished proving process. Number of iterations: {experiment_overview.prover_reviewer_iterations}")
 
     print("Start writing process")
