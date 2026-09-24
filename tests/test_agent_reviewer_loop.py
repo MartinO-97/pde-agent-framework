@@ -1,3 +1,5 @@
+from typing import Literal, cast
+
 import pytest
 from agents import Agent
 
@@ -33,7 +35,7 @@ async def test_invalid_loop_name_raises_without_calling_agents(monkeypatch, prob
     with pytest.raises(ValueError):
         await agent_reviewer_loop(Agent(name="main"), Agent(name="reviewer"),
                                   problem_summary, None, make_experiment_config(),
-                                  experiment_overview, "not-a-loop")
+                                  experiment_overview, cast(Literal["planner", "prover"], "not-a-loop"))
 
 
 @pytest.mark.asyncio
@@ -111,6 +113,7 @@ async def test_loop_stops_at_max_iterations_if_never_approved(monkeypatch, probl
                                            experiment_overview, "planner")
 
     assert experiment_overview.planner_reviewer_iterations == 2
+    assert isinstance(history, PlannerReviewerOutput)
     assert history.plan_ok is False
 
 
@@ -145,5 +148,7 @@ async def test_prover_loop_only_updates_prover_counter(monkeypatch, problem_summ
 
     assert experiment_overview.prover_reviewer_iterations == 1
     assert experiment_overview.planner_reviewer_iterations == 0
+    assert isinstance(main_result, ProverResult)
     assert main_result.proof_name == "Theorem"
+    assert isinstance(history, ProverReviewerOutput)
     assert history.proof_ok is True
