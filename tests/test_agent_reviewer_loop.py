@@ -43,7 +43,7 @@ async def test_planner_first_iteration_has_no_feedback(monkeypatch, problem_summ
     spy_constructor(monkeypatch, "PlannerInput", captured, "planner_reviewer_feedback")
 
     fake = fake_runner([
-        PlannerResult(plan="step 1", task="t"),
+        PlannerResult(plan="step 1"),
         PlannerReviewerOutput(error_description=[], plan_ok=True),
     ])
     monkeypatch.setattr(mod.Runner, "run", fake.run)
@@ -63,9 +63,9 @@ async def test_planner_second_iteration_receives_previous_feedback(monkeypatch, 
     spy_constructor(monkeypatch, "PlannerInput", captured, "planner_reviewer_feedback")
 
     fake = fake_runner([
-        PlannerResult(plan="step 1", task="t"),
+        PlannerResult(plan="step 1"),
         PlannerReviewerOutput(error_description=["missing step"], plan_ok=False),
-        PlannerResult(plan="step 1, step 2", task="t"),
+        PlannerResult(plan="step 1, step 2"),
         PlannerReviewerOutput(error_description=[], plan_ok=True),
     ])
     monkeypatch.setattr(mod.Runner, "run", fake.run)
@@ -83,7 +83,7 @@ async def test_planner_second_iteration_receives_previous_feedback(monkeypatch, 
 async def test_loop_stops_as_soon_as_reviewer_approves(monkeypatch, problem_summary,
                                                         experiment_overview, make_experiment_config, fake_runner):
     fake = fake_runner([
-        PlannerResult(plan="step 1", task="t"),
+        PlannerResult(plan="step 1"),
         PlannerReviewerOutput(error_description=[], plan_ok=True),
     ])
     monkeypatch.setattr(mod.Runner, "run", fake.run)
@@ -101,8 +101,8 @@ async def test_loop_stops_at_max_iterations_if_never_approved(monkeypatch, probl
                                                                experiment_overview, make_experiment_config,
                                                                fake_runner):
     fake = fake_runner([
-        PlannerResult(plan="p", task="t"), PlannerReviewerOutput(error_description=["e"], plan_ok=False),
-        PlannerResult(plan="p", task="t"), PlannerReviewerOutput(error_description=["e"], plan_ok=False),
+        PlannerResult(plan="p"), PlannerReviewerOutput(error_description=["e"], plan_ok=False),
+        PlannerResult(plan="p"), PlannerReviewerOutput(error_description=["e"], plan_ok=False),
     ])
     monkeypatch.setattr(mod.Runner, "run", fake.run)
 
@@ -118,7 +118,7 @@ async def test_loop_stops_at_max_iterations_if_never_approved(monkeypatch, probl
 async def test_reviewer_output_type_mismatch_raises(monkeypatch, problem_summary,
                                                      experiment_overview, make_experiment_config, fake_runner):
     fake = fake_runner([
-        PlannerResult(plan="p", task="t"),
+        PlannerResult(plan="p"),
         ProverReviewerOutput(error_description=[], proof_ok=True),  # wrong type for a planner loop
     ])
     monkeypatch.setattr(mod.Runner, "run", fake.run)
@@ -138,7 +138,7 @@ async def test_prover_loop_only_updates_prover_counter(monkeypatch, problem_summ
     ])
     monkeypatch.setattr(mod.Runner, "run", fake.run)
 
-    plan = PlannerResult(plan="step 1", task="t")
+    plan = PlannerResult(plan="step 1")
     main_result, history = await agent_reviewer_loop(Agent(name="prover"), Agent(name="reviewer"),
                                                       problem_summary, plan, make_experiment_config(),
                                                       experiment_overview, "prover")

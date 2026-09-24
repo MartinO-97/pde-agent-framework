@@ -77,6 +77,7 @@ async def agent_reviewer_loop(main_agent: Agent,
         else:
             assert plan is not None
             main_input = ProverInput(plan=plan,
+                                     problem_summary=problem_summary,
                                      prover_reviewer_feedback=None if first_iteration else history)
 
         main_run = await Runner.run(starting_agent=main_agent,

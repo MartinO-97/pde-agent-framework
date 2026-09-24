@@ -53,7 +53,7 @@ async def run_proof_pipeline(
             raise ValueError("result_planner is not of type PlannerResult")
         print(f"Finished planning process. Number of iterations: {experiment_overview.planner_reviewer_iterations}")
     else:
-        result_planner = PlannerResult(plan="", task=problem_summary.task)
+        result_planner = PlannerResult(plan="")
 
     print("Start proving process")
     result_prover, _ = await agent_reviewer_loop(main_agent=create_prover_agent(),

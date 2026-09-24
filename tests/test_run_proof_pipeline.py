@@ -54,7 +54,7 @@ async def test_planner_skipped_when_use_planner_agent_false(monkeypatch, problem
 
     assert len(calls) == 1
     assert calls[0]["loop_name"] == "prover"
-    assert calls[0]["plan"] == PlannerResult(plan="", task=problem_summary.task)
+    assert calls[0]["plan"] == PlannerResult(plan="")
 
 
 @pytest.mark.asyncio
@@ -66,7 +66,7 @@ async def test_planner_then_prover_when_use_planner_agent_true(monkeypatch, prob
     fake = fake_runner([problem_summary, "latex proof"])
     monkeypatch.setattr(mod.Runner, "run", fake.run)
 
-    planner_result = PlannerResult(plan="step 1", task=problem_summary.task)
+    planner_result = PlannerResult(plan="step 1")
     prover_result = ProverResult(proof="...", proof_name="Theorem")
     calls = []
 

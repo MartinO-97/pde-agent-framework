@@ -34,7 +34,7 @@ def create_planner_agent() -> Agent:
 
                                  Output:
                                  -------
-                                 Provide a numbered sequence of proof steps and the task from the input.
+                                 Provide a numbered sequence of proof steps.
 
                                  Return only the structured information using the PlannerResult format.
                              """),
