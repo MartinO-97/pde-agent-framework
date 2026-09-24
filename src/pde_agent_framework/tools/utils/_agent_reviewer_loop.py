@@ -1,6 +1,6 @@
 from typing import Literal
 
-from agents import Agent, Runner, RunConfig
+from agents import Agent, Runner, RunConfig, RunResult
 from pydantic import BaseModel
 
 from ...schemas import (ExperimentConfig, ExperimentOverview, PlannerInput, PlannerResult, PlannerReviewerInput,
@@ -35,7 +35,8 @@ async def agent_reviewer_loop(main_agent: Agent,
         experiment_config: Configuration of the experiment; provides the model name and
             the maximum number of reviewer iterations.
         experiment_overview: Overview of the experiment; its iteration counter for
-            loop_name is incremented after every iteration.
+            loop_name is incremented, and its token counters are increased, after every
+            main_agent and reviewer_agent run.
         loop_name: Whether this is the "planner" or "prover" loop.
 
     Returns:
@@ -65,6 +66,10 @@ async def agent_reviewer_loop(main_agent: Agent,
     def is_ok() -> bool:
         return history.plan_ok if isinstance(history, PlannerReviewerOutput) else history.proof_ok
 
+    def track_usage(run: RunResult) -> None:
+        experiment_overview.update_token_usage(run.context_wrapper.usage.input_tokens,
+                                               run.context_wrapper.usage.output_tokens)
+
     main_result = None
 
     while not is_ok() and iterations_done() < experiment_config.max_reviewer_iterations:
@@ -83,6 +88,7 @@ async def agent_reviewer_loop(main_agent: Agent,
         main_run = await Runner.run(starting_agent=main_agent,
                                     input=f"{main_prompt}{main_input}",
                                     run_config=RunConfig(model=experiment_config.model_name))
+        track_usage(main_run)
         main_result = main_run.final_output
 
         if isinstance(history, PlannerReviewerOutput):
@@ -93,6 +99,7 @@ async def agent_reviewer_loop(main_agent: Agent,
         reviewer_run = await Runner.run(starting_agent=reviewer_agent,
                                         input=f"{reviewer_prompt}{reviewer_input}",
                                         run_config=RunConfig(model=experiment_config.model_name))
+        track_usage(reviewer_run)
         reviewer_feedback = reviewer_run.final_output
 
         if isinstance(history, PlannerReviewerOutput):

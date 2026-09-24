@@ -19,7 +19,10 @@ class FakeRunner:
         if not self._outputs:
             raise AssertionError("FakeRunner ran out of scripted outputs.")
         final_output = self._outputs.pop(0)
-        return type("FakeRunResult", (), {"final_output": final_output})()
+        usage = type("FakeUsage", (), {"input_tokens": 10, "output_tokens": 5})()
+        context_wrapper = type("FakeContextWrapper", (), {"usage": usage})()
+        return type("FakeRunResult", (), {"final_output": final_output,
+                                          "context_wrapper": context_wrapper})()
 
 
 @pytest.fixture

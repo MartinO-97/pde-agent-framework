@@ -18,8 +18,8 @@ async def run_proof_pipeline(
 
     Args:
         experiment_config: Configuration of the experiment to run.
-        experiment_overview: Overview instance that is populated with the results of
-            the experiment as it progresses and finally written to disk.
+        experiment_overview: Overview instance that is populated with the results and
+            token usage of the experiment as it progresses and finally written to disk.
 
     Raises:
         ValueError: If experiment_overview.load_config(experiment_config) was not
@@ -33,6 +33,8 @@ async def run_proof_pipeline(
     result_extractor = await Runner.run(starting_agent=create_problem_specification_agent(),
                                         input=f"Analyze the problem file: {experiment_config.problem_path}.",
                                         run_config=RunConfig(model=experiment_config.model_name))
+    experiment_overview.update_token_usage(result_extractor.context_wrapper.usage.input_tokens,
+                                           result_extractor.context_wrapper.usage.output_tokens)
     problem_summary = result_extractor.final_output
 
     if not isinstance(problem_summary, ProblemSummary):
@@ -72,6 +74,8 @@ async def run_proof_pipeline(
     writer_input = WriterInput(proof=result_prover)
     latex_proof = await Runner.run(starting_agent=create_writer_agent(),
                                    input=f"Rewrite the following proof in Latex: {writer_input}")
+    experiment_overview.update_token_usage(latex_proof.context_wrapper.usage.input_tokens,
+                                           latex_proof.context_wrapper.usage.output_tokens)
 
     experiment_overview.store_proof(latex_proof.final_output)
     experiment_overview.write_proof(experiment_config.output_path)
