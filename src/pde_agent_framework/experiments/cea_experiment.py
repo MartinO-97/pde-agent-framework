@@ -32,7 +32,11 @@ async def main(user_input: str,
 
 async def run_both_configurations(user_input: str, output_directory: str) -> None:
     """Run the experiment once with the planner-reviewer structure and once without it."""
+    print("Run with Planer Agent")
     await main(user_input, output_directory, use_planner_agent=True)
+
+    print("")
+    print("Without Planner Agent")
     await main(user_input, output_directory, use_planner_agent=False)
 
 

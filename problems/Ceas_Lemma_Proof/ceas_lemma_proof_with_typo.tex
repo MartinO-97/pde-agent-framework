@@ -24,13 +24,12 @@
 % --- ASSUMPTIONS ---
 %
 \begin{itemize}
-    \item The bilinear form \(a\left\|\cdot, \cdot\right\|\) is bounded and coercive, i.e., there are constants \(C, c > 0\) such that 
+    \item The bilinear form \(a\left\|\cdot, \cdot\right\|\) is bounded and coercive, i.e., there are constants \(C, c > 0\) such that for all \(u, v \in H^1_0(\Omega)\)
     %
-    \begin{align*}
-        \left|a\left(u, v\right)\right| \leq C \left\| u \right\|_{1,\Omega} \left\| v \right\|_{1,\Omega}, \quad \text{for all } u, v \in H^1_0(\Omega),
-        \intertext{and}  
-        a\left(u, u\right) \geq c \left\| u \right\|_{1,\Omega}^2, \quad \text{for all } u \in H^1_0(\Omega).
-    \end{align*}
+    \begin{gather*}
+        \left|a\left(u, v\right)\right| \leq C \left\| u \right\|_{1,\Omega} \left\| v \right\|_{1,\Omega} \quad \text{and} \quad 
+            a\left(u, v\right) \geq c \left\| u \right\|_{1,\Omega}^2.
+    \end{gather*}
 \end{itemize}
 %
 

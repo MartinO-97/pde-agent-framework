@@ -1,0 +1,20 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsthm}
+
+\begin{document}
+
+The stated coercivity assumption cannot hold on a nonempty domain. Indeed, setting \(v=0\) gives \(0=a(u,0)\geq c\|u\|_{1,\Omega}^{2}\) for every \(u\in H^1_0(\Omega)\). Since \(c>0\), this would make \(H^1_0(\Omega)=\{0\}\). But a nonempty domain contains a nonzero function in \(C^\infty_0(\Omega)\subset H^1_0(\Omega)\). Thus the assumptions as written are inconsistent, and the asserted result has no nonvacuous proof under them.
+
+With the intended, diagonal coercivity assumption \(a(u,u)\geq c\|u\|_{1,\Omega}^{2}\) for every \(u\in H^1_0(\Omega)\), the proof is as follows. The space \(H^1_0(\Omega)\) is a Hilbert space, \(a\) is bounded and coercive on it, and \(F\in H^{-1}(\Omega)\) is continuous. The Lax--Milgram Lemma therefore gives a unique \(y\in H^1_0(\Omega)\) satisfying \(a(y,v)=F(v)\) for all \(v\in H^1_0(\Omega)\). The finite-dimensional space \(V_h^0\), equipped with the inherited norm, is also a Hilbert space. The restrictions of \(a\) and \(F\) to this space satisfy the same boundedness and coercivity conditions, so the Lax--Milgram Lemma gives a unique \(y_h\in V_h^0\) satisfying \(a(y_h,v_h)=F(v_h)\) for all \(v_h\in V_h^0\).
+
+Set \(e=y-y_h\). Subtracting the variational equations yields Galerkin orthogonality: \(a(e,w_h)=0\) for every \(w_h\in V_h^0\). For any \(v_h\in V_h^0\), we have \(v_h-y_h\in V_h^0\), and hence \(a(e,e)=a(e,y-v_h)\). Coercivity and boundedness now give
+\[
+c\|e\|_{1,\Omega}^{2}\leq a(e,e)\leq C\|e\|_{1,\Omega}\|y-v_h\|_{1,\Omega}.
+\]
+If \(e\neq0\), cancellation followed by taking the infimum over \(v_h\in V_h^0\) proves
+\[
+\|y-y_h\|_{1,\Omega}\leq (C/c)\inf_{v_h\in V_h^0}\|y-v_h\|_{1,\Omega}.
+\]
+If \(e=0\), the estimate is immediate.
+
+\end{document}
