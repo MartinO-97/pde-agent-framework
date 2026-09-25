@@ -8,7 +8,8 @@ from ..tools import run_proof_pipeline
 
 
 async def main(user_input: str,
-               output_directory: str) -> None:
+               output_directory: str,
+               use_planner_agent: bool) -> None:
 
     load_dotenv()
 
@@ -19,7 +20,7 @@ async def main(user_input: str,
 
     experiment_config = ExperimentConfig(max_reviewer_iterations=5,
                                          model_name=model_name,
-                                         use_planner_agent=True,
+                                         use_planner_agent=use_planner_agent,
                                          problem_path=user_input,
                                          output_path=output_directory)
 
@@ -29,7 +30,13 @@ async def main(user_input: str,
     await run_proof_pipeline(experiment_config, experiment_overview)
 
 
+async def run_both_configurations(user_input: str, output_directory: str) -> None:
+    """Run the experiment once with the planner-reviewer structure and once without it."""
+    await main(user_input, output_directory, use_planner_agent=True)
+    await main(user_input, output_directory, use_planner_agent=False)
+
+
 if __name__ == "__main__":
 
-    asyncio.run(main("./problems/Parabolic_Estimator/parabolic_estimator.tex",
-                     "./results/Parabolic_Estimator/"))
+    asyncio.run(run_both_configurations("./problems/Parabolic_Estimator/parabolic_estimator.tex",
+                                        "./results/Parabolic_Estimator/"))
