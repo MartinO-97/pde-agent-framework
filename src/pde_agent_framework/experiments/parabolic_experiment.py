@@ -10,6 +10,16 @@ from ..tools import run_proof_pipeline
 async def main(user_input: str,
                output_directory: str,
                use_planner_agent: bool) -> None:
+    """Run a single Extract -> maybe Plan -> Prove -> Write experiment.
+
+    Args:
+        user_input: Path to the .tex file containing the problem description.
+        output_directory: Path to the directory where the final proof shall be written.
+        use_planner_agent: Whether the PlannerAgent-PlannerReviewerAgent loop shall be employed.
+
+    Raises:
+        ValueError: If the MODEL_NAME environment variable is not defined.
+    """
 
     load_dotenv()
 
@@ -31,7 +41,12 @@ async def main(user_input: str,
 
 
 async def run_both_configurations(user_input: str, output_directory: str) -> None:
-    """Run the experiment once with the planner-reviewer structure and once without it."""
+    """Run the experiment once with the planner-reviewer structure and once without it.
+
+    Args:
+        user_input: Path to the .tex file containing the problem description.
+        output_directory: Path to the directory where the final proofs shall be written.
+    """
     print("Run with Planner Agent")
     await main(user_input, output_directory, use_planner_agent=True)
     
