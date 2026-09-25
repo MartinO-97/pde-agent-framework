@@ -1,0 +1,18 @@
+%```latex
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsthm}
+
+\begin{document}
+
+The space \(H^1_0(\Omega)\), equipped with the norm \(\|\cdot\|_{1,\Omega}\), is a Hilbert space. Since \(F\in H^{-1}(\Omega)\), it is a bounded linear functional on this space. The assumed boundedness and coercivity of \(a\) therefore allow the Lax--Milgram lemma to be applied, giving a unique \(y\in H^1_0(\Omega)\) such that \(a(y,v)=F(v)\) for every \(v\in H^1_0(\Omega)\).
+
+The finite-dimensional subspace \(V_h^0\) is closed in \(H^1_0(\Omega)\) and hence is itself a Hilbert space with the inherited norm. The restrictions of \(a\) and \(F\) to \(V_h^0\) retain the same boundedness and coercivity properties. A second application of the Lax--Milgram lemma gives a unique \(y_h\in V_h^0\) satisfying the discrete problem.
+
+Subtracting the two variational equations on \(V_h^0\) gives the Galerkin orthogonality relation \(a(y-y_h,w_h)=0\) for every \(w_h\in V_h^0\). Let \(e=y-y_h\) and take any \(v_h\in V_h^0\). Because \(v_h-y_h\in V_h^0\), bilinearity and Galerkin orthogonality imply \(a(e,e)=a(e,y-v_h)\). Coercivity and boundedness thus yield
+\[
+c\|e\|_{1,\Omega}^{2}\leq a(e,e)=a(e,y-v_h)\leq C\|e\|_{1,\Omega}\|y-v_h\|_{1,\Omega}.
+\]
+If \(e=0\), the desired estimate is immediate; otherwise, division by \(c\|e\|_{1,\Omega}\) gives \(\|y-y_h\|_{1,\Omega}\leq (C/c)\|y-v_h\|_{1,\Omega}\). Taking the infimum over \(v_h\in V_h^0\) proves Céa's estimate.
+
+\end{document}
+%```
