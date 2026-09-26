@@ -1,0 +1,32 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsthm}
+
+\begin{document}
+
+Let \(\,u_h=\widetilde{u_h}\,\) be the continuous piecewise-linear interpolant of the nodal approximations, and set \(R=\widetilde R\), \(\rho^j=R^j-u_h^j\), and \(g^j=f^j+\psi_h^j\). Thus \(u_h(T)=u_h^M\) and \(R(T)=R^M\). Write \(\phi_{0,\Gamma}(r)=\kappa_0e^{-\gamma r}\).
+
+The definition of \(\psi_h^j\) and the backward Euler equation imply, for every \(j\geq1\), that \((\psi_h^j,v_h)_h=-(\delta_tu_h^j,v_h)_h\) for all \(v_h\in V_h^0\). Hence \(\psi_h^j=-\delta_tu_h^j\). Fix \(s\in I_j\). By linearity and time independence of \(\mathcal M\), the reconstruction equations give \(\mathcal M R(s)=g^j+(s-t_j)\delta_tg^j\), while \(\partial_tR(s)=\delta_tu_h^j+\delta_t\rho^j\). Consequently, for \(e=u-R\), the parabolic equation yields, in the weak sense,
+\[
+\mathcal K e(s)=f(s)-f^j+(t_j-s)\delta_tg^j-\delta_t\rho^j,\qquad s\in I_j.
+\]
+Also \(e(0)=u_0-R^0\). Applying the stated Green's-function representation to this error gives, for \(x\in\Omega\),
+\[
+e(x,T)=(\Gamma(T),u_0-R^0)+\sum_{j=1}^M\int_{I_j}\bigl(\Gamma(T-s),f(s)-f^j+(t_j-s)\delta_tg^j-\delta_t\rho^j\bigr)\,ds.
+\]
+The representation remains valid for the weak solution here by the usual approximation in its weak equation: apply the representation to regularized data and pass to the limit. When the spatial maximum norms appearing below are integrable, the passage in the residual integrals is justified by the \(L^1\) Green's-function bound; otherwise the asserted upper bound is understood in the extended sense.
+
+The elliptic reconstruction estimates and the triangle inequality give
+\(\|u_0-R^0\|_{\infty,\Omega}\leq\|u_0-u_h^0\|_{\infty,\Omega}+\eta_{\mathrm{ell}}^0\), \(\|\delta_t\rho^j\|_{\infty,\Omega}\leq\eta_{\mathrm{ell},\delta_t}^j\), and \(\|R^M-u_h^M\|_{\infty,\Omega}\leq\eta_{\mathrm{ell}}^M\). Taking the spatial supremum in the representation, using \(\|\Gamma(r)\|_{1,\Omega}\leq\phi_{0,\Gamma}(r)\), and finally using \(u(T)-u_h(T)=e(T)+R^M-u_h^M\), proves
+\[
+\boxed{\begin{aligned}
+\|u(T)-u_h(T)\|_{\infty,\Omega}\leq{}&\eta_{\mathrm{ell}}^M
++\phi_{0,\Gamma}(T)\bigl(\|u_0-u_h^0\|_{\infty,\Omega}+\eta_{\mathrm{ell}}^0\bigr)\\
+&+\sum_{j=1}^M\int_{t_{j-1}}^{t_j}\phi_{0,\Gamma}(T-s)
+\Bigl[\|f(s)-f^j\|_{\infty,\Omega}
++(t_j-s)\|\delta_t(f^j+\psi_h^j)\|_{\infty,\Omega}
++\eta_{\mathrm{ell},\delta_t}^j\Bigr] \,ds.
+\end{aligned}}
+\]
+Finiteness of the displayed source indicators requires the corresponding spatial maximum norms to be integrable in time. In general dimensions, \(f\in L^2(0,T;H_0^1(\Omega))\) alone does not guarantee that property; without additional source control, the bound is still valid but may be infinite.
+
+\end{document}

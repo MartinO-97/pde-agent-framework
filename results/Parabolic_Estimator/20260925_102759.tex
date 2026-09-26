@@ -1,0 +1,52 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsthm}
+
+\begin{document}
+
+Let \(u_h=\widetilde u_h\) be the piecewise affine extension of the discrete solution, and set \(R=\widetilde R\), \(\rho=R-u_h\), and \(e=u-R\). For \(t\in I_j\), time independence of \(\mathcal M\) and the definition of the elliptic reconstructions give \(\partial_tR=\delta_tR^j\) and \(\mathcal MR=\widetilde f+\widetilde\psi_h\). The backward Euler equation implies \(\psi_h^j=-\delta_tu_h^j\) for \(j\geq1\). Consequently, on \(I_j\),
+\[
+\begin{aligned}
+\mathcal K e
+&=f-\widetilde f-\widetilde\psi_h-\delta_tR^j\\
+&=f-\widetilde f-\delta_t\rho^j+(t_j-t)\delta_t\psi_h^j.
+\end{aligned}
+\]
+In particular, the right-hand side separates into a data-approximation term, an elliptic-reconstruction term, and a computable time-discretization term.
+
+Write \(\phi_{0,\Gamma}(r)=\kappa_0e^{-\gamma r}\), and define the non-negative weights
+\[
+A_j=\int_{I_j}\phi_{0,\Gamma}(T-s)\,ds,
+\qquad
+B_j=\int_{I_j}(t_j-s)\phi_{0,\Gamma}(T-s)\,ds.
+\]
+Applying the Green representation to \(e\) at \(T\), and using the uniform-in-\(x\) bound on \(\|\Gamma_x(r)\|_{1,\Omega}\), yields
+\[
+\begin{aligned}
+\|e(T)\|_{\infty,\Omega}
+\leq{}&\phi_{0,\Gamma}(T)\|e(0)\|_{\infty,\Omega}
++\sum_{j=1}^M\int_{I_j}\phi_{0,\Gamma}(T-s)
+       \|f(s)-\widetilde f(s)\|_{\infty,\Omega}\,ds\\
+&+\sum_{j=1}^M A_j\|\delta_t\rho^j\|_{\infty,\Omega}
+ +\sum_{j=1}^M B_j\|\delta_t\psi_h^j\|_{\infty,\Omega}.
+\end{aligned}
+\]
+Here the Green representation may equivalently be applied first to regularized data and then passed to the weak solution; the displayed estimate controls the Green integrals whenever its right-hand side is finite. If a maximum-norm data-oscillation term is infinite, the resulting inequality remains valid in the extended sense.
+
+At the initial time, \(\|e(0)\|_{\infty,\Omega}\leq\|u_0-u_h^0\|_{\infty,\Omega}+\eta_{\mathrm{ell}}^0\). The assumed reconstruction bounds give \(\|\delta_t\rho^j\|_{\infty,\Omega}\leq\eta_{\mathrm{ell},\delta_t}^j\) and \(\|\rho(T)\|_{\infty,\Omega}\leq\eta_{\mathrm{ell}}^M\). Since \(u(T)-u_h(T)=e(T)+\rho(T)\), we obtain the maximum-norm a posteriori upper bound
+\[
+\boxed{\begin{aligned}
+\|u(T)-u_h(T)\|_{\infty,\Omega}\leq{}&
+\eta_{\mathrm{ell}}^M
++\phi_{0,\Gamma}(T)
+ \bigl(\|u_0-u_h^0\|_{\infty,\Omega}+\eta_{\mathrm{ell}}^0\bigr)\\
+&+\sum_{j=1}^M\left[
+ A_j\eta_{\mathrm{ell},\delta_t}^j
+ +B_j\|\delta_t\psi_h^j\|_{\infty,\Omega}
+ +\int_{I_j}\phi_{0,\Gamma}(T-s)
+       \|f(s)-\widetilde f(s)\|_{\infty,\Omega}\,ds
+ \right].
+\end{aligned}}
+\]
+All reconstruction estimators and time-discretization terms on the right depend on the discrete solution and prescribed data; the remaining integral measures approximation of the prescribed forcing.
+
+\end{document}

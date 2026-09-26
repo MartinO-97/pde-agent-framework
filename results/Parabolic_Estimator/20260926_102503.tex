@@ -1,0 +1,30 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{fullpage}
+
+\begin{document}
+
+Let \(u_h\) be the continuous, piecewise-linear interpolant of the values \(u_h^j\), and let \(\widetilde R\) be the corresponding interpolant of the elliptic reconstructions \(R^j\). Write \(\rho^j=R^j-u_h^j\), \(g^j=f^j+\psi_h^j\), and \(e=u-\widetilde R\). Since \(\widetilde R(T)=R^M\), the final-time error satisfies \(\|u(T)-u_h(T)\|_{\infty,\Omega}\leq\|e(T)\|_{\infty,\Omega}+\eta_{\mathrm{ell}}^M\).
+
+We first identify the equation satisfied by \(e\). The backward-Euler equation and the definition of \(\psi_h^j\) give \(\psi_h^j=-\delta_tu_h^j\) for \(j\geq1\). On \(I_j\), the reconstruction equation and the time independence of \(\mathcal M\) consequently give, in \(V^*\), \(\mathcal M\widetilde R(t)=g^j+(t-t_j)\delta_tg^j\) and \(\partial_t\widetilde R=\delta_tu_h^j+\delta_t\rho^j\). As \(g^j=f^j-\delta_tu_h^j\), subtraction from \(\mathcal Ku=f\) yields
+\[
+\mathcal Ke(t)=f(t)-f^j+(t_j-t)\delta_tg^j-\delta_t\rho^j,\qquad t\in I_j.\tag{1}
+\]
+Also \(e(0)=u_0-u_h^0-\rho^0\).
+
+The Green representation can be used for this weak error even though the stated representation lemma has a stronger time-regularity hypothesis. Here is the required limiting justification. Approximate the initial value in \(H\) and the right-hand side of (1) in \(L^2(0,T;V^*)\) by data for which the associated variational solutions have the regularity required by that lemma. The coercivity estimate for the difference of two variational solutions gives convergence in \(C([0,T];H)\cap L^2(0,T;V)\). When the initial value is bounded and the right-hand side has an integrable spatial maximum norm, the approximations may also be obtained by bounded spatial smoothing and time smoothing: their initial maximum norms have limit superior no greater than the original maximum norm, and their Green-weighted time integrals of maximum norms converge to the corresponding integrals for the original right-hand side. Applying the lemma to these approximating solutions and using \(\|\Gamma(s)\|_{1,\Omega}\leq\phi_{0,\Gamma}(s)\) gives a uniform bound at \(T\). Convergence in \(H\) at \(T\), followed by passage to an almost-everywhere convergent subsequence, transfers that bound to the weak solution. Thus, whenever its right-hand side has the indicated finite weighted maximum norm, the consequence of the representation lemma needed here is
+\[
+\|e(T)\|_{\infty,\Omega}\leq\phi_{0,\Gamma}(T)\|e(0)\|_{\infty,\Omega}+\int_0^T\phi_{0,\Gamma}(T-t)\|\mathcal Ke(t)\|_{\infty,\Omega}\,dt.\tag{2}
+\]
+If a weighted maximum norm on the right is infinite, the ensuing bound remains valid as an extended-real inequality.
+
+The stated reconstruction estimates imply \(\|e(0)\|_{\infty,\Omega}\leq\|u_0-u_h^0\|_{\infty,\Omega}+\eta_{\mathrm{ell}}^0\) and \(\|\delta_t\rho^j\|_{\infty,\Omega}\leq\eta_{\mathrm{ell},\delta_t}^j\). Applying these inequalities and (1) in (2), and then adding the final reconstruction error, proves the a posteriori bound
+\[
+\boxed{\begin{aligned}
+\|u(T)-u_h(T)\|_{\infty,\Omega}\leq{}&\eta_{\mathrm{ell}}^M+\phi_{0,\Gamma}(T)\bigl(\|u_0-u_h^0\|_{\infty,\Omega}+\eta_{\mathrm{ell}}^0\bigr)\\
+&+\sum_{j=1}^M\int_{t_{j-1}}^{t_j}\phi_{0,\Gamma}(T-t)\Bigl(\|f(t)-f^j\|_{\infty,\Omega}+(t_j-t)\|\delta_t(f^j+\psi_h^j)\|_{\infty,\Omega}+\eta_{\mathrm{ell},\delta_t}^j\Bigr)\,dt,
+\end{aligned}}
+\]
+where \(\phi_{0,\Gamma}(s)=\kappa_0e^{-\gamma s}\). In arbitrary spatial dimension, the assumed \(H^1\) regularity of \(f\) alone does not ensure that the displayed spatial maximum norms are finite. A finite estimator of this particular form therefore requires additional data regularity or a separately justified bound for the corresponding Green-weighted residual contributions.
+
+\end{document}

@@ -1,0 +1,9 @@
+{
+    "planner_reviewer_iterations": 0,
+    "prover_reviewer_iterations": 5,
+    "max_reviewer_iterations": 5,
+    "model_name": "gpt-5.4-nano-2026-03-17",
+    "use_planner_agent": false,
+    "total_input_tokens": 58788,
+    "total_output_tokens": 22120
+}

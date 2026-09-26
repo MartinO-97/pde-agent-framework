@@ -1,0 +1,55 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsthm}
+
+\begin{document}
+
+Write \(g^j=f^j+\psi_h^j\), \(\theta^j=R^j-u_h^j\), and let tildes denote the continuous, piecewise affine interpolants of nodal quantities. Define the computable weights
+\[
+D_j=\int_{I_j}\phi_{0,\Gamma}(T-s)\,ds,\qquad
+B_j=\int_{I_j}(t_j-s)\phi_{0,\Gamma}(T-s)\,ds.
+\]
+Then the following is a maximum-norm a posteriori bound (with an infinite right-hand side interpreted as a vacuous bound):
+\[
+\begin{aligned}
+\|u(T)-u_h(T)\|_{\infty,\Omega}\leq{}&\eta_{\mathrm{ell}}^M
+ +\phi_{0,\Gamma}(T)\bigl(\|u_0-u_h^0\|_{\infty,\Omega}+\eta_{\mathrm{ell}}^0\bigr)\\
+&+\sum_{j=1}^M\left[\int_{I_j}\phi_{0,\Gamma}(T-s)
+             \|f(s)-f^j\|_{\infty,\Omega}\,ds
+       +D_j\eta_{\mathrm{ell},\delta_t}^j
+       +B_j\|\delta_t g^j\|_{\infty,\Omega}\right].
+\end{aligned}
+\]
+All its terms are determined by the data, the discrete solution, and the stipulated elliptic estimators.
+
+To prove the bound, set \(\rho=u-\widetilde R\) and \(\theta=\widetilde R-\widetilde u_h\). The reconstruction equation gives \(\mathcal M R^j=g^j\) in \(V^*\). Because \(\mathcal M\) is time-independent, on \(I_j\) it follows that \(\mathcal M\widetilde R=\widetilde g\) and \(\partial_t\widetilde R=\delta_tR^j\). The discrete equation and the definition of \(\psi_h^j\) give, for \(j\geq1\), \(\psi_h^j=-\delta_tu_h^j\). Consequently, for almost every \(s\in I_j\),
+\[
+\begin{aligned}
+\mathcal K\rho(s)
+ &=f(s)-\delta_tR^j-\widetilde g(s)\\
+ &=f(s)-f^j-\delta_t\theta^j
+       +(t_j-s)\delta_t g^j.
+\end{aligned}
+\]
+In the last equality we used \(\delta_tR^j=\delta_tu_h^j+\delta_t\theta^j\) and \(\widetilde g(s)=g^j-(t_j-s)\delta_tg^j\). The two stipulated reconstruction estimates therefore imply
+\[
+\|\mathcal K\rho(s)\|_{\infty,\Omega}
+ \leq \|f(s)-f^j\|_{\infty,\Omega}
+       +\eta_{\mathrm{ell},\delta_t}^j
+       +(t_j-s)\|\delta_tg^j\|_{\infty,\Omega}.
+\]
+Also \(\rho(0)=u_0-R^0\), so
+\[
+\|\rho(0)\|_{\infty,\Omega}\leq
+\|u_0-u_h^0\|_{\infty,\Omega}+\eta_{\mathrm{ell}}^0.
+\]
+
+For completeness, the Green representation needed here applies to \(\rho\) in its weak sense; it does not require asserting that the exact solution belongs to \(W^{1,2}(0,T;V)\). Indeed, \(\rho\) has the energy-space regularity supplied by the weak problem, and the displayed identity specifies its forcing \(\mathcal K\rho\). Testing its weak equation up to time \(T-\varepsilon\) against the backward adjoint Green function, and then letting \(\varepsilon\downarrow0\), gives the representation in \(H\), hence almost everywhere, whenever the right-hand side above is finite. The endpoint passage uses continuity of \(\rho\) into \(H\) and the initial-delta property of the Green function; it is the weak-equation justification of the Green representation in Lemma \(\ref{lem:w-green}\). Taking absolute values in that representation and using \(\|\Gamma(t)\|_{1,\Omega}\leq\phi_{0,\Gamma}(t)\) yields
+\[
+\|\rho(T)\|_{\infty,\Omega}
+\leq \phi_{0,\Gamma}(T)\|\rho(0)\|_{\infty,\Omega}
+ +\int_0^T\phi_{0,\Gamma}(T-s)
+                 \|\mathcal K\rho(s)\|_{\infty,\Omega}\,ds.
+\]
+If a term on the proposed right-hand side is infinite, the claimed inequality holds without this endpoint argument. Otherwise, inserting the intervalwise residual estimate and the bound on \(\rho(0)\) gives the stated sum. Finally, the extension agrees with the discrete value at \(T=t_M\), and \(u(T)-u_h(T)=\rho(T)+\theta^M\). Applying \(\|\theta^M\|_{\infty,\Omega}\leq\eta_{\mathrm{ell}}^M\) completes the proof.
+
+\end{document}

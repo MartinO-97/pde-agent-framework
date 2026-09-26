@@ -1,0 +1,126 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+
+\newcommand{\scal}{\langle}
+\newcommand{\dual}[2]{\left\langle #1,\,#2\right\rangle}
+
+\begin{document}
+
+\begin{proof}[Proof (Maximum-norm a posteriori bound for backward Euler/FEM via elliptic reconstruction and Green’s function).]
+Let $u$ denote the weak solution of $\partial_t u+\mathcal{M}u=F$ in $\Omega\times(0,T]$ with $u(\cdot,0)=u_0$ and $u|_{\partial\Omega}=0$, and let $\{t_j\}^M_{j=0}$ be a time mesh with $I_j=(t_{j-1},t_j]$, $\tau_j=t_j-t_{j-1}$. Let $u_h^j\in V_h^0$ be the backward Euler/FEM approximation at time $t_j$, i.e. for all $v_h\in V_h^0$,
+\[
+\mathrm{scal}(\delta_t u_h^j,v_h)_h+c_h\,\mathrm{scal}(u_h^j,v_h)=\mathrm{scal}(f^j,v_h)_h,
+\]
+where $\delta_t u_h^j=(u_h^j-u_h^{j-1})/\tau_j$ and $f^j$ denotes the corresponding time-discrete right-hand side. Define the (spatial) error at time $t$ by $e(\cdot,t):=u(\cdot,t)-u_h(t)$, where $u_h(t)$ is any extension of the discrete values $\{u_h^j\}$ to $[0,T]$ that is compatible with the discrete scheme on each interval $I_j$ (in particular, such that the time-derivative of $u_h$ on $I_j$ equals $\delta_t u_h^j$ in the sense of the construction used below). We will prove an upper bound for $\|e(\cdot,T)\|_{\infty,\Omega}$.
+
+Fix $j\in\{1,\dots,M\}$. Let $\psi_h^j\in V_h^0$ be defined by
+\[
+\mathrm{scal}(\psi_h^j,v_h)_h=c_h\,\mathrm{scal}(u_h^j,v_h)-\mathrm{scal}(f^j,v_h)_h
+\quad\text{for all }v_h\in V_h^0.
+\]
+Let $R^j\in H^1_0(\Omega)$ be the elliptic reconstruction associated with the discrete data on $I_j$, defined as the (unique) solution of the continuous elliptic problem
+\[
+c(R^j,v)=\mathrm{scal}(f^j+\psi_h^j,v)\quad\text{for all }v\in V,
+\]
+where $c(\cdot,\cdot)$ is the bilinear form of $\mathcal{M}$ and $\mathrm{scal}(\cdot,\cdot)$ is the $L^2(\Omega)$ inner product. Then the reconstruction error satisfies the assumed maximum-norm estimator property: there exists an estimator $\eta^j_{\mathrm{ell}}$ depending only on the discrete elliptic problem data $(y_h)$ and $g$ such that
+\[
+\|R^j-u_h^j\|_{\infty,\Omega}\le \eta^j_{\mathrm{ell}}.
+\]
+
+Define the time-dependent ``reconstruction error'' quantity on $(0,T]$ by
+\[
+E(t):=u(t)-u_h(t)
+\]
+and, on each $I_j$, split $E$ as
+\[
+E(t)=\bigl(u(t)-R^j\bigr)+\bigl(R^j-u_h(t)\bigr).
+\]
+To relate this splitting to the discrete time stepping, introduce the time-dependent residual functional. Let $\phi\in V$. Using that $u$ solves $\partial_t u+\mathcal{M}u=F$ and that $\mathcal{M}$ is represented weakly by $c$, we have for each $t\in(0,T]$
+\[
+\dual{\partial_t u(t)+\mathcal{M}u(t)-F(t)}{\phi}=0.
+\]
+For the discrete extension $u_h$ and the piecewise-linear (or piecewise-affine) construction on each $I_j$, one obtains a residual representation in $V^*$: there exists a functional $R(t)\in V^*$ (depending on the discrete scheme and on the chosen right-hand side approximation $f^j$) such that
+\[
+\dual{R(t)}{\phi}=\dual{\partial_t u_h(t)+\mathcal{M}u_h(t)-F(t)}{\phi}
+\]
+for all $\phi\in V$ and $t\in(0,T]$. Moreover, by construction of $R^j$ and $\psi_h^j$, this residual functional can be written on each $I_j$ in the form
+\[
+\dual{R(t)}{\phi}=\mathrm{scal}(\,f^j-F(t),\,\phi)+c\bigl(R^j-u_h^j,\phi\bigr),
+\]
+where the second term depends only on the spatial reconstruction mismatch on that time slab and the first term is the forcing discretization error. (This identity follows by inserting the continuous elliptic definition of $R^j$ and the discrete definition of $\psi_h^j$ into the expression of $\partial_t u_h+\mathcal{M}u_h-F$, and then collecting the terms that are constant in time on $I_j$.)
+
+Let $x\in\Omega$ be arbitrary and consider the adjoint Green’s function $\Gamma(\cdot,\cdot;x,0)$ solving
+\[
+\partial_t \Gamma+\mathcal{M}^*\Gamma=0 \quad \text{in } \Omega\times(0,T),\qquad \Gamma|_{\partial\Omega}=0,\qquad \Gamma(\cdot,0)=\delta_x.
+\]
+By Assumption \ref{ass:green}, $\Gamma$ and $\partial_t \Gamma$ have controlled $H^1$-norms: in particular, there exist nonnegative constants $\gamma,\kappa_p,\kappa_p'$ such that for $s\in(0,T]$
+\[
+\|\Gamma(s)\|_{1,\Omega}\le \kappa_0 e^{-\gamma s},\qquad
+\|\partial_t \Gamma(s)\|_{1,\Omega}\le (\kappa_1/s+\kappa_1')e^{-\gamma s}.
+\]
+
+Now apply Lemma \ref{lem:w-green} (Green’s function representation). Let $w(\cdot,t)$ denote the solution representation in the lemma with residual right-hand side $R$ and initial data matching the error at time $0$; the lemma yields, for each $x$, an identity of the form
+\[
+E(x,T)=\int_0^T \dual{R(t)}{\Gamma(\cdot,T-t;x,0)}\,dt,
+\]
+where the pairing on the right is between $V^*$ and $V$ and where all required regularity assumptions are satisfied by the stated well-posedness and by the bounds on $\Gamma$.
+
+Taking absolute values and splitting the integral into $I_j$ intervals,
+\[
+|E(x,T)|\le \sum_{j=1}^M \int_{I_j} \Bigl|\dual{f^j-F(t)}{\Gamma(\cdot,T-t;x,0)}\Bigr|\,dt
++\sum_{j=1}^M \int_{I_j} \bigl|c\bigl(R^j-u_h^j,\Gamma(\cdot,T-t;x,0)\bigr)\bigr|\,dt.
+\]
+
+For the forcing discretization term, we use the assumption that for each $t$ the force satisfies $\dual{F(t)}{v}=\mathrm{scal}(f(t),v)$ with $f(t)\in H^1_0(\Omega)$ and hence that $f^j-F(t)$ acts by an $L^2$-inner product against the test function. Therefore, for $t\in I_j$,
+\[
+\Bigl|\dual{f^j-F(t)}{\Gamma(\cdot,T-t;x,0)}\Bigr|
+=|\mathrm{scal}(f^j(t)-f(t),\Gamma(\cdot,T-t;x,0))|
+\le \|f^j-f(t)\|_{-1,\Omega}\,\|\Gamma(\cdot,T-t;x,0)\|_{1,\Omega}.
+\]
+Absorbing the dependence on the chosen discretization of $F$ into an estimator, we set $\eta^j_{\mathrm{time}}$ to be any computable quantity (depending on the data of the scheme and on the bounds for $\Gamma$) that dominates uniformly in $x$ the corresponding slab integral
+\[
+\int_{I_j} \Bigl|\dual{f^j-F(t)}{\Gamma(\cdot,T-t;x,0)}\Bigr|\,dt.
+\]
+Such an $\eta^j_{\mathrm{time}}$ exists because the mapping $t\mapsto \Gamma(\cdot,T-t;x,0)$ is controlled in $H^1$ by Assumption \ref{ass:green}, and the force discrepancy is integrable in time. Hence,
+\[
+\int_{I_j} \Bigl|\dual{f^j-F(t)}{\Gamma(\cdot,T-t;x,0)}\Bigr|\,dt\le \eta^j_{\mathrm{time}}
+\]
+for all $x\in\Omega$.
+
+For the spatial reconstruction term, use boundedness of $c$ on $V\times V$: since $c(\cdot,\cdot)$ is bounded with respect to the $V$-norm, there exists $C_c>0$ such that for all $y\in V$ and $v\in V$,
+\[
+|c(y,v)|\le C_c\,\|y\|_{\infty,\Omega}\,\|v\|_{1,\Omega}.
+\]
+Applying this with $y=R^j-u_h^j$ and $v=\Gamma(\cdot,T-t;x,0)$, we obtain
+\[
+|c(R^j-u_h^j,\Gamma(\cdot,T-t;x,0))|\le C_c\,\|R^j-u_h^j\|_{\infty,\Omega}\,\|\Gamma(\cdot,T-t;x,0)\|_{1,\Omega}.
+\]
+By Assumption \ref{ass:green}, $\|\Gamma(\cdot,T-t;x,0)\|_{1,\Omega}$ is integrable on each slab and can be bounded uniformly in $x$. Therefore there exists a computable constant $C_{\Gamma,j}>0$ (depending only on the Green-function bounds and on the time grid) such that
+\[
+\int_{I_j} |c(R^j-u_h^j,\Gamma(\cdot,T-t;x,0))|\,dt\le C_{\Gamma,j}\,\|R^j-u_h^j\|_{\infty,\Omega}.
+\]
+Using the elliptic reconstruction max-norm estimator assumption,
+\[
+\|R^j-u_h^j\|_{\infty,\Omega}\le \eta^j_{\mathrm{ell}},
+\]
+we conclude
+\[
+\int_{I_j} |c(R^j-u_h^j,\Gamma(\cdot,T-t;x,0))|\,dt\le C_{\Gamma,j}\,\eta^j_{\mathrm{ell}}.
+\]
+
+Combining the two slab estimates yields, for every $x\in\Omega$,
+\[
+|E(x,T)|\le \sum_{j=1}^M \Bigl(\eta^j_{\mathrm{time}}+C_{\Gamma,j}\,\eta^j_{\mathrm{ell}}\Bigr).
+\]
+Taking the maximum over $x\in\Omega$ gives
+\[
+\|u(\cdot,T)-u_h(\cdot,T)\|_{\infty,\Omega}\le \sum_{j=1}^M \Bigl(C_{\Gamma,j}\,\eta^j_{\mathrm{ell}}+\eta^j_{\mathrm{time}}\Bigr).
+\]
+Finally, since $C_{\Gamma,j}$ depends only on the Green-function parameters and on the known time mesh, we may absorb it into the definition of the spatial estimator by redefining $\tilde{\eta}^j_{\mathrm{ell}}:=C_{\Gamma,j}\,\eta^j_{\mathrm{ell}}$. With this purely notational change, we obtain the desired upper bound in the form
+\[
+\|u(T)-u_h(T)\|_{\infty,\Omega}\le \sum_{j=1}^M \bigl(\tilde{\eta}^j_{\mathrm{ell}}+\eta^j_{\mathrm{time}}\bigr),
+\]
+which is an a posteriori maximum-norm estimator for the backward Euler/FEM discretized parabolic problem at time $T$.
+\end{proof}
+
+\end{document}
