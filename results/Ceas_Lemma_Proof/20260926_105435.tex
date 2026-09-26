@@ -1,0 +1,92 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsthm}
+
+\begin{document}
+
+Let $\Omega \subset \mathbb{R}^d$ be a domain with Lipschitz boundary, let $H^1_0(\Omega)$ be equipped with the norm
+\[
+\|u\|_{1,\Omega} = \sqrt{(\nabla u,\nabla u) + (u,u)},
+\]
+and let $a: H^1_0(\Omega)\times H^1_0(\Omega)\to \mathbb{R}$ be bilinear. Assume there exist constants $C,c>0$ such that for all $u,v\in H^1_0(\Omega)$ we have boundedness
+\[
+|a(u,v)| \le C\|u\|_{1,\Omega}\|v\|_{1,\Omega}
+\]
+and coercivity
+\[
+a(u,u) \ge c\|u\|_{1,\Omega}^2.
+\]
+Let $F\in H^{-1}(\Omega)$. Consider the continuous variational problem: find $y\in H^1_0(\Omega)$ such that
+\[
+a(y,v)=F(v) \qquad \text{for all } v\in H^1_0(\Omega).
+\]
+Define the discrete subspace $V_h^0 \subset H^1_0(\Omega)$, assumed finite dimensional, and the discrete variational problem: find $y_h\in V_h^0$ such that
+\[
+a(y_h,v_h)=F(v_h) \qquad \text{for all } v_h\in V_h^0.
+\]
+
+By the Lax--Milgram Lemma, since $a$ is bounded and coercive on the Hilbert space $H^1_0(\Omega)$, there exists a unique $y\in H^1_0(\Omega)$ satisfying
+\[
+a(y,v)=F(v) \qquad \text{for all } v\in H^1_0(\Omega).
+\]
+Likewise, restricting the same bilinear form $a$ to the subspace $V_h^0$ preserves boundedness and coercivity on $V_h^0$: for all $u,v\in V_h^0$ we still have
+\[
+|a(u,v)| \le C\|u\|_{1,\Omega}\|v\|_{1,\Omega}
+\]
+and
+\[
+a(u,u) \ge c\|u\|_{1,\Omega}^2.
+\]
+Hence, applying Lax--Milgram again on the Hilbert space $V_h^0$ (with the inherited norm), there exists a unique $y_h\in V_h^0$ such that
+\[
+a(y_h,v_h)=F(v_h) \qquad \text{for all } v_h\in V_h^0.
+\]
+
+Now set the error $e := y - y_h$. Subtracting the continuous identity from the discrete one yields Galerkin orthogonality. Indeed, for any $v_h\in V_h^0$ we have $a(y,v_h)=F(v_h)$ and $a(y_h,v_h)=F(v_h)$, so
+\[
+a(y-y_h,v_h)=0,
+\]
+i.e.\ $a(e,v_h)=0$ for all $v_h\in V_h^0$.
+
+Fix an arbitrary $v_h\in V_h^0$ and define $w := y_h - v_h$, so $w\in V_h^0$. Using the identity
+\[
+e = y - y_h = (y - v_h) - (y_h - v_h) = (y - v_h) - w,
+\]
+and bilinearity of $a$, we obtain
+\[
+a(e,e) = a(e,(y-v_h)-w) = a(e,y-v_h) - a(e,w).
+\]
+
+By Galerkin orthogonality with the test function $w\in V_h^0$, we have $a(e,w)=0$, and therefore
+\[
+a(e,e) = a(e,y-v_h).
+\]
+
+Using coercivity on the left-hand side gives
+\[
+a(e,e) \ge c\|e\|_{1,\Omega}^2.
+\]
+Using boundedness on the right-hand side gives
+\[
+|a(e,y-v_h)| \le C\|e\|_{1,\Omega}\|y-v_h\|_{1,\Omega}.
+\]
+Combining these inequalities and the identity $a(e,e)=a(e,y-v_h)$, we get
+\[
+c\|e\|_{1,\Omega}^2 \le C\|e\|_{1,\Omega}\|y-v_h\|_{1,\Omega}.
+\]
+
+If $\|e\|_{1,\Omega}=0$, then the desired estimate holds trivially. Otherwise we can divide by $\|e\|_{1,\Omega}>0$ to obtain
+\[
+\|y-y_h\|_{1,\Omega} = \|e\|_{1,\Omega} \le (C/c)\|y-v_h\|_{1,\Omega}.
+\]
+
+Since $v_h\in V_h^0$ was arbitrary, taking the infimum over all $v_h\in V_h^0$ yields
+\[
+\|y-y_h\|_{1,\Omega} \le (C/c) \inf_{v_h\in V_h^0} \|y-v_h\|_{1,\Omega}.
+\]
+
+Thus the continuous and discrete problems have unique solutions $y\in H^1_0(\Omega)$ and $y_h\in V_h^0$, and Cea's Lemma holds with the estimate
+\[
+\|y-y_h\|_{1,\Omega} \le (C/c)\inf_{v_h\in V_h^0}\|y-v_h\|_{1,\Omega}.
+\]
+
+\end{document}
