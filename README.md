@@ -8,8 +8,25 @@ framework was designed from the ground up to make its own cost and convergence b
 measurable, enabling direct, apples-to-apples comparisons across models and pipeline
 configurations (see [Model Comparison](#model-comparison)).
 
+## Key Findings
+
+- **gpt-6-sol converges reliably**: its own reviewer approves the plan/proof within 1-3
+  iterations in 7 of 8 runs. **gpt-5.4-nano exhausts the iteration cap in all 4 of its
+  runs**, and uses up to ~4x more tokens as a direct result — a cheaper, older model
+  isn't necessarily cheaper in practice.
+- **The planner agent had no measurable effect on correctness** in these experiments —
+  runs with and without it were correct about equally often — only on iteration count
+  and cost.
+- **A recurring mathematical error was independently caught and verified**: two
+  gpt-6-sol proofs incorrectly claimed a regularity hypothesis couldn't be established
+  for a piecewise-affine reconstruction function; the actual reason is elementary (see
+  [Parabolic Estimator Deep Dive](#parabolic-estimator-deep-dive)).
+
+**Tech stack**: OpenAI Agents SDK · Pydantic · pytest · argparse · Docker / Dev Containers
+
 ## Table of Contents
 
+- [Key Findings](#key-findings)
 - [Pipeline Overview](#pipeline-overview)
 - [Project Structure](#project-structure)
 - [Installation](#installation)
@@ -84,7 +101,7 @@ src/pde_agent_framework/
 └── experiments/     # CLI entrypoint: run_experiment.py
 
 problems/            # Problem statements (.tex) to feed into the pipeline
-results/             # Generated proofs and run overviews (not tracked in git)
+results/             # Generated proofs and run overviews referenced in the Model Comparison
 tests/               # pytest suite
 ```
 
@@ -195,11 +212,13 @@ approves a plan or proof within the allotted budget, on either problem.
 
 As a direct consequence, **gpt-5.4-nano's token usage is significantly larger than
 gpt-6-sol's** on both problems, since each additional iteration resends the accumulated
-feedback history — roughly 2-4x more tokens, depending on the problem and
-configuration. Hence, one cannot expect to save money by employing a cheaper, older
-model: if it fails to converge within the review budget, the resulting iteration
-overhead can make it more expensive overall than a stronger, pricier model that gets it
-right on the first or second try.
+feedback history — roughly 1.2-4x more input tokens across the matched configurations,
+depending on the problem (the low end of that range is driven by `20260928_120856`,
+gpt-6-sol's own atypical capped run; against gpt-6-sol's typical, uncapped runs the
+multiplier is closer to 2-4x). In these experiments, the cheaper, older model ended up
+more expensive overall: when it fails to converge within the review budget, the
+resulting iteration overhead can outweigh the per-token savings of a stronger, pricier
+model that gets it right on the first or second try.
 
 Across all twelve experiments, employing the planner agent does not appear to have much influence on whether
 the final proof is correct. Of the six planner-enabled runs, five are correct (one with reservations) and one
@@ -210,8 +229,8 @@ its main measurable effect so far is on iteration count and cost, not on final c
 ### Cea's Lemma Deep Dive
 
 Analyzing the Cea's Lemma experiments, we see that all generated proofs were correct. However, in the `20260926_105535` experiment, there is one
-little inaccuracy. Therein, the following is written: "fix a finite-dimensional subspace". However, `ceas_lemma_proof.tex` defines explicitly
-a concrete finite dimensional subspace of the Sobolev space.
+little inaccuracy. Therein, the following is written: "fix a finite-dimensional subspace". However, `ceas_lemma_proof.tex` explicitly defines
+a concrete finite-dimensional subspace of the Sobolev space.
 
 The experiments in the first two rows were conducted with a typo in the
 `ceas_lemma_proof.tex` concerning the coercivity condition. To be precise, the coercivity condition
@@ -222,7 +241,7 @@ for the first two experiments were defined as
 \end{gather*}
 ```
 This is, of course, not correct. The experiment employing the planner agent explicitly points out that the coercivity condition is incorrect.
-In the following, the gpt-6-sol assumes that this is only a typo. In the `20260925_094853` experiment, where no planner agent is utilized,
+gpt-6-sol then assumes that this is only a typo. In the `20260925_094853` experiment, where no planner agent is utilized,
 the error is ignored and the correct definition is simply used. However, based on the available experiments on Cea's Lemma,
 it is not possible to determine whether the proof was derived classically or whether it was part of the training data and was simply reproduced.
 The `20260925_101906` and `20260925_101943` experiments indicate that the proof was part of the training data. Comparing the first
@@ -239,9 +258,9 @@ superscript styles. This was made consistent for the `20260928_125327`, `2026092
 and `20260928_130945` experiments; unlike the fix above, it does not change the mathematical content discussed
 below.
 
-Both experiments make the same mathematical mistake: they claim that the representation lemma cannot be applied
-directly to $u-\widetilde R$, since the assumptions do not give its time derivative in $L^2(0,T;H^1_0(\Omega))$
-(or, equivalently, in $L^2(0,T;H^{-1}(\Omega))$), and consequently work around this with an unnecessary
+`20260928_115447` and `20260928_120856` make the same mathematical mistake: they claim that the representation
+lemma cannot be applied directly to $u-\widetilde R$, since the assumptions do not give its time derivative in
+$L^2(0,T;H^1_0(\Omega))$ (or even just in $L^2(0,T;H^{-1}(\Omega))$), and consequently work around this with an unnecessary
 approximation or "transposition" argument. This is incorrect. The reconstruction $\widetilde R$ is, by
 construction, the continuous, piecewise affine-in-time interpolant of $R^0,\dots,R^M \in H^1_0(\Omega)$; on each
 interval $I_j$ its time derivative is the constant $\delta_t R^j \in H^1_0(\Omega)$, so
