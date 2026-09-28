@@ -1,0 +1,52 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb}
+\begin{document}
+
+Write \(\varepsilon^j=R^j-u_h^j\), and let \(\widetilde R\) and \(u_h\) be the continuous, piecewise affine interpolants of their nodal values. Set \(\varepsilon(t)=\widetilde R(t)-u_h(t)\). The elliptic-reconstruction bounds give
+\[
+\|\varepsilon^0\|_{\infty,\Omega}\leq\eta_{\mathrm{ell}}^0,
+\qquad
+\|\delta_t\varepsilon^j\|_{\infty,\Omega}
+\leq\eta_{\mathrm{ell},\delta_t}^j.
+\]
+For \(j\geq1\), the discrete equation and the definition of \(\psi_h^j\) imply \(\psi_h^j=-\delta_tu_h^j\). Moreover, because \(\mathcal M\) is time-independent and linear, the defining elliptic problems yield, on \(I_j\),
+\[
+\mathcal M\widetilde R(s)
+=f^j+\psi_h^j+(s-t_j)\delta_t(f^j+\psi_h^j),
+\qquad \partial_s\widetilde R(s)=\delta_tR^j.
+\]
+Consequently, for \(w=u-\widetilde R\),
+\[
+\mathcal Kw(s)
+=f(s)-f^j+(t_j-s)\delta_t(f^j+\psi_h^j)
+-\delta_t\varepsilon^j,\qquad s\in I_j.
+\]
+The function \(w\) belongs to the space required by the Green’s-function representation lemma, and \(w(0)=u_0-u_h^0-\varepsilon^0\). Applying that lemma at \(T\), taking absolute values, and using the Green’s-function \(L^1\) bound therefore gives
+\[
+\begin{aligned}
+\|w(T)\|_{\infty,\Omega}
+\leq{}&\phi_{0,\Gamma}(T)
+ \bigl(\|u_0-u_h^0\|_{\infty,\Omega}+\eta_{\mathrm{ell}}^0\bigr)\\
+&+\sum_{j=1}^M\int_{I_j}\phi_{0,\Gamma}(T-s)
+ \bigl\|f(s)-f^j+(t_j-s)\delta_t(f^j+\psi_h^j)\bigr\|_{\infty,\Omega}\,ds\\
+&+\sum_{j=1}^M\eta_{\mathrm{ell},\delta_t}^j
+ \int_{I_j}\phi_{0,\Gamma}(T-s)\,ds.
+\end{aligned}
+\]
+Finally, \(u_h(T)=u_h^M\), \(\widetilde R(T)=R^M\), and \(\|R^M-u_h^M\|_{\infty,\Omega}\leq\eta_{\mathrm{ell}}^M\). Thus the desired a posteriori upper bound is
+\[
+\boxed{\begin{aligned}
+\|u(T)-u_h(T)\|_{\infty,\Omega}
+\leq{}&\eta_{\mathrm{ell}}^M
++\phi_{0,\Gamma}(T)
+ \bigl(\|u_0-u_h^0\|_{\infty,\Omega}+\eta_{\mathrm{ell}}^0\bigr)\\
+&+\sum_{j=1}^M\left[
+ \int_{I_j}\phi_{0,\Gamma}(T-s)
+ \bigl\|f(s)-f^j+(t_j-s)\delta_t(f^j+\psi_h^j)\bigr\|_{\infty,\Omega}\,ds
+ +\eta_{\mathrm{ell},\delta_t}^j
+ \int_{I_j}\phi_{0,\Gamma}(T-s)\,ds\right].
+\end{aligned}}
+\]
+Every term on the right is specified by the data, the discrete solution, and the assumed elliptic estimators. The estimate is understood whenever its displayed maximum-norm data terms are finite.
+
+\end{document}

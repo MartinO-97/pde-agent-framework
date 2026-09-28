@@ -1,0 +1,34 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{mathtools}
+
+\begin{document}
+
+Let \(u_h\) and \(\widetilde R\) be the continuous piecewise-linear interpolants of \(u_h^j\) and \(R^j\), respectively, and set \(\rho=\widetilde R-u_h\) and \(e=u-\widetilde R\). Thus \(u-u_h=e+\rho\). The elliptic-reconstruction estimate gives \(\|\rho(T)\|_{\infty,\Omega}\leq\eta_{\mathrm{ell}}^M\), while at the initial time
+\[
+\|e(0)\|_{\infty,\Omega}\leq\|u_0-u_h^0\|_{\infty,\Omega}+\eta_{\mathrm{ell}}^0.
+\]
+
+The discrete equation and the definition of \(\psi_h^j\) imply \(\psi_h^j=-\delta_tu_h^j\) for \(j\geq1\). On \(I_j\), the reconstruction equation gives \(\mathcal M\widetilde R=\widetilde f+\widetilde\psi_h\), and \(\partial_tu_h=\delta_tu_h^j\). Subtracting these identities from the parabolic equation, with \(\bar f=f^j\) on \(I_j\), yields the weak error equation
+\[
+\mathcal K e(s)=f(s)-\bar f(s)+(t_j-s)\delta_t(f+\psi_h)^j-\partial_t\rho(s),\qquad s\in I_j.
+\]
+Here \(\partial_t\rho=\delta_t(R^j-u_h^j)\) on \(I_j\).
+
+The representation in Lemma 1 cannot simply be applied to \(e\), whose available regularity is that of a weak parabolic solution. For completeness, its use here follows by approximation. Approximate the initial value in \(H\) and the right-hand side in \(L^2(0,T;V^*)\) by data producing regular parabolic solutions to which Lemma 1 applies. Coercive-parabolic stability makes those solutions converge to \(e\) in the energy space and in \(C([0,T];H)\). When the maximum norms in the estimate below are finite, the data can also be approximated by bounded truncation and smoothing so that their initial maximum norms and weighted time integrals of spatial maximum norms have limsup no greater than the corresponding quantities for the original data. The Green \(L^1\) bound then passes the estimates obtained from Lemma 1 to the limit; convergence in \(H\) identifies the limit at \(T\) almost everywhere. If a listed maximum norm or integral is infinite, the resulting inequality holds trivially. This justifies the following application of the Green bound without asserting that \(e\) has the regularity required by Lemma 1.
+
+Write \(\phi_{0,\Gamma}(r)=\kappa_0e^{-\gamma r}\). Applying the representation and \(\|\Gamma(r)\|_{1,\Omega}\leq\phi_{0,\Gamma}(r)\), then using the reconstruction backward-difference estimate on each interval, gives
+\[
+\begin{aligned}
+\|e(T)\|_{\infty,\Omega}\leq{}&
+\phi_{0,\Gamma}(T)\bigl(\|u_0-u_h^0\|_{\infty,\Omega}+\eta_{\mathrm{ell}}^0\bigr)\\
+&+\sum_{j=1}^{M}\int_{I_j}\phi_{0,\Gamma}(T-s)
+\Bigl(\|f(s)-f^j\|_{\infty,\Omega}
+ +(t_j-s)\|\delta_t(f+\psi_h)^j\|_{\infty,\Omega}\Bigr)\,\mathrm ds\\
+&+\sum_{j=1}^{M}\eta_{\mathrm{ell},\delta_t}^j
+\int_{I_j}\phi_{0,\Gamma}(T-s)\,\mathrm ds.
+\end{aligned}
+\]
+Finally, \(u(T)-u_h(T)=e(T)+\rho(T)\), so an upper bound for \(\|u(T)-u_h(T)\|_{\infty,\Omega}\) is the right-hand side of this inequality plus \(\eta_{\mathrm{ell}}^M\). In particular, the Green \(L^1\) bounds yield a finite estimate by this route only if the displayed weighted spatial maximum norms of the data oscillation and time-interpolation terms are integrable. The stated \(L^2(0,T;H_0^1(\Omega))\) assumption on \(f\) alone does not guarantee that condition.
+
+\end{document}

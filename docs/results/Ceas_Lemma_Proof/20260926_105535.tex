@@ -1,0 +1,33 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsthm}
+\begin{document}
+
+Let $V := H_0^1(\Omega)$ and let $a(\cdot,\cdot) : V\times V\to\mathbb{R}$ be bounded and coercive with constants $C,c>0$ as stated, and let $F\in V' := H^{-1}(\Omega)$. Consider first the continuous variational problem: find $y\in V$ such that $a(y,v)=F(v)$ for all $v\in V$. Since $a$ is bilinear, bounded, and coercive on $V$, the Lax--Milgram Lemma implies existence of a unique solution $y\in V$.
+
+Next fix a finite-dimensional subspace $V_h^0\subset V$ and consider the discrete problem: find $y_h\in V_h^0$ such that $a(y_h,v_h)=F(v_h)$ for all $v_h\in V_h^0$. Because $V_h^0$ is a subspace of $V$, the same boundedness and coercivity inequalities hold when $u,v$ are restricted to $V_h^0$: indeed, for $u,v\in V_h^0$ we have $|a(u,v)|\le C\|u\|_{1,\Omega}\|v\|_{1,\Omega}$ and $a(u,u)\ge c\|u\|_{1,\Omega}^2$. Also $F$ is a bounded linear functional on $V$, so its restriction to $V_h^0$ is a bounded linear functional in $(V_h^0)'$. Therefore the Lax--Milgram Lemma applied to the Hilbert space $V_h^0$ with the inherited norm $\|\cdot\|_{1,\Omega}$ gives existence and uniqueness of $y_h\in V_h^0$.
+
+For the error estimate, let $e := y-y_h \in V$ and let $v_h\in V_h^0$ be arbitrary. Define $w_h := y_h-v_h \in V_h^0$. Subtracting the Galerkin equations gives, for every $w_h\in V_h^0$,
+\[
+a(e,w_h)=a(y-y_h,w_h)=F(w_h)-F(w_h)=0.
+\]
+In particular, with $w_h = y_h-v_h$ we obtain $a(e, y_h-v_h)=0$, and by linearity in the second argument,
+\[
+a(e,y-v_h)=a(e,(y-y_h)+(y_h-v_h))=a(e,e)+a(e, y_h-v_h)=a(e,e).
+\]
+Thus $a(e,e)=a(e,y-v_h)$.
+
+Using coercivity and boundedness we estimate
+\[
+c\|e\|_{1,\Omega}^2 \le a(e,e) = a(e,y-v_h) \le C\|e\|_{1,\Omega}\|y-v_h\|_{1,\Omega}.
+\]
+If $e=0$, the desired inequality holds trivially. Otherwise divide by $\|e\|_{1,\Omega}$ to get
+\[
+\|y-y_h\|_{1,\Omega} = \|e\|_{1,\Omega} \le (C/c)\|y-v_h\|_{1,\Omega}.
+\]
+Since $v_h\in V_h^0$ was arbitrary, taking the infimum over all $v_h\in V_h^0$ yields
+\[
+\|y-y_h\|_{1,\Omega} \le (C/c) \inf_{v_h\in V_h^0} \|y-v_h\|_{1,\Omega}.
+\]
+This proves Cea's Lemma along with the claimed error bound and the uniqueness of $y$ and $y_h$.
+
+\end{document}

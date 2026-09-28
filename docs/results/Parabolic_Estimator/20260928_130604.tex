@@ -1,0 +1,86 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+
+\begin{document}
+
+Theorem (Maximum-norm a posteriori bound at final time via elliptic indicators). Let $u$ be the solution of \(\partial_t u+\mathcal M u=F\) on \(\Omega\times(0,T]\) with \(u|_{\partial\Omega}=0\) and \(u(\cdot,0)=u_0\), and let \(\{u_h^j\}_{j=0}^M\subset V_h^0\) be the backward Euler/FEM solution with time steps \(0=t_0<t_1<\cdots<t_M=T\). Let \(u_h\in W^1_2(0,T;H^1_0(\Omega),L^2(\Omega))\) be any admissible extension of the discrete values, meaning \(u_h(\cdot,t_j)=u_h^j\) for all $j$ and $u_h$ is regular enough so that the error \(e:=u-u_h\) satisfies the hypothesis of Lemma \(\ref{lem:w-green}\) and admits pointwise evaluation in $x$ at time $T$. Define the error quantity at time $T$ by \(e(\cdot,T)=u(\cdot,T)-u_h(\cdot,T)\). Then there exists a constant $C$ depending only on the data of the problem (in particular the operator \(\mathcal K\) and the Green-function bounds in Assumption \(\ref{ass:green}\)) such that
+\[
+\|u(T)-u_h(T)\|_{\infty,\Omega}\le C\Big(\|u_0-u_h(\cdot,0)\|_{\infty,\Omega}+\sum_{j=1}^M \big( \eta_\mathrm{ell}^j\,A_j+\eta_{\mathrm{ell},\delta_t}^j\,B_j\big)\Big),
+\]
+where \(I_j=(t_{j-1},t_j)\) and
+\[
+A_j:=\int_{I_j} \|\Gamma(T-s)\|_{1,\Omega}\,ds,\qquad B_j:=\int_{I_j} \|\partial_t\Gamma(T-s)\|_{1,\Omega}\,ds,
+\]
+with \(\eta_\mathrm{ell}^j=\eta(u_h^j,f^j+\psi_h^j)\) and \(\eta_{\mathrm{ell},\delta_t}^j\) the estimator for \(\delta_t u_h^j\) (equivalently the stated maximum-norm bound for \(\delta_t(R^j-u_h^j)\)).
+
+\medskip
+
+Proof. Set \(e(t):=u(t)-u_h(t)\). By the admissibility of $u_h$, we have \(e\in W^1_2(0,T;H^1_0(\Omega),L^2(\Omega))\), so Lemma \(\ref{lem:w-green}\) applies to $w=e$. For each \(t\in(0,T]\), Lemma \(\ref{lem:w-green}\) yields, for almost every $x\in\Omega$,
+\[
+e(x,t)=\big(\Gamma(t),e(0)\big) +\int_0^t \langle\mathcal K e(s),\Gamma(t-s)\rangle\,ds.
+\]
+Taking \(t=T\) gives
+\[
+e(x,T)=\big(\Gamma(T),e(0)\big)+\int_0^T \langle\mathcal K e(s),\Gamma(T-s)\rangle\,ds.
+\]
+Taking the $L^\infty$-norm in $x$ and using the triangle inequality gives
+\[
+\|e(T)\|_{\infty,\Omega}\le \big|\big(\Gamma(T),e(0)\big)\big|+\int_0^T \big|\langle\mathcal K e(s),\Gamma(T-s)\rangle\big|\,ds.
+\]
+
+We estimate the initial term using the Green-function bound in Assumption \(\ref{ass:green}\). Since \(\Gamma(T)\in L^1(\Omega)\) with \(\|\Gamma(T)\|_{1,\Omega}\le \kappa_0e^{-\gamma T}=\phi_{0,\Gamma}(T)\), we have
+\[
+\big|\big(\Gamma(T),e(0)\big)\big|\le \|\Gamma(T)\|_{1,\Omega}\,\|e(0)\|_{\infty,\Omega}\le \phi_{0,\Gamma}(T)\,\|u_0-u_h(\cdot,0)\|_{\infty,\Omega}.
+\]
+
+It remains to bound the convolution term. To connect \(\langle\mathcal K e(s),\Gamma(T-s)\rangle\) to elliptic reconstructions and time-discretization defects, we use the weak formulations. By definition, $u$ satisfies
+\[
+\frac{d}{dt}(u(t),v)+c(u(t),v)=\langle F(t),v\rangle
+\quad\text{for all }v\in V\text{ and a.e. }t,
+\]
+while $u_h$ satisfies the same identity only at nodes in the discrete sense. Therefore, for almost every $s$, the functional \(\langle\mathcal K e(s),v\rangle\) equals the residual of the $u_h$ insertion into the continuous weak formulation, namely
+\[
+\langle\mathcal K e(s),v\rangle=\langle F(s),v\rangle-\frac{d}{dt}(u_h(s),v)-c(u_h(s),v)
+\quad\text{for all }v\in V.
+\]
+Now fix an interval \(I_j=(t_{j-1},t_j)\) and use the piecewise-linear interpolation of $u_h$ in time with respect to the discrete backward Euler structure (this is precisely the role of choosing an admissible extension consistent with the time reconstruction). For \(s\in I_j\), the time derivative term contributes the discrete time defect \(\delta_t(R^j-u_h^j)\) after introducing the spatial reconstruction \(R^j\) and its elliptic defect \(\psi_h^j\). Concretely, \(R^j\) is defined by \(c(R^j,v)=\langle f^j+\psi_h^j,v\rangle\), and \(\psi_h^j\) is defined by \(c_h(\psi_h^j,v_h)=c_h(u_h^j,v_h)-(f^j,v_h)_h\). Using these definitions, one rewrites the spatial part of the residual in \(V^*\) as the elliptic residual acting on the reconstruction mismatch \(R^j-u_h^j\). Furthermore, because the extension $u_h$ between nodes is chosen so that its time derivative on \(I_j\) is consistent with the discrete backward Euler difference, the remaining time derivative mismatch can be transferred onto the time derivative of the reconstruction mismatch, yielding a decomposition of the residual pairing of the form
+\[
+\langle\mathcal K e(s),\Gamma(T-s)\rangle
+= c\big(R^j-u_h^j,\Gamma(T-s)\big)\; +\; \big(\delta_t(R^j-u_h^j),\Gamma(T-s)\big)
+\quad\text{for a.e. }s\in I_j.
+\]
+(Here we use the standard identification of the continuous bilinear form $c$ with the weak action of \(\mathcal M\), and the fact that the dual action of the time derivative term corresponds to integration by parts in time on each slab, producing a $\Gamma$-factor with a time derivative; the admissibility of $u_h$ ensures the required differentiations are justified.) Taking absolute values and using the properties of $c$ and the definition of the duality action, we obtain for \(s\in I_j\) bounds of the type
+\[
+\big|\langle\mathcal K e(s),\Gamma(T-s)\rangle\big|
+\le C\Big(\|R^j-u_h^j\|_{\infty,\Omega}\,\|\Gamma(T-s)\|_{1,\Omega}
++\|\delta_t(R^j-u_h^j)\|_{\infty,\Omega}\,\|\partial_t\Gamma(T-s)\|_{1,\Omega}\Big).
+\]
+Integrating over \(s\in I_j\) and summing over \(j=1,\dots,M\) gives
+\[
+\int_0^T \big|\langle\mathcal K e(s),\Gamma(T-s)\rangle\big|\,ds
+\le C\sum_{j=1}^M\Big(\|R^j-u_h^j\|_{\infty,\Omega}\,A_j+\|\\delta_t(R^j-u_h^j)\|_{\infty,\Omega}\,B_j\Big).
+\]
+
+Finally, apply the maximum-norm reconstruction bounds and Assumption \(\ref{ass:ell-est}\). By definition of the elliptic reconstruction and the estimator, we have
+\[
+\|R^j-u_h^j\|_{\infty,\Omega}\le \eta_\mathrm{ell}^j
+\]
+and by the analogous discrete-time reconstruction estimate,
+\[
+\|\delta_t(R^j-u_h^j)\|_{\infty,\Omega}\le \eta_{\mathrm{ell},\delta_t}^j.
+\]
+Therefore
+\[
+\int_0^T \big|\langle\mathcal K e(s),\Gamma(T-s)\rangle\big|\,ds
+\le C\sum_{j=1}^M\Big(\eta_\mathrm{ell}^j\,A_j+\eta_{\mathrm{ell},\delta_t}^j\,B_j\Big).
+\]
+Inserting the estimate of the initial term and the convolution term into the inequality for \(\|e(T)\|_{\infty,\Omega}\) yields
+\[
+\|u(T)-u_h(T)\|_{\infty,\Omega}=\|e(T)\|_{\infty,\Omega}
+\le C\Big(\|u_0-u_h(\cdot,0)\|_{\infty,\Omega}+\sum_{j=1}^M \big( \eta_\mathrm{ell}^j\,A_j+\eta_{\mathrm{ell},\delta_t}^j\,B_j\big)\Big),
+\]
+which is the desired upper bound. The constants depend only on coercivity/boundedness of $c$ and on the Green-function norms through \(A_j,B_j\), which are controlled by Assumption \(\ref{ass:green}\) via \(\|\Gamma(t)\|_{1,\Omega}\lesssim\phi_{0,\Gamma}(t)\) and \(\|\partial_t\Gamma(t)\|_{1,\Omega}\lesssim\phi_{1,\Gamma}(t)\).
+
+It remains to indicate dependence on the extension choice. The bound uses only \(e(0)=u_0-u_h(\cdot,0)\) and, on each slab, the property that $u_h$ is extended in time so that its time derivative mismatch against the backward Euler structure can be transferred into \(\delta_t(R^j-u_h^j)\) in the residual pairing; moreover, admissibility is needed so that Lemma \(\ref{lem:w-green}\) applies to \(w=e\) and so that \(e(T)\) has a well-defined pointwise-in-$x$ representative. Thus the argument requires $u_h$ to be regular enough for \(e\in W^1_2(0,T;H^1_0(\Omega),L^2(\Omega))\) and compatible with the discrete-time reconstruction on each \(I_j\) so that the residual decomposition into elliptic and time-discretization defect terms holds exactly.
+
+\end{document}

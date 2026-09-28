@@ -1,0 +1,42 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,bm}
+
+\begin{document}
+
+Write \(\rho^j=R^j-u_h^j\). The stated elliptic reconstruction estimates give \(\|\rho^0\|_{\infty,\Omega}\leq\eta_{\mathrm{ell}}^0\), \(\|\rho^M\|_{\infty,\Omega}\leq\eta_{\mathrm{ell}}^M\), and \(\|\delta_t\rho^j\|_{\infty,\Omega}\leq\eta_{\mathrm{ell},\delta_t}^j\) for \(1\leq j\leq M\). On each \(I_j\), let \(\widetilde R(s)=R^j+(s-t_j)\delta_tR^j\). The backward Euler equation and the definition of \(\psi_h^j\) imply \(\psi_h^j=-\delta_tu_h^j\). Consequently, for \(w=u-\widetilde R\), the defining equation for the reconstructions yields, on \(I_j\),
+\[
+\begin{aligned}
+\mathcal Kw(s)
+&=f(s)-\delta_tR^j-\mathcal M\widetilde R(s)\\
+&=f(s)-f^j-\delta_t\rho^j
+ -(s-t_j)\delta_t(f^j+\psi_h^j).
+\end{aligned}
+\]
+In particular, the last term includes \(\delta_tf^j\).
+
+Set \(\Phi(s)=\phi_{0,\Gamma}(T-s)=\kappa_0e^{-\gamma(T-s)}\). Applying the stated Green's-function representation lemma to \(w\) at \(T\), followed by its \(L^1(\Omega)\) bound, gives
+\[
+\|w(T)\|_{\infty,\Omega}
+\leq \Phi(0)\|w(0)\|_{\infty,\Omega}
+ +\sum_{j=1}^M\int_{I_j}\!\Phi(s)\left(
+ \|\delta_t\rho^j\|_{\infty,\Omega}
+ +\|f(s)-f^j\|_{\infty,\Omega}
+ +(t_j-s)\|\delta_t(f^j+\psi_h^j)\|_{\infty,\Omega}
+ \right)\,ds.
+\]
+Here \(w(0)=u_0-u_h^0-\rho^0\). Since \(\widetilde R(T)=R^M\), the triangle inequality, the reconstruction estimates, and \(u_h(T)=u_h^M\) therefore prove
+\[
+\boxed{\begin{aligned}
+\|u(T)-u_h(T)\|_{\infty,\Omega}\leq{}&
+\kappa_0e^{-\gamma T}\bigl(\|u_0-u_h^0\|_{\infty,\Omega}+\eta_{\mathrm{ell}}^0\bigr)
++\eta_{\mathrm{ell}}^M\\
+&+\sum_{j=1}^M\eta_{\mathrm{ell},\delta_t}^j
+       \int_{I_j}\Phi(s)\,ds\\
+&+\sum_{j=1}^M\int_{I_j}\Phi(s)\|f(s)-f^j\|_{\infty,\Omega}\,ds\\
+&+\sum_{j=1}^M\|\delta_t(f^j+\psi_h^j)\|_{\infty,\Omega}
+       \int_{I_j}\Phi(s)(t_j-s)\,ds.
+\end{aligned}}
+\]
+The two terms on the last two lines are respectively the forcing-mismatch and interpolation indicators. This inequality is understood in the extended sense if an indicator is infinite. In general dimensions, \(f\in L^2(0,T;H_0^1(\Omega))\) alone does not ensure that the displayed spatial maximum norms are finite; thus the stated assumptions do not, by themselves, yield a guaranteed finite maximum-norm estimator. Such a conclusion requires additional spatial boundedness sufficient to make those indicators finite.
+
+\end{document}

@@ -1,0 +1,36 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+
+\begin{document}
+
+Let \(\widetilde u_h\) and \(\widetilde R\) be the piecewise affine interpolants of \(u_h^j\) and \(R^j\), respectively, and put \(\rho^j=R^j-u_h^j\). Write \(f_{\rm lin}\) and \(\psi_{\rm lin}\) for the piecewise affine interpolants of their nodal values. The backward Euler equation and the definition of \(\psi_h^j\) give \(\psi_h^j=-\delta_tu_h^j\) for \(j\geq1\). Consequently, on \(I_j\), the reconstruction equation yields the residual identity
+\[
+ \mathcal K(u-\widetilde R)
+ =f-f_{\rm lin}-\delta_t\rho^j
+   +\frac{t_j-t}{\tau_j}(\psi_h^j-\psi_h^{j-1}).                 \tag{1}
+\]
+In particular, interpolation of the elliptic right-hand sides contributes \(f-f_{\rm lin}\); it cannot be replaced by \(f-f^j\) without an additional term.
+
+Here is an upper bound that keeps the data contribution explicit. Define its Green data-oscillation functional by
+\[
+ D_T:=\left\|\int_0^T\!\bigl(\Gamma(T-t),f(t)-f_{\rm lin}(t)\bigr)\,dt\right\|_{\infty,\Omega},          \tag{2}
+\]
+where the convolution is understood by transposition if its displayed pointwise integral does not exist. Set \(\phi_0(s)=\kappa _0e^{-\gamma s}\), and let \(\eta_j=\eta(u_h^j,f^j+\psi_h^j)\) and \(\eta_{\delta,j}=\eta(\delta_tu_h^j,\delta_t(f^j+\psi_h^j))\). Then
+\[
+\begin{split}
+ \|u(T)-u_h^M\|_{\infty,\Omega}\leq{}&
+ \eta_M+\phi_0(T)\bigl(\|u_0-u_h^0\|_{\infty,\Omega}+\eta_0\bigr)+D_T\\
+ &+\sum_{j=1}^M\int_{I_j}\phi_0(T-t)
+ \left(\eta_{\delta,j}+\frac{t_j-t}{\tau_j}
+       \|\psi_h^j-\psi_h^{j-1}\|_{\infty,\Omega}\right)dt.     
+\end{split}
+\]
+Indeed, time independence of \(\mathcal M\) makes \(\delta_tR^j\) the elliptic reconstruction of \(\delta_tu_h^j\). Assumption 2 therefore bounds \(\|\rho^j\|_\infty\) by \(\eta_j\) and \(\|\delta_t\rho^j\|_\infty\) by \(\eta_{\delta,j}\). Applying the Green representation to (1), then using the \(L^1\) Green bound on every term other than the data convolution, gives (3), since \(u(T)-u_h^M=(u(T)-R^M)+\rho^M\). For the weak solution \(u\), this use of the representation is understood by transposition: apply the representation lemma to temporally regularised problems and pass to the weak-solution limit. One cannot apply that lemma directly to \(u-\widetilde R\), because the stated assumptions do not give its time derivative in \(L^2(0,T;H)\).
+
+The distinction concerning \(D_T\) is essential. If \(f-f_{\rm lin}\in L^1(0,T;L^\infty(\Omega))\), Assumption 1 supplies the directly bounded data indicator
+\[
+ D_T\leq\int_0^T\phi_0(T-t)\|f(t)-f_{\rm lin}(t)\|_{\infty,\Omega}\,dt. \tag{4}
+\]
+The stated hypothesis \(f\in L^2(0,T;H_0^1(\Omega))\) does \textbf{not} imply that the right-hand side of (4) is finite. Thus (3) is a bound with a Green data-oscillation functional, but the supplied assumptions do not establish a finite upper bound for that functional using only the stated Green constants and forcing norms. A finite, fully estimator-based version of (3) requires an additional assumption or an independently certified bound for \(D_T\); omitting that qualification would not prove the requested finite a posteriori estimate.
+
+\end{document}

@@ -101,7 +101,8 @@ src/pde_agent_framework/
 └── experiments/     # CLI entrypoint: run_experiment.py
 
 problems/            # Problem statements (.tex) to feed into the pipeline
-results/             # Generated proofs and run overviews referenced in the Model Comparison
+results/             # Default output folder for generated proofs and run overviews
+docs/results/        # Frozen copies of the runs discussed in the Model Comparison (.tex, .pdf, .json)
 tests/               # pytest suite
 ```
 
@@ -179,7 +180,8 @@ Both experiments (Cea's Lemma Proof, Parabolic Estimator) were run with two mode
 gpt-6-sol and gpt-5.4-nano, each with and without the PlannerAgent-PlannerReviewerAgent
 loop enabled, to compare cost and convergence behavior. All runs carried out so far;
 "Result" is the timestamp identifying the corresponding files under
-`results/<Problem>/` (e.g. `<timestamp>.tex`, `<timestamp>_overview.json`):
+[`docs/results/<Problem>/`](docs/results) (`<timestamp>.pdf` for the readable proof,
+`<timestamp>.tex`, `<timestamp>_overview.json`):
 
 | Problem | Model | Planner | Planner iters | Prover iters | Input / Output tokens | Proof correct? | Result |
 |---|---|---|---|---|---|---|---|

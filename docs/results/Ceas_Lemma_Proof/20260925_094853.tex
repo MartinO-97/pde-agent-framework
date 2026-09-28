@@ -1,0 +1,12 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsthm}
+
+\begin{document}
+
+Since \(H_0^1(\Omega)\) is a Hilbert space with the norm \(\|\cdot\|_{1,\Omega}\), the boundedness and coercivity assumptions on \(a\), together with \(F\in H^{-1}(\Omega)\), allow us to apply the Lax--Milgram lemma. Thus there is a unique \(y\in H_0^1(\Omega)\) such that \(a(y,v)=F(v)\) for every \(v\in H_0^1(\Omega)\).
+
+The finite-dimensional subspace \(V_h^0\) is closed in \(H_0^1(\Omega)\), so it is a Hilbert space with the inherited norm. The restrictions of \(a\) and \(F\) to this space retain the required boundedness and coercivity properties. A second application of the Lax--Milgram lemma therefore gives a unique \(y_h\in V_h^0\) satisfying \(a(y_h,v_h)=F(v_h)\) for every \(v_h\in V_h^0\).
+
+Let \(e=y-y_h\). Subtracting the two variational equations for any \(w_h\in V_h^0\) gives \(a(e,w_h)=0\). Hence, for any \(v_h\in V_h^0\), the choice \(w_h=y_h-v_h\) yields \(a(e,e)=a(e,y-v_h)\). Coercivity and boundedness now imply \(c\|e\|_{1,\Omega}^2\leq a(e,e)\leq C\|e\|_{1,\Omega}\|y-v_h\|_{1,\Omega}\). If \(e\neq0\), dividing by \(c\|e\|_{1,\Omega}\) and taking the infimum over \(v_h\in V_h^0\) proves \(\|y-y_h\|_{1,\Omega}\leq (C/c)\inf_{v_h\in V_h^0}\|y-v_h\|_{1,\Omega}\). If \(e=0\), the same estimate is immediate.
+
+\end{document}

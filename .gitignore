@@ -238,3 +238,5 @@ test.py
 
 # compiled PDFs
 *.pdf
+# except the documented runs in docs/results (viewable on GitHub)
+!docs/results/**/*.pdf
