@@ -164,20 +164,20 @@ loop enabled, to compare cost and convergence behavior. All runs carried out so 
 "Result" is the timestamp identifying the corresponding files under
 `results/<Problem>/` (e.g. `<timestamp>.tex`, `<timestamp>_overview.json`):
 
-| Problem | Model | Planner | Planner iters | Prover iters | Input / Output tokens | Proof correct? | Result | Notes |
-|---|---|---|---|---|---|---|---|---|
-| Cea's Lemma | gpt-6-sol | yes | 2 | 1 | 16,072 / 5,021 | yes | 20260925_094812 | before the coercivity-assumption typo was fixed |
-| Cea's Lemma | gpt-6-sol | no | — | 1 | 7,377 / 3,061 | yes | 20260925_094853 | before the coercivity-assumption typo was fixed |
-| Cea's Lemma | gpt-6-sol | yes | 1 | 1 | 11,920 / 3,415 | yes | 20260925_101906 | |
-| Cea's Lemma | gpt-6-sol | no | — | 1 | 7,539 / 3,085 | yes | 20260925_101943 | |
-| Cea's Lemma | gpt-5.4-nano | yes | 5 (capped) | 1 | 35,231 / 9,291 | yes | 20260926_105435 | |
-| Cea's Lemma | gpt-5.4-nano | no | — | 5 (capped) | 30,941 / 9,042 | yes (with reservations) | 20260926_105535 | |
-| Parabolic Estimator | gpt-6-sol | yes | 2 | 1 | 47,835 / 16,146 | yes (with reservations) | 20260928_115447 | before a notation inconsistency ($W^1_2$ vs $W^{1,2}$) was fixed; incorrectly claims Lemma 1 cannot be applied directly to $u-\widetilde R$ |
-| Parabolic Estimator | gpt-6-sol | no | — | 5 (capped) | 78,000 / 35,607 | yes (with reservations) | 20260928_120856 | before a notation inconsistency ($W^1_2$ vs $W^{1,2}$) was fixed; same incorrect claim, resorts to an unnecessary "transposition" argument |
-| Parabolic Estimator | gpt-6-sol | yes | 2 | 3 | 77,174 / 17,143 | yes | 20260928_125327 | correctly points out that "standard assumptions on $f$" is not precise enough |
-| Parabolic Estimator | gpt-6-sol | no | — | 1 | 21,522 / 10,944 | yes | 20260928_130122 | |
-| Parabolic Estimator | gpt-5.4-nano | yes | 5 (capped) | 5 (capped) | 176,283 / 36,055 | no | 20260928_130604 | existence of constant $C$ asserted, not proved; mischaracterizes $u_h$'s extension |
-| Parabolic Estimator | gpt-5.4-nano | no | — | 5 (capped) | 93,587 / 25,938 | yes (with reservations) | 20260928_130945 | no false step found, but the estimator is likely not efficient |
+| Problem | Model | Planner | Planner iters | Prover iters | Input / Output tokens | Proof correct? | Result |
+|---|---|---|---|---|---|---|---|
+| Cea's Lemma | gpt-6-sol | yes | 2 | 1 | 16,072 / 5,021 | yes | 20260925_094812 |
+| Cea's Lemma | gpt-6-sol | no | — | 1 | 7,377 / 3,061 | yes | 20260925_094853 |
+| Cea's Lemma | gpt-6-sol | yes | 1 | 1 | 11,920 / 3,415 | yes | 20260925_101906 |
+| Cea's Lemma | gpt-6-sol | no | — | 1 | 7,539 / 3,085 | yes | 20260925_101943 |
+| Cea's Lemma | gpt-5.4-nano | yes | 5 (capped) | 1 | 35,231 / 9,291 | yes | 20260926_105435 |
+| Cea's Lemma | gpt-5.4-nano | no | — | 5 (capped) | 30,941 / 9,042 | yes (with reservations) | 20260926_105535 |
+| Parabolic Estimator | gpt-6-sol | yes | 2 | 1 | 47,835 / 16,146 | yes (with reservations) | 20260928_115447 |
+| Parabolic Estimator | gpt-6-sol | no | — | 5 (capped) | 78,000 / 35,607 | yes (with reservations) | 20260928_120856 |
+| Parabolic Estimator | gpt-6-sol | yes | 2 | 3 | 77,174 / 17,143 | yes | 20260928_125327 |
+| Parabolic Estimator | gpt-6-sol | no | — | 1 | 21,522 / 10,944 | yes | 20260928_130122 |
+| Parabolic Estimator | gpt-5.4-nano | yes | 5 (capped) | 5 (capped) | 176,283 / 36,055 | no | 20260928_130604 |
+| Parabolic Estimator | gpt-5.4-nano | no | — | 5 (capped) | 93,587 / 25,938 | yes (with reservations) | 20260928_130945 |
 
 "Proof correct?" reflects a manual mathematical review of each generated proof against
 the stated theorem, not an automated check — all twelve runs have been reviewed;
