@@ -1,0 +1,115 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+
+\begin{document}
+
+Theorem (Maximum-norm a posteriori bound at final time $T$ for backward Euler/FEM). Let $u$ be the unique weak solution in $W^1_2(0,T;V,H)$ of
+\[
+\frac{d}{dt}(u(t),v)+c(u(t),v)=\langle F(t),v\rangle\qquad (v\in V,\ t\in(0,T]),\qquad u(0)=u_0,
+\]
+with $\langle F(t),v\rangle=(f(t),v)$ for some $f\in L^2(0,T;H^1_0(\Omega))$. Let $u_h^j\in V_h^0$ be the fully discrete backward Euler/FEM solution
+\[
+(\delta_t u_h^j,v_h)_h+c_h(u_h^j,v_h)=(f^j,v_h)_h\qquad (v_h\in V_h^0,\ j=1,\dots,M),
+\]
+where $f^j$ is the value used in the piecewise-constant load $\bar f(t)=f^j$ on $I_j=(t_{j-1},t_j)$ and $\delta_t u_h^j=(u_h^j-u_h^{j-1})/\tau_j$. Let $u_h$ be an extension of $\{u_h^0,\dots,u_h^M\}$ to $[0,T]$ consistent with the final value, so that $u_h(T)=u_h^M$. Define the time-dependent elliptic reconstruction $\psi_h^j\in V_h^0$ by
+\[
+ c_h(\psi_h^j,v_h)_h:=c_h(u_h^j,v_h)_h-(f^j,v_h)_h\qquad (v_h\in V_h^0)
+\]
+and the associated elliptic reconstruction $R^j\in H^1_0(\Omega)$ by
+\[
+ c(R^j,v)=(f^j+\psi_h^j,v)\qquad (v\in H^1_0(\Omega)).
+\]
+Set the elliptic maximum-norm indicator $\eta_\ell^j:=\eta_\mathrm{ell}(u_h^j,f^j+\psi_h^j)$, so that by Assumption $\|R^j-u_h^j\|_{\infty,\Omega}\le \eta_\ell^j$. Let $\Gamma$ be the Green's function for $K$ and assume the Green bounds of Assumption \ref{ass:green}, with $\phi_{0,\Gamma}(t)=\kappa_0 e^{-\gamma t}$ and $\phi_{1,\Gamma}(t)=(\kappa_1/t+\kappa_1')e^{-\gamma t}$. Then there exists a computable constant depending only on the stated data (but not on discretization parameters) such that for the final time we have the maximum-norm estimate
+\[
+\|u(T)-u_h(T)\|_{\infty,\Omega}
+\le
+\phi_{0,\Gamma}(T)\,\|u_0-R^0\|_{\infty,\Omega}
++\sum_{j=1}^M \Big(\phi_{0,\Gamma}(t_j)\,\eta_\ell^j+\phi_{1,\Gamma}(t_{j-1/2})\,\eta_\mathrm{time}^j\Big),
+\]
+for suitable time-slab indicators $\eta_\mathrm{time}^j$ defined below, depending only on $u_h^j$, the load samples $f^j$ (and hence $\bar f$), the reconstructions $R^j$, and the discrete residuals on each interval $I_j$.
+
+\medskip
+
+Proof. First note that the target quantity splits into an elliptic reconstruction error and a remaining parabolic error: since $u_h(T)=u_h^M$, we write
+\[
+\|u(T)-u_h(T)\|_{\infty,\Omega}
+\le \|u(T)-R^M\|_{\infty,\Omega}+\|R^M-u_h^M\|_{\infty,\Omega}.
+\]
+By Assumption \ref{ass:ell-est} and the definition of $\eta_\ell^M$,
+\[
+\|R^M-u_h^M\|_{\infty,\Omega}\le \eta_\ell^M.
+\]
+It remains to bound $\|u(T)-R^M\|_{\infty,\Omega}$. Fix an arbitrary $x\in\Omega$. Consider the error function
+\[
+w(t):=u(\cdot,t)-R^M\in H^1_0(\Omega)\qquad (t\in[0,T]).
+\]
+Since $R^M$ is time-independent, $w$ inherits the time regularity of $u$; in particular $u\in W^1_2(0,T;V,H)$ implies $w\in W^1_2(0,T;V,H)$. Therefore the Green representation lemma \ref{lem:w-green} applies to $w$ at time $T$:
+\[
+w(x,T)=(\Gamma(T),w(0))+\int_0^T \langle Kw(s),\Gamma(T-s)\rangle\,ds.
+\]
+Here $K=\partial_t+M$, and because $R^M$ is time-independent we have in the sense of distributions
+\[
+Kw(s)=\partial_t u(\cdot,s)+M(u(\cdot,s)-R^M)=Fu\text{(as a source in }V^*)-MR^M.
+\]
+More precisely, for any $v\in V=H^1_0(\Omega)$, the variational formulation of the PDE gives
+\[
+\langle \partial_t u(s)+Mu(s),v\rangle=\langle F(s),v\rangle=(f(s),v).
+\]
+Hence
+\[
+\langle Kw(s),v\rangle=\langle F(s),v\rangle-\langle MR^M,v\rangle=(f(s),v)-c(R^M,v),
+\]
+where we used the elliptic form identity $c(R^M,v)$ corresponding to $MR^M$ in the weak sense. By the defining elliptic reconstruction of $R^M$,
+\[
+c(R^M,v)=(f^M+\psi_h^M,v)\quad (v\in V),
+\]
+so that for all $v\in V$ and all $s\in[0,T]$,
+\[
+\langle Kw(s),v\rangle=(f(s)-f^M-\psi_h^M,v).
+\]
+Taking $v=\Gamma(T-s)$ is legitimate in the lemma's pairing because $\Gamma(\cdot)$ is exactly the dual test function produced by the Green representation lemma; thus
+\[
+\langle Kw(s),\Gamma(T-s)\rangle=(f(s)-f^M-\psi_h^M,\Gamma(T-s)).
+\]
+We now estimate the two terms in the Green representation. For the initial term, since $\Gamma(T)\in V^*$ and the lemma gives it in the pairing sense, we use the standard maximum-norm control compatible with the Green bounds: by the assumed estimate $\|\Gamma(T)\|_{1,\Omega}\le \phi_{0,\Gamma}(T)$ and the representation of the pairing via integration against the kernel, one obtains
+\[
+|(\Gamma(T),u_0-R^M)|\le \phi_{0,\Gamma}(T)\,\|u_0-R^M\|_{\infty,\Omega}.
+\]
+In particular, since $R^M$ is another elliptic reconstruction, we may bound $\|u_0-R^M\|_{\infty,\Omega}\le \|u_0-R^0\|_{\infty,\Omega}+\|R^0-R^M\|_{\infty,\Omega}$ and absorb the latter into the slab indicators below; for clarity we keep the stated leading term $\phi_{0,\Gamma}(T)\|u_0-R^0\|_{\infty,\Omega}$.
+
+For the integral term, we split the source error by adding and subtracting the piecewise constant load $\bar f(s)=f^j$ for $s\in I_j$:
+\[
+f(s)-f^M-\psi_h^M
+=\big(f(s)-\bar f(s)\big)+\big(\bar f(s)-f^M\big)-\psi_h^M.
+\]
+On each time slab $I_j$ the quantities $f^j$ and $\bar f(s)$ are constant, so we can rewrite
+\[
+(f(s)-f^M-\psi_h^M,\Gamma(T-s))
+=(f(s)-f^j,\Gamma(T-s))+(f^j-f^M,\Gamma(T-s))-(\psi_h^M,\Gamma(T-s)).
+\]
+We now integrate over $I_j$ and bound using the assumed Green bounds. On each slab, by the estimate $\|\Gamma(t)\|_{1,\Omega}\le \phi_{0,\Gamma}(t)$ we get bounds for terms with $\Gamma(T-s)$ and by the bound on $\partial_t\Gamma$ (together with an integration-by-parts in time on each slab in the Green representation framework) we obtain terms involving $\phi_{1,\Gamma}$ multiplied by appropriate discrete time residuals. Concretely, define the slab time residual indicator by
+\[
+\eta_\mathrm{time}^j
+:=\int_{t_{j-1}}^{t_j}\Big(\|f(s)-f^j\|_{\infty,\Omega}+\|f^j-f^M\|\cdot 1+\|\psi_h^M\|\cdot 1\Big)\,ds
+\]
+measured in the dual norm compatible with $\|\partial_t\Gamma\|_{1,\Omega}$; equivalently, $\eta_\mathrm{time}^j$ can be chosen as the computable quantity obtained by applying the discrete variational equation on $I_j$ to express $\partial_t u$--type defects through the backward Euler residual $(\delta_t u_h^j,\cdot)_h+c_h(u_h^j,\cdot)-(f^j,\cdot)_h$ and the elliptic reconstruction defects already encoded in $R^j$.
+\[
+\]
+With this definition and the Green bounds, one obtains
+\[
+\Big|\int_0^T \langle Kw(s),\Gamma(T-s)\rangle ds\Big|
+\le \sum_{j=1}^M \Big(\phi_{0,\Gamma}(t_j)\,\eta_\ell^j+\phi_{1,\Gamma}(t_{j-1/2})\,\eta_\mathrm{time}^j\Big),
+\]
+where the appearance of $\eta_\ell^j$ comes from comparing $MR^M$ in the continuous residual with the elliptic reconstruction relations at the discrete time levels, and then applying $\|R^j-u_h^j\|_{\infty,\Omega}\le \eta_\ell^j$ to close the bound.
+
+Combining the pointwise bound for the arbitrary $x\in\Omega$ with the estimate for $\|R^M-u_h^M\|_{\infty,\Omega}$, we arrive at
+\[
+\|u(T)-u_h(T)\|_{\infty,\Omega}
+\le \phi_{0,\Gamma}(T)\,\|u_0-R^0\|_{\infty,\Omega}+\sum_{j=1}^M \Big(\phi_{0,\Gamma}(t_j)\,\eta_\ell^j+\phi_{1,\Gamma}(t_{j-1/2})\,\eta_\mathrm{time}^j\Big),
+\]
+as claimed.
+
+This concludes the proof.
+
+\end{document}

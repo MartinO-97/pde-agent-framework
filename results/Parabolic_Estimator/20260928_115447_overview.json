@@ -1,0 +1,9 @@
+{
+    "planner_reviewer_iterations": 2,
+    "prover_reviewer_iterations": 1,
+    "max_reviewer_iterations": 5,
+    "model_name": "gpt-6-sol",
+    "use_planner_agent": true,
+    "total_input_tokens": 47835,
+    "total_output_tokens": 16146
+}
