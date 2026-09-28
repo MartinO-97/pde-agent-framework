@@ -37,6 +37,7 @@ configurations (see [Model Comparison](#model-comparison)).
   - [Cea's Lemma Deep Dive](#ceas-lemma-deep-dive)
   - [Parabolic Estimator Deep Dive](#parabolic-estimator-deep-dive)
 - [Future Work](#future-work)
+- [Acknowledgments](#acknowledgments)
 - [License](#license)
 
 ## Pipeline Overview
@@ -311,6 +312,13 @@ estimator is not efficient, independently of whether any single step is technica
 - Persist the PlannerReviewer/ProverReviewer feedback history to disk, so that
   runs which exhaust max_reviewer_iterations without approval can be debugged after
   the fact instead of only being visible as a raw iteration count.
+
+## Acknowledgments
+
+This project was developed with the assistance of Claude (Anthropic), an AI assistant,
+which helped with coding, writing the documentation, and reviewing. The project idea,
+the experiment design, the manual review of all generated proofs, and all final
+decisions are my own.
 
 ## License
 
